@@ -11,12 +11,8 @@
         background: #2B2E31 url(img/screen-bg.png) repeat;
     }
     </style>
-    <script src="cordova.js"></script>    
+    <script src="cordova.js"></script>
     <script src="src/phaser.js"></script>
-    <script src="src/Boot.js"></script>
-    <script src="src/Preloader.js"></script>
-    <script src="src/MainMenu.js"></script>
-    <script src="src/Howto.js"></script>
     <script src="src/Game.js"></script>
 </head>
 
@@ -29,12 +25,8 @@
     });
     (function() {
         var game = new Phaser.Game(320, 480, Phaser.CANVAS, 'game');
-        game.state.add('Boot', Ball.Boot);
-        game.state.add('Preloader', Ball.Preloader);
-        game.state.add('MainMenu', Ball.MainMenu);
-        game.state.add('Howto', Ball.Howto);
         game.state.add('Game', Ball.Game);
-        game.state.start('Boot');
+        game.state.start('Game');
     })();
     </script>
 </body>
