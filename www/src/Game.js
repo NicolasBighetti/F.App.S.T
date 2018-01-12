@@ -12,8 +12,8 @@ Ball.Game.prototype = {
 		this.movementForce = 10;
 		this.ballStartPos = { x: Ball._WIDTH*0.5, y: 450 };
 
-		this.serverSocket = new WebSocket('ws://localhost:8080');
 
+		var sockTest = io('http://10.212.115.16:8080');
 		this.timerText = this.game.add.text(15, 15, "Time: "+this.timer, this.fontBig);
 		this.keys = this.game.input.keyboard.createCursorKeys();
 
