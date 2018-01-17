@@ -66,6 +66,10 @@ FastGame.Game.prototype = {
 		window.addEventListener("deviceorientation", this.handleOrientation, true);
 
 		this.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
+		this.game.input.onDown.add(this.touchBroadcast, this);
+	},
+	touchBroadcast: function(pointer) {
+		FastGame.fastSocket.EMIT.FAST_EVENT_BROADCAST("cacao");
 	},
 	updateCounter: function() {
 		this.timer++;
@@ -76,15 +80,14 @@ FastGame.Game.prototype = {
 		//this.p2psocket.emit('coord-peer', {x: this.lastX, y:this.lastY});
 	},
 	update: function() {
-;
-			if(this.game.input.x != this.lastX && this.game.input.y != this.lastY){
-				this.sendCoord();
-				this.lastX = this.game.input.x;
-				this.lastY = this.game.input.y
-				this.clientCircle.clear();
-				this.clientCircle.beginFill(0xFF0000, 1);
-				this.clientCircle.drawCircle(this.lastX, this.lastY, 10);
-			}
+		if(this.game.input.x != this.lastX && this.game.input.y != this.lastY){
+			this.sendCoord();
+			this.lastX = this.game.input.x;
+			this.lastY = this.game.input.y
+			this.clientCircle.clear();
+			this.clientCircle.beginFill(0xFF0000, 1);
+			this.clientCircle.drawCircle(this.lastX, this.lastY, 10);
+		}
 		if(this.peerCoord){
 			this.peerCircle.clear();
 			this.peerCircle.beginFill(0x00FF00, 1);

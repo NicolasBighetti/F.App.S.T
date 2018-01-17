@@ -20,6 +20,8 @@ function FASockeT(ip){
     //Add server behavior
     this.addOnServerCallback(PROTOCOL.FAST_MINI_GAME_REGISTER, this.startP2PSession);
     this.addOnServerCallback(PROTOCOL.TEST, function(data){console.log(JSON.stringify(data))});
+    this.addOnServerCallback(PROTOCOL.FAST_EVENT_BROADCAST, function(data){console.log(JSON.stringify(data))});
+
 
     var emitable = PROTOCOL.getEmitableEvent();
 
