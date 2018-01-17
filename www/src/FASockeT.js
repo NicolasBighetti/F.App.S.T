@@ -10,19 +10,28 @@ function FASockeT(ip){
   this.serverPort = SERVER_PORT;
   this.httpMode = HTTP_MODE;
 
+  this.EMIT = [];
+
   var opts = {peerOpts: {trickle: false}, autoUpgrade: false};
 
   this.init = function(){
-    this.serverSocket = io(this.httpMode + this.serverIp + this.serverPort);
-    this.broadcastSocket = io(this.httpMode + this.serverIp + this.eventPort);
+    this.serverSocket = io(this.httpMode + this.serverIp + ':' + this.serverPort);
+    //this.broadcastSocket = io(this.httpMode + this.serverIp + this.eventPort);
     //Add server behavior
     this.addOnServerCallback(PROTOCOL.FAST_MINI_GAME_REGISTER, this.startP2PSession);
     this.addOnServerCallback(PROTOCOL.TEST, function(data){console.log(JSON.stringify(data))});
+
+    var emitable = PROTOCOL.getEmitableEvent();
+
+    for(var evt in emitable){
+      this.addEmitServerBehavior(emitable[evt]);
+    }
+
   }
 
   //keyword : string, behavior : function
-  this.addEmitServerBehavior(keyword){
-    this.EMIT[keyword] = function(data){
+  this.addEmitServerBehavior = function(keyword){
+    this.EMIT[keyword] = (data) => {
       this.serverSocket.emit(keyword, data);
     };
   }
@@ -37,7 +46,7 @@ function FASockeT(ip){
 
   //keyEvent : string, phaserSignal : Phaser.Signal
   this.addBroadcastCallback = function(keyEvent, phaserSignal){
-    this.broadcastSocket.on(keyEvent function(data){
+    this.broadcastSocket.on(keyEvent, function(data){
       if(phaserSignal.dispatch){
         phaserSignal.dispatch(data);
       }

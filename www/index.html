@@ -22,7 +22,14 @@
     <script src="src/Game.js"></script>
 
 </head>
+<script>
 
-
+(function() {
+		var game = new Phaser.Game(320, 480, Phaser.CANVAS, 'game');
+		game.state.add('Boot', Ball.Boot);
+		game.state.add('Game', Ball.Game);
+		game.state.start('Boot');
+})();
+</script>
 
 </html>

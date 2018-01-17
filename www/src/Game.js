@@ -19,6 +19,13 @@ Ball.Game.prototype = {
 		this.lastMessage = "";
 
 		this.fastSocket = new FASockeT('192.168.1.49');
+		this.fastSocket.init();
+
+		//this.fastSocket.addEmitServerBehavior('message');
+
+		this.fastSocket.EMIT.message('test');
+
+
 
 		/*
 		this.sockTest = io('http://192.168.1.49:8080');
@@ -69,7 +76,7 @@ Ball.Game.prototype = {
 	},
 	sendCoord: function() {
 
-		this.p2psocket.emit('coord-peer', {x: this.lastX, y:this.lastY});
+		//this.p2psocket.emit('coord-peer', {x: this.lastX, y:this.lastY});
 	},
 	update: function() {
 ;
