@@ -13,9 +13,14 @@ Ball.Game.prototype = {
 		this.maxLevels = 5;
 		this.movementForce = 10;
 		this.ballStartPos = { x: Ball._WIDTH*0.5, y: 450 };
+		this.clientCircle = this.game.add.graphics(0, 0);
+		this.peerCircle = this.game.add.graphics(0,0);
 
 		this.lastMessage = "";
 
+		this.fastSocket = new FASockeT('192.168.1.49');
+
+		/*
 		this.sockTest = io('http://192.168.1.49:8080');
 		this.sockTest.emit('login', 'yili');
 
@@ -24,9 +29,7 @@ Ball.Game.prototype = {
 		});
 
 		this.sockTest.emit('message', "33%");
-		this.clientCircle = this.game.add.graphics(0, 0);
-		this.peerCircle = this.game.add.graphics(0,0);
-// graphics.lineStyle(2, 0xffd900, 1);
+
 
 		var opts = {peerOpts: {trickle: false}, autoUpgrade: false};
 		this.p2psocket = new P2P(this.sockTest, opts, () => {

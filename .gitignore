@@ -63,6 +63,8 @@ typings/
 #Cordova-cli .gitignore
 coverage
 node_modules
+platforms
+plugins
 npm-debug.log
 temp
 .DS_Store
