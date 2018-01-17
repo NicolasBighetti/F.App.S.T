@@ -1,7 +1,7 @@
-Ball.Game = function(game) {
+FastGame.Game = function(game) {
 	this.game = game;
 };
-Ball.Game.prototype = {
+FastGame.Game.prototype = {
 	create: function() {
 		this.physics.startSystem(Phaser.Physics.ARCADE);
 		this.fontSmall = { font: "16px Arial", fill: "#e4beef" };
@@ -12,18 +12,15 @@ Ball.Game.prototype = {
 		this.level = 1;
 		this.maxLevels = 5;
 		this.movementForce = 10;
-		this.ballStartPos = { x: Ball._WIDTH*0.5, y: 450 };
+		this.ballStartPos = { x: FastGame._WIDTH*0.5, y: 450 };
 		this.clientCircle = this.game.add.graphics(0, 0);
 		this.peerCircle = this.game.add.graphics(0,0);
 
 		this.lastMessage = "";
 
-		this.fastSocket = new FASockeT('192.168.1.49');
-		this.fastSocket.init();
-
 		//this.fastSocket.addEmitServerBehavior('message');
 
-		this.fastSocket.EMIT.message('test');
+		FastGame.fastSocket.EMIT.message('test');
 
 
 
@@ -65,7 +62,7 @@ Ball.Game.prototype = {
 		this.timerText = this.game.add.text(15, 15, "Time: "+this.timer, this.fontBig);
 		this.keys = this.game.input.keyboard.createCursorKeys();
 
-		Ball._player = this.ball;
+		FastGame._player = this.ball;
 		window.addEventListener("deviceorientation", this.handleOrientation, true);
 
 		this.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);

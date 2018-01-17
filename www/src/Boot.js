@@ -1,12 +1,12 @@
-var Ball = {
+var FastGame = {
 	_WIDTH: 320,
-	_HEIGHT: 480
+	_HEIGHT: 480,
+	fastSocket: new FASockeT('192.168.1.49')
 };
-Ball.Boot = function(game) {};
-Ball.Boot.prototype = {
+FastGame.Boot = function(game) {};
+FastGame.Boot.prototype = {
 	preload: function() {
-		this.load.image('preloaderBg', 'img/loading-bg.png');
-		this.load.image('preloaderBar', 'img/loading-bar.png');
+		FastGame.fastSocket.init();
 	},
 	create: function() {
 		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
