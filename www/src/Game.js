@@ -16,8 +16,9 @@ Ball.Game.prototype = {
 
 		this.lastMessage = "";
 
-		this.sockTest = io('http://10.212.115.16:8080');
+		this.sockTest = io('http://192.168.1.49:8080');
 		this.sockTest.emit('login', 'yili');
+
 		this.sockTest.on('message', (message) => {
 
 		});
@@ -58,23 +59,25 @@ Ball.Game.prototype = {
 		window.addEventListener("deviceorientation", this.handleOrientation, true);
 
 		this.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
-		this.time.events.loop(Phaser.Timer.SECOND, this.sendCoord, this);
 	},
 	updateCounter: function() {
 		this.timer++;
 		this.timerText.setText(this.lastMessage+" "+this.timer);
 	},
 	sendCoord: function() {
-		this.lastX = this.game.input.x;
-		this.lastY = this.game.input.y;
+
 		this.p2psocket.emit('coord-peer', {x: this.lastX, y:this.lastY});
 	},
 	update: function() {
-		if(this.lastX && this.lastY){
-			this.clientCircle.clear();
-			this.clientCircle.beginFill(0xFF0000, 1);
-			this.clientCircle.drawCircle(this.lastX, this.lastY, 10);
-		}
+;
+			if(this.game.input.x != this.lastX && this.game.input.y != this.lastY){
+				this.sendCoord();
+				this.lastX = this.game.input.x;
+				this.lastY = this.game.input.y
+				this.clientCircle.clear();
+				this.clientCircle.beginFill(0xFF0000, 1);
+				this.clientCircle.drawCircle(this.lastX, this.lastY, 10);
+			}
 		if(this.peerCoord){
 			this.peerCircle.clear();
 			this.peerCircle.beginFill(0x00FF00, 1);
