@@ -1,6 +1,7 @@
 var PROTOCOL = new NetworkEventBundle();
 
 function NetworkEventBundle(){
+  //Change the variable value but not the variable name or you'll break stuff 
   //For testing purpose, to be refacctored at a later date
   this.FAST_MINI_GAME_REGISTER = 'FAST_MINI_GAME_REGISTER';
   this.FAST_EVENT_BROADCAST = 'FAST_EVENT_BROADCAST';
