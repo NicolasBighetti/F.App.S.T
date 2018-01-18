@@ -10,9 +10,9 @@ function Broadcaster(){
       let e = broadcastable[evt];
       if(this.broadcastUtils[e]){
         FastGame.eventRegistry.addCallback(e, this.broadcastUtils[e]);
-        this[e] = function(){
-          this.broadcastBehavior[e]();
-          this.broadcastUtils[e]();
+        this[e] = function(option){
+          this.broadcastBehavior[e](option);
+          this.broadcastUtils[e](option);
         }
       }
     }
