@@ -60,7 +60,7 @@ FastGame.Game.prototype = {
 		window.addEventListener("deviceorientation", this.handleOrientation, true);
 
 		this.time.events.loop(Phaser.Timer.SECOND, this.updateCounter, this);
-		this.game.input.onDown.add(this.touchBroadcast, this);
+		//this.game.input.onDown.add(this.touchBroadcast, this);
 	},
 	touchBroadcast: function(pointer) {
 		FastGame.fastSocket.EMIT[PROTOCOL.FAST_EVENT_BROADCAST]("cacao");
@@ -74,6 +74,25 @@ FastGame.Game.prototype = {
 		//this.p2psocket.emit('coord-peer', {x: this.lastX, y:this.lastY});
 	},
 	update: function() {
+		if(this.game.input.activePointer.isDown){
+			if(!this.time){
+				this.time = Date.now();
+			}
+		}
+		if(!this.game.input.activePointer.isDown && this.time){
+			var s = (Date.now() - this.time) / 1000;
+			if(s <= 1){
+				FastGame.fastSocket.EMIT[PROTOCOL.FAST_EVENT_BROADCAST]([{'keyEvent':PROTOCOL.FAST_EVENT_VIBRATION_WEAK}]);
+			}
+			else if(s <= 4){
+				FastGame.fastSocket.EMIT[PROTOCOL.FAST_EVENT_BROADCAST]([{'keyEvent':PROTOCOL.FAST_EVENT_VIBRATION_MEDIUM}]);
+			}
+			else{
+				FastGame.fastSocket.EMIT[PROTOCOL.FAST_EVENT_BROADCAST]([{'keyEvent':PROTOCOL.FAST_EVENT_VIBRATION_STRONG}])
+			}
+			this.time = undefined;
+		}
+
 		if(this.game.input.x != this.lastX && this.game.input.y != this.lastY){
 			this.sendCoord();
 			this.lastX = this.game.input.x;
