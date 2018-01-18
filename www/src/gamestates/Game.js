@@ -63,7 +63,7 @@ FastGame.Game.prototype = {
 		this.game.input.onDown.add(this.touchBroadcast, this);
 	},
 	touchBroadcast: function(pointer) {
-		FastGame.fastSocket.EMIT[PROTOCOL.FAST_EVENT_BROADCAST]("cacao");
+		FastGame.broadcastChannel[PROTOCOL.FAST_EVENT_VIBRATION_WEAK]();
 	},
 	updateCounter: function() {
 		this.timer++;
