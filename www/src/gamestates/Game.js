@@ -18,12 +18,6 @@ FastGame.Game.prototype = {
 
 		this.lastMessage = "";
 
-		//this.fastSocket.addEmitServerBehavior('message');
-
-		FastGame.fastSocket.EMIT.message('test');
-
-
-
 		/*
 		this.sockTest = io('http://192.168.1.49:8080');
 		this.sockTest.emit('login', 'yili');

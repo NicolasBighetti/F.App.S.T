@@ -3,6 +3,8 @@ var EVENT_BROADCAST_PORT = 1214;
 var SERVER_PORT = 8080;
 var HTTP_MODE = "http://";
 
+//Object are stringified upon emission
+//Object are parsed upon callback call
 function FASockeT(ip){
   this.serverIp = ip;
   this.p2pPort = P2P_PORT;
@@ -16,7 +18,11 @@ function FASockeT(ip){
 
   this.init = function(){
     this.serverSocket = io(this.httpMode + this.serverIp + ':' + this.serverPort);
-    //this.broadcastSocket = io(this.httpMode + this.serverIp + this.eventPort);
+
+    //TODO : change this
+    //TEMPORARY
+    this.broadcastSocket = this.serverSocket;
+
     //Add server behavior
     this.addOnServerCallback(PROTOCOL.FAST_MINI_GAME_REGISTER, this.startP2PSession);
     this.addOnServerCallback(PROTOCOL.TEST, function(data){console.log(JSON.stringify(data))});
@@ -34,7 +40,7 @@ function FASockeT(ip){
   //keyword : string, behavior : function
   this.addEmitServerBehavior = function(keyword){
     this.EMIT[keyword] = (data) => {
-      this.serverSocket.emit(keyword, data);
+      this.serverSocket.emit(keyword, JSON.stringify(data));
     };
   }
 
@@ -49,8 +55,9 @@ function FASockeT(ip){
   //keyEvent : string, phaserSignal : Phaser.Signal
   this.addBroadcastCallback = function(keyEvent, phaserSignal){
     this.broadcastSocket.on(keyEvent, function(data){
+      data = JSON.parse(data);
       if(phaserSignal.dispatch){
-        phaserSignal.dispatch(data);
+        phaserSignal.dispatch({'data' : data});
       }
     });
   }
