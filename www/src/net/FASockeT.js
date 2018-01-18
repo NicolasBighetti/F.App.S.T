@@ -50,7 +50,7 @@ function FASockeT(ip){
   this.addBroadcastCallback = function(keyEvent, phaserSignal){
     this.broadcastSocket.on(keyEvent, function(data){
       if(phaserSignal.dispatch){
-        phaserSignal.dispatch(data);
+        phaserSignal.dispatch({'key' : keyEvent, 'data' : data});
       }
     });
   }
