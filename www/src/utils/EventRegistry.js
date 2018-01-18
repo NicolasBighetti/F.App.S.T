@@ -14,9 +14,17 @@ function EventRegistry(){
       this.callbackArray[keyEvent] = callback;
     }
     
-    this.eventBroadcastCallback(data){
-      for(var key in data){
-        this.callbackArray[data[key].keyEvent](data[key].option);
-      }
+    this.removeCallback = function(keyEvent){
+      this.callbackArray[keyEvent] = undefined;
+    }
+    
+    //The server response on event broadcast
+    this.eventBroadcastCallback = function(response){
+      var data = response.data;
+      for(var row in data){
+        if(this.callbackArray[data[row].keyEvent]){
+            this.callbackArray[data[row].keyEvent](data[row].option);
+          }
+        }
     }
 }
