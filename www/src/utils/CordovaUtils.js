@@ -7,20 +7,24 @@ function CordovaUtils(){
     var _this = this;
 
     this.init = function(){
-        FastGame.eventRegistry.addCallback(PROTOCOL.FAST_EVENT_VIBRATION_WEAK, _this.vibrateWeak);
-        FastGame.eventRegistry.addCallback(PROTOCOL.FAST_EVENT_VIBRATION_MEDIUM, _this.vibrateMedium);
-        FastGame.eventRegistry.addCallback(PROTOCOL.FAST_EVENT_VIBRATION_STRONG, _this.vibrateStrong);
+        var broadcastable = PROTOCOL.getBroadcastableEvent();
+        for(var evt in broadcastable){
+          let e = broadcastable[evt];
+          if(_this[e]){
+            FastGame.eventRegistry.addCallback(e, _this[e]);
+          }
+        }
     }
 
-    this.vibrateWeak = function(){
+    this[PROTOCOL.FAST_EVENT_VIBRATION_WEAK] = function(){
       _this.vibrate(WEAK_STRENGTH);
     }
 
-    this.vibrateMedium = function(){
+    this[PROTOCOL.FAST_EVENT_VIBRATION_MEDIUM] = function(){
       _this.vibrate(MEDIUM_STRENGTH);
     }
 
-    this.vibrateStrong = function(){
+    this[PROTOCOL.FAST_EVENT_VIBRATION_STRONG] = function(){
       _this.vibrate(STRONG_STRENGTH);
     }
 

@@ -20,7 +20,7 @@ function NetworkEventBundle(){
     ];
   }
 
-  this.getBroadcastedEvent = function(){
+  this.getBroadcastableEvent = function(){
     return [
       this.FAST_EVENT_VIBRATION_WEAK,
       this.FAST_EVENT_VIBRATION_MEDIUM,
