@@ -43,13 +43,18 @@ function FASockeT(ip){
       this.serverSocket.emit(keyword, JSON.stringify(data));
     };
   }
-
+  //TODO : add a way to delete existing callback that won't serve anymore
   //keyword : string, callback : function
   this.addOnServerCallback = function(keyword, callback){
     // => ou : ??
       this.serverSocket.on(keyword, function(data){
+        data = JSON.parse(data);
         callback(data);
       });
+  }
+
+  this.removeOnServerCallback = function(keyword, callback){
+    this.serverSocket.removeListener(keyword, callback);
   }
 
   //keyEvent : string, phaserSignal : Phaser.Signal
