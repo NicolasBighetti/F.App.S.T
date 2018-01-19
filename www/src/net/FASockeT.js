@@ -48,7 +48,7 @@ function FASockeT(ip){
   this.addOnServerCallback = function(keyword, callback){
     // => ou : ??
       this.serverSocket.on(keyword, function(data){
-        data = JSON.parse(data);
+        //data = JSON.parse(data);
         callback(data);
       });
   }
