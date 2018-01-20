@@ -88,32 +88,32 @@ FastGame.SplashScreen.prototype = {
   BLOW: function(){
     var faster = function(db){
     if(db > 75){
-      this.backgroundAcceleration += (db / 100);
-      this.mediumLayerAcceleration += (db / 100);
-      this.frontLayerAcceleration += (db / 100);
-      this.planetLayerAcceleration += (db / 100);
+      this.backgroundAcceleration += (db / 400);
+      this.mediumLayerAcceleration += (db / 300);
+      this.frontLayerAcceleration += (db / 250);
+      this.planetLayerAcceleration += (db / 175);
     }
     else{
       if((this.backgroundAcceleration - (db / 100)) >= this._backgroundSpeedBound){
-        this.backgroundAcceleration -= (db / 100)*2;
+        this.backgroundAcceleration -= (db / 100);
       }
       else{
         this.backgroundAcceleration = this._backgroundSpeedBound;
       }
       if((this.mediumLayerAcceleration - (db / 100)) >= this._mediumLayerSpeedBound){
-        this.mediumLayerAcceleration -= (db / 100)*2;
+        this.mediumLayerAcceleration -= (db / 150);
       }
       else{
         this.mediumLayerAcceleration = this._mediumLayerSpeedBound;
       }
       if((this.frontLayerAcceleration - (db / 100)) >= this._frontLayerSpeedBound){
-        this.frontLayerAcceleration -= (db / 100)*2;
+        this.frontLayerAcceleration -= (db / 150);
       }
       else {
         this.frontLayerAcceleration = this._frontLayerSpeedBound;
       }
       if((this.planetLayerAcceleration - (db / 100))>= this._planetLayerSpeedBound){
-        this.planetLayerAcceleration -= (db / 100)*2;
+        this.planetLayerAcceleration -= (db / 125);
       }
       else{
         this.planetLayerAcceleration = this._planetLayerSpeedBound;
