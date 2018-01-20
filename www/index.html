@@ -15,13 +15,16 @@
     <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="node_modules/socket.io-p2p/socketiop2p.min.js"></script>
     <script src="src/net/NetProtocol.js"></script>
+    <script src="src/utils/MiniGameEnum.js"></script>
     <script src="src/net/FASockeT.js"></script>
     <script src="src/utils/EventRegistry.js"></script>
     <script src="src/utils/BroadcastUtils.js"></script>
     <script src="src/utils/Broadcaster.js"></script>
     <script src="src/net/SignalRegistry.js"></script>
+    <script src="src/resources/SplashEnum.js"></script>
     <!--<script src="src/Client.js"></script>-->
     <script src="src/gamestates/Boot.js"></script>
+    <script src="src/gamestates/SplashScreen.js"></script>
     <script src="src/gamestates/Game.js"></script>
 
 </head>
@@ -29,10 +32,11 @@
 
 (function() {
 		var onDeviceReady = function(){
-		game.state.add('Boot', FastGame.Boot);
-		game.state.add('Game', FastGame.Game);
     var game = new Phaser.Game(480, 320, Phaser.CANVAS, 'game');
 
+    game.state.add('Boot', FastGame.Boot);
+    game.state.add('Game', FastGame.Game);
+    game.state.add('SplashScreen', FastGame.SplashScreen);
 
     game.state.start('Boot');
   }

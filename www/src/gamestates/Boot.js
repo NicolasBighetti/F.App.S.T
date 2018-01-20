@@ -1,10 +1,11 @@
 var FastGame = {
-	_WIDTH: 320,
-	_HEIGHT: 480,
+	_WIDTH: 480,
+	_HEIGHT: 320,
 	fastSocket: new FASockeT('10.212.115.16'),
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
-	signalRegistry: new SignalRegistry()
+	signalRegistry: new SignalRegistry(),
+
 };
 FastGame.Boot = function(game) {};
 FastGame.Boot.prototype = {
@@ -14,10 +15,7 @@ FastGame.Boot.prototype = {
 		FastGame.broadcastChannel.init();
 	},
 	create: function() {
-		this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-		this.game.scale.pageAlignHorizontally = true;
-		this.game.scale.pageAlignVertically = true;
-		this.game.state.start('Game');
 		this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+		this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
 	}
 };
