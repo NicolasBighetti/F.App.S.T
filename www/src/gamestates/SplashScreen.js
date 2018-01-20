@@ -21,6 +21,8 @@ FastGame.SplashScreen.prototype = {
     this._mediumLayerSpeedBound = 0.3;
     this._frontLayerSpeedBound = 0.5;
     this._planetLayerSpeedBound = 0.7;
+    this.scaleValue = 1;
+    this.scaleValueUpper = 1;
     this.splashFont = { font: '24px Arial', fill: '#ffffff', stroke: '#000000', strokeThickness: '10' };
 
   },
@@ -44,7 +46,6 @@ FastGame.SplashScreen.prototype = {
     if(margin < 0){
       margin = 0;
     }
-    var textref;
     for(var file in this.splashIcons){
       offset += margin;
       this.game.add.sprite(offset, splashTargetCenter, this.splashIcons[file][0]);
@@ -52,15 +53,21 @@ FastGame.SplashScreen.prototype = {
       //		this.timerText = this.game.add.text(15, 15, "Time: "+this.timer, this.fontBig);
       offset += (this._iconWidth + margin);
     }
-    this.decibelMeter.subscribe(function(db){
-      textref.setText('Decibel : ' + db);
-    }, this);
   },
   update: function(){
     this.background.tilePosition.x += this.backgroundAcceleration;
     this.mediumLayer.tilePosition.x += this.mediumLayerAcceleration;
     this.frontLayer.tilePosition.x += this.frontLayerAcceleration;
     this.planetLayer.tilePosition.x += this.planetLayerAcceleration;
+
+    if(this.scaleValue < this.scaleValueUpper){
+      this.scaleValue += 0.001;
+      this.planetLayer.scale.setTo(this.scaleValue, this.scaleValue);
+    }
+    else if(this.scaleValue > this.scaleValueUpper){
+      this.scaleValue -= 0.001;
+      this.planetLayer.scale.setTo(this.scaleValue, this.scaleValue)
+    }
   },
   destroy: function(){
     //Tentative to manage memory, apparently the engine designer didn't find it useful to allow for manual memory management of assets
@@ -83,7 +90,8 @@ FastGame.SplashScreen.prototype = {
     this._frontLayerSpeedBound = undefined;
     this._planetLayerSpeedBound = undefined;
 
-    this.decibelMeter.destroy();
+    this.scaleValueUpper = undefined;
+    this.scaleValue = undefined;
   },
   BLOW: function(){
     var faster = function(db){
@@ -122,5 +130,14 @@ FastGame.SplashScreen.prototype = {
     }
     this.decibelMeter = new DecibelMeter();
     this.decibelMeter.subscribe(faster, this);
+  },
+  TOUCH: function(){
+
+    this.game.input.onHold.add(function(){
+      this.scaleValueUpper = 1.1;
+    },this);
+    this.game.input.onUp.add(function(){
+      this.scaleValueUpper = 1;
+    },this);
   }
 }
