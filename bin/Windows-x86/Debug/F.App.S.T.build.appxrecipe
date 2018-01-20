@@ -1,0 +1,222 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Machine>DESKTOP-QU686GR</Machine>
+    <WindowsUser>T_ki</WindowsUser>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetOsVersion>10.0</TargetOsVersion>
+    <TargetOsDescription>Windows 10.0</TargetOsDescription>
+    <SolutionConfiguration>debug|x86</SolutionConfiguration>
+    <PackageArchitecture>x86</PackageArchitecture>
+    <PackageIdentityName>77d18560-fd8f-11e7-a23e-6d325b77d0bb</PackageIdentityName>
+    <PackageIdentityPublisher>CN=Apache Cordova Team</PackageIdentityPublisher>
+    <IntermediateOutputPath>C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\build\windows\bld\</IntermediateOutputPath>
+    <RemoteDeploymentType></RemoteDeploymentType>
+    <PackageRegistrationPath></PackageRegistrationPath>
+    <RemoveNonLayoutFiles>true</RemoveNonLayoutFiles>
+    <DeployOptionalPackages>false</DeployOptionalPackages>
+    <WindowsSdkPath></WindowsSdkPath>
+    <LayoutDir>C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\build\windows\debug\x86\win10\AppX</LayoutDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <AppXManifest Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\build\windows\debug\x86\win10\AppxManifest.xml">
+      <PackagePath>AppxManifest.xml</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppXManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\SplashScreen.scale-100.png">
+      <PackagePath>images\SplashScreen.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\Square150x150Logo.scale-100.png">
+      <PackagePath>images\Square150x150Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\Square30x30Logo.scale-100.png">
+      <PackagePath>images\Square30x30Logo.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\Square310x310Logo.scale-100.png">
+      <PackagePath>images\Square310x310Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\Square44x44Logo.scale-100.png">
+      <PackagePath>images\Square44x44Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\Square70x70Logo.scale-100.png">
+      <PackagePath>images\Square70x70Logo.scale-100.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\Square71x71Logo.scale-100.png">
+      <PackagePath>images\Square71x71Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\StoreLogo.scale-100.png">
+      <PackagePath>images\StoreLogo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\images\Wide310x150Logo.scale-100.png">
+      <PackagePath>images\Wide310x150Logo.scale-100.png</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\ball.png">
+      <PackagePath>www\img\ball.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\border-horizontal.png">
+      <PackagePath>www\img\border-horizontal.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\border-vertical.png">
+      <PackagePath>www\img\border-vertical.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\button-audio.png">
+      <PackagePath>www\img\button-audio.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\button-pause.png">
+      <PackagePath>www\img\button-pause.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\button-start.png">
+      <PackagePath>www\img\button-start.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\element-h.png">
+      <PackagePath>www\img\element-h.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\element-w.png">
+      <PackagePath>www\img\element-w.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\hole.png">
+      <PackagePath>www\img\hole.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\loading-bar.png">
+      <PackagePath>www\img\loading-bar.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\loading-bg.png">
+      <PackagePath>www\img\loading-bg.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\pad.png">
+      <PackagePath>www\img\pad.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\panel.png">
+      <PackagePath>www\img\panel.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\screen-bg.png">
+      <PackagePath>www\img\screen-bg.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\screen-howtoplay.png">
+      <PackagePath>www\img\screen-howtoplay.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\screen-mainmenu.png">
+      <PackagePath>www\img\screen-mainmenu.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\img\title.png">
+      <PackagePath>www\img\title.png</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\audio\bounce.m4a">
+      <PackagePath>www\audio\bounce.m4a</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\audio\bounce.mp3">
+      <PackagePath>www\audio\bounce.mp3</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\audio\bounce.ogg">
+      <PackagePath>www\audio\bounce.ogg</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\CNAME">
+      <PackagePath>www\CNAME</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\cordova-js-src\confighelper.js">
+      <PackagePath>www\cordova-js-src\confighelper.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\cordova-js-src\exec.js">
+      <PackagePath>www\cordova-js-src\exec.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\cordova-js-src\platform.js">
+      <PackagePath>www\cordova-js-src\platform.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\cordova-js-src\splashscreen.js">
+      <PackagePath>www\cordova-js-src\splashscreen.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\cordova.js">
+      <PackagePath>www\cordova.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\cordova_plugins.js">
+      <PackagePath>www\cordova_plugins.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-camerapicturebackground\www\CameraPictureBackground.js">
+      <PackagePath>www\plugins\cordova-plugin-camerapicturebackground\www\CameraPictureBackground.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-camera\src\windows\CameraProxy.js">
+      <PackagePath>www\plugins\cordova-plugin-camera\src\windows\CameraProxy.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-camera\www\Camera.js">
+      <PackagePath>www\plugins\cordova-plugin-camera\www\Camera.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-camera\www\CameraConstants.js">
+      <PackagePath>www\plugins\cordova-plugin-camera\www\CameraConstants.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-camera\www\CameraPopoverHandle.js">
+      <PackagePath>www\plugins\cordova-plugin-camera\www\CameraPopoverHandle.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-camera\www\CameraPopoverOptions.js">
+      <PackagePath>www\plugins\cordova-plugin-camera\www\CameraPopoverOptions.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-vibration\src\windows\VibrationProxy.js">
+      <PackagePath>www\plugins\cordova-plugin-vibration\src\windows\VibrationProxy.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\plugins\cordova-plugin-vibration\www\vibration.js">
+      <PackagePath>www\plugins\cordova-plugin-vibration\www\vibration.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\colorconnect\colorconnect.js">
+      <PackagePath>www\src\colorconnect\colorconnect.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\gamestates\Boot.js">
+      <PackagePath>www\src\gamestates\Boot.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\gamestates\Game.js">
+      <PackagePath>www\src\gamestates\Game.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\net\FASockeT.js">
+      <PackagePath>www\src\net\FASockeT.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\net\NetProtocol.js">
+      <PackagePath>www\src\net\NetProtocol.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\net\SignalRegistry.js">
+      <PackagePath>www\src\net\SignalRegistry.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\phaser.js">
+      <PackagePath>www\src\phaser.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\Preloader.js">
+      <PackagePath>www\src\Preloader.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\utils\Broadcaster.js">
+      <PackagePath>www\src\utils\Broadcaster.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\utils\BroadcastUtils.js">
+      <PackagePath>www\src\utils\BroadcastUtils.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\src\utils\EventRegistry.js">
+      <PackagePath>www\src\utils\EventRegistry.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\WinJS\js\base.js">
+      <PackagePath>www\WinJS\js\base.js</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\css\splashscreen.css">
+      <PackagePath>www\css\splashscreen.css</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\index.html">
+      <PackagePath>www\index.html</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\www\package-lock.json">
+      <PackagePath>www\package-lock.json</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\config.xml">
+      <PackagePath>config.xml</PackagePath>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\T_ki\project\phone\F.App.S.T\platforms\windows\build\windows\debug\x86\win10\resources.pri">
+      <PackagePath>resources.pri</PackagePath>
+      <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+    </AppxPackagedFile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+</Project>
