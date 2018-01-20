@@ -18,5 +18,6 @@ FastGame.Boot.prototype = {
 		this.game.scale.pageAlignHorizontally = true;
 		this.game.scale.pageAlignVertically = true;
 		this.game.state.start('Game');
+		this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
 	}
 };
