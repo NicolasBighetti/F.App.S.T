@@ -34,6 +34,9 @@
 		var onDeviceReady = function(){
     var game = new Phaser.Game(480, 320, Phaser.CANVAS, 'game');
 
+    //locking to landscape
+    screen.orientation.lock('landscape');
+
     game.state.add('Boot', FastGame.Boot);
     game.state.add('Game', FastGame.Game);
     game.state.add('SplashScreen', FastGame.SplashScreen);
