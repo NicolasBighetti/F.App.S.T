@@ -131,8 +131,11 @@ FastGame.SplashScreen.prototype = {
       }
     }
     }
-    this.decibelMeter = new DecibelMeter();
+    this.decibelMeter = DECIBELMETER;
     this.decibelMeter.subscribe(faster, this);
+    this.decibelMeter.destroy = function(){
+      this.decibelMeter.unsubscribe(faster, this);
+    }
   },
   TOUCH: function(){
     this.game.input.onHold.add(function(){

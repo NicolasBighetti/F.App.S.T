@@ -37,6 +37,8 @@
 
     //locking to landscape
     screen.orientation.lock('landscape');
+    //this fucker right there
+    DECIBELMETER = new DecibelMeter();
 
     game.state.add('Boot', FastGame.Boot);
     game.state.add('Game', FastGame.Game);

@@ -1,3 +1,5 @@
+var DECIBELMETER;
+
 function DecibelMeter(){
 
   this.decibelSignal = new Phaser.Signal();
@@ -15,6 +17,10 @@ function DecibelMeter(){
 
   this.subscribe = function(callback, context){
     this.decibelSignal.add(callback, context);
+  }
+
+  this.unsubscribe = function(callback, context){
+    this.decibelSignal.remove(callback, context);
   }
 
   this.destroy = function(){
