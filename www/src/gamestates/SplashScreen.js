@@ -3,6 +3,7 @@ FastGame.SplashScreen = function(game){
 FastGame.SplashScreen.prototype = {
   init: function(parameters){
     this.splashIcons = (new SplashEnum())[parameters];
+    this.commingMiniGame = parameters;
   },
   preload: function(){
     for(var file in this.splashIcons){
@@ -14,7 +15,7 @@ FastGame.SplashScreen.prototype = {
     this.game.load.image('background', './img/splash_background.jpg');
     this.game.load.image('star_layer', './img/splash_parallax_layer.png');
     this.game.load.image('star_layer_2', './img/splash_parallax_layer_2.png');
-    this.game.load.image('planet_layer', './img/splash_planet.png');
+    this.game.load.image('planet_layer', './img/space_mosaic.png');
     //We do know every splash icon is 100*100 so we can assume its size for layout facilitation
     this._iconWidth = 100;
     this._backgroundSpeedBound = 0.1;
@@ -22,7 +23,6 @@ FastGame.SplashScreen.prototype = {
     this._frontLayerSpeedBound = 0.5;
     this._planetLayerSpeedBound = 0.7;
     this.scaleValue = 1;
-    this.scaleValueUpper = 1;
     this.splashFont = { font: '24px Arial', fill: '#ffffff', stroke: '#000000', strokeThickness: '10' };
 
   },
@@ -49,10 +49,17 @@ FastGame.SplashScreen.prototype = {
     for(var file in this.splashIcons){
       offset += margin;
       this.game.add.sprite(offset, splashTargetCenter, this.splashIcons[file][0]);
-      textref = this.game.add.text(offset, textTargetCenter, this.splashIcons[file][0], this.splashFont);
+      this.game.add.text(offset, textTargetCenter, this.splashIcons[file][0], this.splashFont);
       //		this.timerText = this.game.add.text(15, 15, "Time: "+this.timer, this.fontBig);
       offset += (this._iconWidth + margin);
     }
+
+    //random offset for layers
+    this.background.tilePosition.x += this.game.rnd.realInRange(0, 480);
+    this.mediumLayer.tilePosition.x += this.game.rnd.realInRange(0, 480);
+    this.frontLayer.tilePosition.x += this.game.rnd.realInRange(0, 480);
+    this.planetLayer.tilePosition.x += this.game.rnd.realInRange(0, 2100);
+
   },
   update: function(){
     this.background.tilePosition.x += this.backgroundAcceleration;
@@ -60,14 +67,6 @@ FastGame.SplashScreen.prototype = {
     this.frontLayer.tilePosition.x += this.frontLayerAcceleration;
     this.planetLayer.tilePosition.x += this.planetLayerAcceleration;
 
-    if(this.scaleValue < this.scaleValueUpper){
-      this.scaleValue += 0.001;
-      this.planetLayer.scale.setTo(this.scaleValue, this.scaleValue);
-    }
-    else if(this.scaleValue > this.scaleValueUpper){
-      this.scaleValue -= 0.001;
-      this.planetLayer.scale.setTo(this.scaleValue, this.scaleValue)
-    }
   },
   destroy: function(){
     //Tentative to manage memory, apparently the engine designer didn't find it useful to allow for manual memory management of assets
@@ -79,6 +78,7 @@ FastGame.SplashScreen.prototype = {
     this.frontLayer = undefined;
     this.planetLayer = undefined;
     this.splashIcons = undefined;
+    this.commingMiniGame = undefined;
 
     this.backgroundAcceleration = undefined;
     this.mediumLayerAcceleration = undefined;
@@ -90,8 +90,11 @@ FastGame.SplashScreen.prototype = {
     this._frontLayerSpeedBound = undefined;
     this._planetLayerSpeedBound = undefined;
 
-    this.scaleValueUpper = undefined;
     this.scaleValue = undefined;
+    this.decibelMeter.destroy();
+  },
+  goToMiniGame: function(launchData){
+    this.game.state.start(this.commingMiniGame, true, false, launchData);
   },
   BLOW: function(){
     var faster = function(db){
@@ -103,7 +106,7 @@ FastGame.SplashScreen.prototype = {
     }
     else{
       if((this.backgroundAcceleration - (db / 100)) >= this._backgroundSpeedBound){
-        this.backgroundAcceleration -= (db / 100);
+        this.backgroundAcceleration -= (db / 200);
       }
       else{
         this.backgroundAcceleration = this._backgroundSpeedBound;
@@ -132,12 +135,12 @@ FastGame.SplashScreen.prototype = {
     this.decibelMeter.subscribe(faster, this);
   },
   TOUCH: function(){
-
     this.game.input.onHold.add(function(){
-      this.scaleValueUpper = 1.1;
+      //this.scaleValueUpper = 1.1;
+      this.goToMiniGame('its sunday my dudes');
     },this);
-    this.game.input.onUp.add(function(){
+    /*this.game.input.onUp.add(function(){
       this.scaleValueUpper = 1;
-    },this);
+    },this);*/
   }
 }
