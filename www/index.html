@@ -26,6 +26,7 @@
     <!--<script src="src/Client.js"></script>-->
     <script src="src/gamestates/Boot.js"></script>
     <script src="src/gamestates/SplashScreen.js"></script>
+    <script src="src/gamestates/game/FastFire.js"></script>
     <script src="src/gamestates/Game.js"></script>
 
 </head>
@@ -40,9 +41,11 @@
     //this fucker right there
     DECIBELMETER = new DecibelMeter();
 
+
     game.state.add('Boot', FastGame.Boot);
     game.state.add('Game', FastGame.Game);
     game.state.add('SplashScreen', FastGame.SplashScreen);
+    game.state.add(MINIGAMELIST.FAST_GAME_FIRE, FastGame.FastFire);
 
     game.state.start('Boot');
   }
