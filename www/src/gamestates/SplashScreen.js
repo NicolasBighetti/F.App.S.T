@@ -4,6 +4,7 @@ FastGame.SplashScreen.prototype = {
   init: function(parameters){
     this.splashIcons = (new SplashEnum())[parameters];
     this.commingMiniGame = parameters;
+    this.game.stage.disableVisibilityChange = true;
   },
   preload: function(){
     for(var file in this.splashIcons){
