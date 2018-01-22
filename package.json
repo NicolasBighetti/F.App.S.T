@@ -14,6 +14,7 @@
     "cordova-android": "^7.0.0",
     "cordova-browser": "^5.0.3",
     "cordova-ios": "4.2.0",
+    "cordova-plugin-camera-preview": "git+https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview.git",
     "cordova-plugin-dbmeter": "^2.1.0",
     "cordova-plugin-screen-orientation": "^3.0.1",
     "cordova-plugin-vibration": "^3.0.1",
@@ -26,7 +27,8 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-vibration": {},
       "cordova-plugin-screen-orientation": {},
-      "cordova-plugin-dbmeter": {}
+      "cordova-plugin-dbmeter": {},
+      "cordova-plugin-camera-preview": {}
     },
     "platforms": [
       "browser",
