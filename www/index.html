@@ -5,10 +5,10 @@
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
     <style>
-    body {
-        margin: 0;
-        background-color: #F2F2F2;
-    }
+        body {
+            margin: 0;
+            background-color: #F2F2F2;
+        }
     </style>
     <script src="cordova.js"></script>
     <script src="src/phaser.min.js"></script>
@@ -25,6 +25,8 @@
     <script src="src/resources/SplashEnum.js"></script>
     <!--<script src="src/Client.js"></script>-->
     <script src="src/gamestates/Boot.js"></script>
+    <script src="src/gamestates/ColorConnector.js"></script>
+
     <script src="src/gamestates/SplashScreen.js"></script>
     <script src="src/gamestates/game/FastFire.js"></script>
     <script src="src/gamestates/Game.js"></script>
@@ -39,10 +41,12 @@
     //locking to landscape
     screen.orientation.lock('landscape');
     //this fucker right there
-    DECIBELMETER = new DecibelMeter();
+    //DECIBELMETER = new DecibelMeter();
 
 
     game.state.add('Boot', FastGame.Boot);
+    game.state.add('ColorConnector', FastGame.ColorConnector);
+
     game.state.add('Game', FastGame.Game);
     game.state.add('SplashScreen', FastGame.SplashScreen);
     game.state.add(MINIGAMELIST.FAST_GAME_FIRE, FastGame.FastFire);

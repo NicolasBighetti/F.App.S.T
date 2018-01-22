@@ -26,6 +26,15 @@
     <plugin name="cordova-plugin-vibration" spec="^3.0.1" />
     <plugin name="cordova-plugin-screen-orientation" spec="^3.0.1" />
     <plugin name="cordova-plugin-dbmeter" spec="^2.1.0" />
+    <vs:toolsetVersion xmlns:vs="http://schemas.microsoft.com/appx/2014/htmlapps">6.3.1</vs:toolsetVersion>
+    <preference name="windows-target-version" value="10.0" />
+    <plugin name="cordova-plugin-camera" spec="~4.0.1" />
+    <plugin name="cordova-plugin-camerapicturebackground" spec="~0.0.3" />
+    <plugin name="cordova-plugin-file" spec="~6.0.1" />
+    <plugin name="cordova-plugin-media-capture" spec="~3.0.1" />
+    <plugin name="es6-promise-plugin" spec="~4.2.2" />
     <engine name="browser" spec="^5.0.3" />
     <engine name="android" spec="^7.0.0" />
+    <engine name="ios" spec="4.2.0" />
+    <engine name="windows" spec="4.4.2" />
 </widget>
