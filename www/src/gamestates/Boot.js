@@ -1,7 +1,7 @@
 var FastGame = {
 	_WIDTH: 480,
 	_HEIGHT: 320,
-	fastSocket: new FASockeT('10.212.115.16'),
+	fastSocket: new FASockeT('192.168.1.50'),
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
