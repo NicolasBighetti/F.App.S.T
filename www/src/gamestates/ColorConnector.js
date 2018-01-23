@@ -9,20 +9,45 @@ FastGame.ColorConnector.prototype = {
     },
     create: function () {
         console.log("create fast color");
-        this.video = this.game.add.video();
+//<<<<<<< HEAD
+//        this.video = this.game.add.video();
 
-        //  If access to the camera is allowed
-        this.video.onAccess.add(this.camAllowed, this);
+//        //  If access to the camera is allowed
+//        this.video.onAccess.add(this.camAllowed, this);
 
-        //  If access to the camera is denied
-        this.video.onError.add(this.camBlocked, this);
+//        //  If access to the camera is denied
+//        this.video.onError.add(this.camBlocked, this);
 
-        //  As soon as the stream starts this will fire
-        // this.video.onChangeSource.add(this.takeSnapshot, this);
+//        //  As soon as the stream starts this will fire
+//        // this.video.onChangeSource.add(this.takeSnapshot, this);
 
-        //  Start the stream
-        this.video.startMediaStream();
+//        //  Start the stream
+//        this.video.startMediaStream();
 
+//=======
+        this.game.input.onUp.add(function(){
+          let options = {
+          x: 0,
+          y: 0,
+          width: window.screen.width,
+          height: window.screen.height,
+          camera: CameraPreview.CAMERA_DIRECTION.BACK,
+          toBack: true,
+          tapPhoto: true,
+          tapFocus: false,
+          previewDrag: false
+        };
+
+        this.canvas = document.createElement('CANVAS');
+        this.ctx = this.canvas.getContext('2d');
+        this.canvas.height = 640;
+        this.canvas.width = 640;
+
+        CameraPreview.startCamera(options);
+        this.game.input.onUp.removeAll();
+        this.camAllowed();
+        }, this);
+//>>>>>>> c865674d174fe228d6ff2665fe5aa0a7479ffc19
     },
     update: function () {
 
@@ -30,11 +55,12 @@ FastGame.ColorConnector.prototype = {
     camAllowed: function () {
         console.log('Camera was allowed', this.video);
 
-        var cam = this.video.addToWorld();
-        cam.scale.set(0.2);
+        //var cam = this.video.addToWorld();
+        //cam.scale.set(0.2);
 
-        grab = this.video.snapshot.addToWorld(this.game.width, this.game.height);
-        grab.scale.set(0.2);
+        //grab = this.video.snapshot.addToWorld(this.game.width, this.game.height);
+
+        //grab.scale.set(0.2);
 
         // game.add.text(400, 32, 'Click to grab', { font: "bold 26px Arial", fill: "#ffffff" })
 
@@ -56,26 +82,57 @@ camBlocked: function (video, error) {
 
     },
 takeSnapshot: function () {
-        this.video.grab();//params clear true or false, alpha, blend mode
+        //this.video.grab();//params clear true or false, alpha, blend mode
+
+        CameraPreview.takePicture({width:640, height:640, quality: 85}, (base64PictureData) => {
+            imageSrcData = 'data:image/jpeg;base64,' +base64PictureData;
+            //$('img#my-img').attr('src', imageSrcData);
+            var image = new Image();
+            image.onload = () => {
+              this.ctx.drawImage(image,0,0);
+              var pixel = this.ctx.getImageData(320, 320, 1, 1);
+              console.log(pixel);
+              var colorServ = {
+                  red: pixel.data[0],
+                  green: pixel.data[1],
+                  blue: pixel.data[2]
+              }
+              console.log(colorServ);
+
+              //this.sendColor(colorServ);
+              console.log('sending color' + colorServ);
+              var byte = this.extractdata(colorServ);
+              console.log('byte decoded' + byte);
+              colorServ.byteO = byte;
+              FastGame.fastSocket.EMIT.FAST_COLOR(colorServ);
+
+            }
+            image.src = imageSrcData;
+        });
         // if()
         // console.log(video.snapshot);
         // bmd.draw(video.snapshot);
-        this.video.snapshot.update();
-        var color = this.video.snapshot.getPixelRGB(this.video.snapshot.width / 2, this.video.snapshot.height/2);
-        //console.log(color);
-        var colorServ = {
-            red: color.r,
-            green: color.g,
-            blue: color.b
-        }
-        //console.log(colorServ);
+//<<<<<<< HEAD
+//        this.video.snapshot.update();
+//        var color = this.video.snapshot.getPixelRGB(this.video.snapshot.width / 2, this.video.snapshot.height/2);
+//        //console.log(color);
+//        var colorServ = {
+//            red: color.r,
+//            green: color.g,
+//            blue: color.b
+//        }
+//        //console.log(colorServ);
 
-        //this.sendColor(colorServ);
-        //console.log('sending color' + colorServ);
-        var byte = this.extractdata(colorServ);
-        //console.log('byte decoded' + byte);
-        colorServ.byteO = byte;
-        FastGame.fastSocket.EMIT.FAST_COLOR(colorServ);
+//        //this.sendColor(colorServ);
+//        //console.log('sending color' + colorServ);
+//        var byte = this.extractdata(colorServ);
+//        //console.log('byte decoded' + byte);
+//        colorServ.byteO = byte;
+//        FastGame.fastSocket.EMIT.FAST_COLOR(colorServ);
+//=======
+//        //this.video.snapshot.update();
+
+//>>>>>>> c865674d174fe228d6ff2665fe5aa0a7479ffc19
 
         
 
@@ -86,7 +143,7 @@ takeSnapshot: function () {
 
         var sprite = this.game.add.sprite(200, 0, tooltip);
 
-        this.group.add(sprite);
+       // this.group.add(sprite);
 
 },
 
@@ -99,12 +156,8 @@ takeSnapshot: function () {
         var g = color.green >> 7 << 1;
         var b = color.blue >> 7 << 2;
         byte = 255 & (r | g | b);
- 
-      //  console.log(r); // 1
-        //console.log(g); // 1 
-        //console.log(b); // 1
-        //onsole.log("byte");
-        console.log('adding '+byte); // 1
+
+        //console.log('adding '+byte); // 1
 
         this.sequence.push(byte);
         return byte;
