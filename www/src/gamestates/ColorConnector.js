@@ -29,19 +29,19 @@ FastGame.ColorConnector.prototype = {
           let options = {
           x: 0,
           y: 0,
-          width: window.screen.width,
-          height: window.screen.height,
+          width: 10,
+          height: 10,
           camera: CameraPreview.CAMERA_DIRECTION.BACK,
           toBack: true,
-          tapPhoto: true,
+          tapPhoto: false,
           tapFocus: false,
           previewDrag: false
         };
 
         this.canvas = document.createElement('CANVAS');
         this.ctx = this.canvas.getContext('2d');
-        this.canvas.height = 640;
-        this.canvas.width = 640;
+        this.canvas.height = 10;
+        this.canvas.width = 10;
 
         CameraPreview.startCamera(options);
         this.game.input.onUp.removeAll();
@@ -66,12 +66,7 @@ FastGame.ColorConnector.prototype = {
 
         this.game.input.onDown.add(this.analyseSuequence, this);
 
-        this.group = this.game.add.group();
-
-        this.group.align(16, -1, 20, 20);
-        this.group.x = 100;
-        this.group.y = 64;
-        //take screen every 500 ms
+        //take screen every 200 ms
         this.game.time.events.loop(200, this.takeSnapshot, this);
         //this.group.createMultiple(16, 'diamonds', [0, 1, 2, 3, 4], true);
     },
@@ -84,13 +79,13 @@ camBlocked: function (video, error) {
 takeSnapshot: function () {
         //this.video.grab();//params clear true or false, alpha, blend mode
 
-        CameraPreview.takePicture({width:640, height:640, quality: 85}, (base64PictureData) => {
+        CameraPreview.takePicture({width:1, height:1, quality: 1}, (base64PictureData) => {
             imageSrcData = 'data:image/jpeg;base64,' +base64PictureData;
             //$('img#my-img').attr('src', imageSrcData);
             var image = new Image();
             image.onload = () => {
               this.ctx.drawImage(image,0,0);
-              var pixel = this.ctx.getImageData(320, 320, 1, 1);
+              var pixel = this.ctx.getImageData(5, 5, 1, 1);
               console.log(pixel);
               var colorServ = {
                   red: pixel.data[0],
@@ -108,6 +103,7 @@ takeSnapshot: function () {
 
             }
             image.src = imageSrcData;
+
         });
         // if()
         // console.log(video.snapshot);
@@ -136,12 +132,7 @@ takeSnapshot: function () {
 
         
 
-        var tooltip = this.game.make.bitmapData(20, 20);
 
-        tooltip.fill(0, 0, 0);
-        tooltip.rect(1, 1, 62, 62, color.rgba);
-
-        var sprite = this.game.add.sprite(200, 0, tooltip);
 
        // this.group.add(sprite);
 
