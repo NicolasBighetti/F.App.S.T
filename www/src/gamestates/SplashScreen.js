@@ -17,6 +17,9 @@ FastGame.SplashScreen.prototype = {
     this.game.load.image('star_layer', './img/splash_parallax_layer.png');
     this.game.load.image('star_layer_2', './img/splash_parallax_layer_2.png');
     this.game.load.image('planet_layer', './img/space_mosaic.png');
+    for(var i = 0; i <= 9; i++){
+      this.game.load.image('planet'+i, './img/planet'+i+'.png');
+    }
     //We do know every splash icon is 100*100 so we can assume its size for layout facilitation
     this._iconWidth = 100;
     this._backgroundSpeedBound = 0.1;
@@ -38,6 +41,9 @@ FastGame.SplashScreen.prototype = {
     this.frontLayerAcceleration = this._frontLayerSpeedBound;
     this.planetLayer = this.game.add.tileSprite(0, 0, 2100, 320, 'planet_layer');
     this.planetLayerAcceleration = this._planetLayerSpeedBound;
+
+    this.planets = [];
+
     var availableSpace = (FastGame._WIDTH) / this.splashIcons.length;
     var splashTargetCenter = FastGame._HEIGHT * 0.3;
     var textTargetCenter = splashTargetCenter + 150;
@@ -67,6 +73,15 @@ FastGame.SplashScreen.prototype = {
     this.mediumLayer.tilePosition.x += this.mediumLayerAcceleration;
     this.frontLayer.tilePosition.x += this.frontLayerAcceleration;
     this.planetLayer.tilePosition.x += this.planetLayerAcceleration;
+
+    if(this.planets.length > 0){
+      for(var i = 0; i < this.planets.length; i++){
+        this.planets[i].x += 1;
+        if(this.planets[i].x > 600){
+          this.planets[i].x = -100;
+        }
+      }
+    }
 
   },
   destroy: function(){
@@ -144,8 +159,9 @@ FastGame.SplashScreen.prototype = {
       //this.scaleValueUpper = 1.1;
       this.goToMiniGame('its sunday my dudes');
     },this);
-    /*this.game.input.onUp.add(function(){
-      this.scaleValueUpper = 1;
-    },this);*/
+    this.game.input.onDown.add(function(pointer){
+      var plt = this.game.rnd.integerInRange(0,9);
+      this.planets.push(this.game.add.sprite(pointer.x, pointer.y, 'planet'+plt));
+    },this);
   }
 }
