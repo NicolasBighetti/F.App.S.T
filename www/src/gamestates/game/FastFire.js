@@ -35,6 +35,8 @@ FastGame.FastFire.prototype = {
     this.game.load.image('screen', './img/screen.png');
     this.game.load.image('bar','./img/stock_bar.png');
     this.game.load.image('counter','./img/stock_counter.png');
+    this.game.load.image('extinguisher','./img/extinguisher.png');
+    this.game.load.image('white_smoke','./img/white_smoke.png');
 
     this.decibelMeter = DECIBELMETER;
     this.currentFire.red = this.totalFire.red;
@@ -89,16 +91,25 @@ FastGame.FastFire.prototype = {
       this['purple'] = flameInit(this.totalFire.purple, 'purple_fire', (this.playerColor == 'purple'), this);
     }
     var onBlow = function(db){
-      if(this.activeFlame && db >= 65){
-        this.activeFlame.hitpoint -= (db/25);
-        if(this.activeFlame.hitpoint <= 0){
-          var index = this[this.playerColor].indexOf(this.activeFlame);
-          this[this.playerColor][index].destroy();
-          this[this.playerColor].splice(index,1);
-          this.currentFire[this.playerColor]--;
-          this.activeFlame = undefined;
-          return;
+      if(this.activeFlame){
+        if(db >= 65){
+          this.whiteParticle.on = true;
+          this.activeFlame.hitpoint -= (db/25);
+          if(this.activeFlame.hitpoint <= 0){
+            var index = this[this.playerColor].indexOf(this.activeFlame);
+            this[this.playerColor][index].destroy();
+            this[this.playerColor].splice(index,1);
+            this.currentFire[this.playerColor]--;
+            this.activeFlame = undefined;
+            return;
+          }
         }
+        else{
+          this.whiteParticle.on = false;
+        }
+      }
+      else{
+        this.whiteParticle.on = false;
       }
     };
     this.decibelMeter.subscribe(onBlow, this);
@@ -106,14 +117,23 @@ FastGame.FastFire.prototype = {
       this.decibelMeter.unsubscribe(onBlow, this);
     }
 
+    this.whiteParticle = this.game.add.emitter(0,0,20);
+    this.whiteParticle.makeParticles('white_smoke');
+    this.whiteParticle.setXSpeed(100,130);
+    this.whiteParticle.setYSpeed(0,80);
+    this.whiteParticle.start(false, 500, 100);
+    this.whiteParticle.off = false;
+
+
+    this.extinguisher = this.game.add.sprite(200, 80, 'extinguisher');
+    this.game.input.addMoveCallback(this.onMove, this);
+
+
     //UI
     this.game.add.sprite(420, 0, 'screen');
     this.game.add.sprite(430, 0, 'lamp_red');
     this.game.add.sprite(80, 280, 'bar');
     this.game.add.sprite(0, 240, 'counter');
-
-
-
   },
   update: function(){
     var total = 0;
@@ -146,5 +166,11 @@ FastGame.FastFire.prototype = {
 
     this.totalFire = undefined;
     this.currentFire = undefined;
+  },
+  onMove: function(pointer){
+    this.extinguisher.x = pointer.x-45;
+    this.extinguisher.y = pointer.y-20;
+    this.whiteParticle.x = pointer.x+40;
+    this.whiteParticle.y = pointer.y-5;
   }
 }
