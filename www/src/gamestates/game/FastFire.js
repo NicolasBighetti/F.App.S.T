@@ -28,6 +28,14 @@ FastGame.FastFire.prototype = {
     this.game.load.spritesheet('blue_fire', './img/flame_blue.png', 64, 64, 2);
     this.game.load.spritesheet('purple_fire', './img/flame_purple.png', 64, 64, 2);
     this.game.load.spritesheet('green_fire', './img/flame_green.png', 64, 64, 2);
+    this.game.load.image('background', './img/metal_tile.png');
+    this.game.load.image('lamp_red','./img/lamp_red.png');
+    this.game.load.image('lamp_orange','./img/lamp_orange.png');
+    this.game.load.image('lamp_green','./img/lamp_green.png');
+    this.game.load.image('screen', './img/screen.png');
+    this.game.load.image('bar','./img/stock_bar.png');
+    this.game.load.image('counter','./img/stock_counter.png');
+
     this.decibelMeter = DECIBELMETER;
     this.currentFire.red = this.totalFire.red;
     if(this.totalFire.green){
@@ -46,6 +54,9 @@ FastGame.FastFire.prototype = {
     var _minHeight = 0;
     var _maxWidth = 420;
     var _maxHeight = 280;
+
+    this.game.add.tileSprite( 0, 0, 480, 320, 'background');
+
     var flameInit = function(flameNumber, assetKey, isExtinguishable, context){
       var flameArray = [];
       for(var i = 0; i <flameNumber; i++){
@@ -94,6 +105,15 @@ FastGame.FastFire.prototype = {
     this.decibelMeter.destroy = function(){
       this.decibelMeter.unsubscribe(onBlow, this);
     }
+
+    //UI
+    this.game.add.sprite(420, 0, 'screen');
+    this.game.add.sprite(430, 0, 'lamp_red');
+    this.game.add.sprite(80, 280, 'bar');
+    this.game.add.sprite(0, 240, 'counter');
+
+
+
   },
   update: function(){
     var total = 0;
