@@ -22,6 +22,11 @@ FastGame.FastFire.prototype = {
     this.isLost = false;
     this.isSolo = true;
     this.isRoomMaster = true;
+
+    if(!this.isSolo){
+        //this.peerSocket
+    }
+
   },
   preload: function(){
     this.game.load.spritesheet('red_fire', './img/flame_sprite.png', 64, 64, 2);
@@ -121,7 +126,7 @@ FastGame.FastFire.prototype = {
     this.whiteParticle.makeParticles('white_smoke');
     this.whiteParticle.setXSpeed(100,130);
     this.whiteParticle.setYSpeed(0,80);
-    this.whiteParticle.start(false, 500, 100);
+    this.whiteParticle.start(false, 500, 50);
     this.whiteParticle.off = false;
 
 
@@ -172,5 +177,21 @@ FastGame.FastFire.prototype = {
     this.extinguisher.y = pointer.y-20;
     this.whiteParticle.x = pointer.x+40;
     this.whiteParticle.y = pointer.y-5;
+  },
+  synchronise: function(){
+    var data;
+    if(this.playerColor === 'red'){
+      data.FAST_GAME_FIRE_RED = this.currentFire;
+    }
+    if(this.playerColor === 'blue'){
+      data.FAST_GAME_FIRE_BLUE = this.currentFire;
+    }
+    if(this.playerColor === 'green'){
+      data.FAST_GAME_FIRE_GREEN = this.currentFire;
+    }
+    if(this.playerColor === 'purple'){
+      data.FAST_GAME_FIRE_PURPLE = this.currentFire;
+    }
+    //this.peerSocket
   }
 }
