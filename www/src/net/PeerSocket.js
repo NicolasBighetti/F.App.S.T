@@ -8,12 +8,15 @@ function PeerSocket(){
       this.signalRelay.dispatch();
     });
 
-    for(var key in PROTOCOL.getPrivatableEvent()){
-      this[key].channel = new Phaser.Signal();
-      this[key].emit = function(data){
-        this.p2psocket.emit(key, this.addHeader(data));
+
+    var proto = PROTOCOL.getPrivatableEvent();
+    for(var key in proto){
+      this[proto[key]] = [];
+      this[proto[key]].channel = new Phaser.Signal();
+      this[proto[key]].emit = function(data){
+        this.p2psocket.emit(proto[key], this.addHeader(data));
       };
-      this[key].on = function(data){
+      this[proto[key]].on = function(data){
         //TODO : use timestamp
         this[key].channel.dispatch(data.data);
       };

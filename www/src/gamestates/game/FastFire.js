@@ -2,8 +2,7 @@ FastGame.FastFire = function(game){
   this.game = game;
 }
 FastGame.FastFire.prototype = {
-  init: function(parameters){
-    console.log(parameters);
+  init: function(parameters, peerSocket, isSolo){
     this.game.stage.disableVisibilityChange = true;
     this.totalFire = [];
     this.currentFire = [];
@@ -20,11 +19,14 @@ FastGame.FastFire.prototype = {
     this.playerColor = 'red';
     this.isWin = false;
     this.isLost = false;
-    this.isSolo = true;
+    //From Splash / Waiting room screen
+    this.isSolo = isSolo;
     this.isRoomMaster = true;
 
     if(!this.isSolo){
-        //this.peerSocket
+        this.peerSocket = peerSocket;
+        this.peerSocket[PROTOCOL.FAST_PRIVATE_SYNC].channel.add(this.synchronize, this);
+        this.peerSocket[PROTOCOL.FAST_PRIVATE_STOP].channel.add(this.endGame, this);
     }
 
   },
@@ -59,8 +61,8 @@ FastGame.FastFire.prototype = {
   create: function(){
     var _minWidth = 0;
     var _minHeight = 0;
-    var _maxWidth = 420;
-    var _maxHeight = 280;
+    var _maxWidth = 400;
+    var _maxHeight = 170;
 
     this.game.add.tileSprite( 0, 0, 480, 320, 'background');
 
@@ -147,18 +149,24 @@ FastGame.FastFire.prototype = {
       while(this[key].length > this.totalFire[key]){
         this[key].pop().destroy();
         this.currentFire[key]--;
-
       }
       total += this[key].length;
 
       if((key === this.playerColor) && this.isSolo){
-        if(!this.currentFire[key]){
+          if(!this.currentFire[key]){
+            this.endGame();
+          }
+      }
+
+      if(!this.isSolo){
+        if(!(this.currentFire['red'] || this.currentFire['blue'] || this.currentFire['green'] || this.currentFire['purple'])){
           this.endGame();
         }
       }
     }
   },
   endGame: function(){
+    this.peerSocket[PROTOCOL.FAST_PRIVATE_STOP].emit();
     this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
   },
   destroy: function(){
@@ -178,7 +186,7 @@ FastGame.FastFire.prototype = {
     this.whiteParticle.x = pointer.x+40;
     this.whiteParticle.y = pointer.y-5;
   },
-  synchronise: function(){
+  broadcast: function(){
     var data;
     if(this.playerColor === 'red'){
       data.FAST_GAME_FIRE_RED = this.currentFire;
@@ -193,5 +201,19 @@ FastGame.FastFire.prototype = {
       data.FAST_GAME_FIRE_PURPLE = this.currentFire;
     }
     //this.peerSocket
+  },
+  synchronize: function(data){
+    if(data.FAST_GAME_FIRE_RED){
+      this.currentFire.red = data.FAST_GAME_FIRE_RED;
+    }
+    if(data.FAST_GAME_FIRE_BLUE){
+      this.currentFire.blue = data.FAST_GAME_FIRE_BLUE;
+    }
+    if(data.FAST_GAME_FIRE_GREEN){
+      this.currentFire.green = data.FAST_GAME_FIRE_GREEN;
+    }
+    if(data.FAST_GAME_FIRE_PURPLE){
+      this.currentFire.purple = data.FAST_GAME_FIRE_PURPLE;
+    }
   }
 }
