@@ -5,7 +5,7 @@ FastGame.SplashScreen.prototype = {
     this.splashIcons = (new SplashEnum())[parameters];
     this.commingMiniGame = parameters;
     this.game.stage.disableVisibilityChange = true;
-    this.isSolo = true;
+    this.isSolo = false;
     if(!this.isSolo){
       this.peerSocket = new PeerSocket();
       this.peerSocket.init();
