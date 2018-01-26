@@ -46,7 +46,7 @@ FastGame.ColorConnector.prototype = {
         this.group.x = 100;
         this.group.y = 64;
         //take screen every 500 ms
-        this.game.time.events.loop(200, this.takeSnapshot, this);
+        this.game.time.events.loop(300, this.takeSnapshot, this);
         //this.group.createMultiple(16, 'diamonds', [0, 1, 2, 3, 4], true);
     },
 
