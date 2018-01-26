@@ -116,7 +116,7 @@ FastGame.SplashScreen.prototype = {
     this.decibelMeter.destroy();
   },
   goToMiniGame: function(launchData){
-    launchData = {'game_data':{'FAST_GAME_FIRE_RED':12, 'FAST_GAME_FIRE_GREEN':12}};
+    launchData = {'game_data':{'FAST_GAME_FIRE_RED':12, 'FAST_GAME_FIRE_GREEN':12, 'FAST_GAME_FIRE_BLUE':12, 'FAST_GAME_FIRE_PURPLE':12}};
     this.game.state.start(this.commingMiniGame, true, false, launchData, this.isSolo);
   },
   BLOW: function(){
