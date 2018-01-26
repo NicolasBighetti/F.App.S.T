@@ -25,8 +25,6 @@ function FASockeT(ip){
 
     //Add server behavior
     this.addOnServerCallback(PROTOCOL.FAST_MINI_GAME_REGISTER, this.startP2PSession);
-    this.addOnServerCallback(PROTOCOL.TEST, function(data){console.log(JSON.stringify(data))});
-    //this.addOnServerCallback(PROTOCOL.FAST_EVENT_BROADCAST, function(data){console.log(JSON.stringify(data))});
 
 
     var emitable = PROTOCOL.getEmitableEvent();
@@ -40,17 +38,21 @@ function FASockeT(ip){
   //keyword : string, behavior : function
   this.addEmitServerBehavior = function(keyword){
     this.EMIT[keyword] = (data) => {
-      this.serverSocket.emit(keyword, JSON.stringify(data));
+      this.serverSocket.emit(keyword, data);
     };
   }
-  //TODO : add a way to delete existing callback that won't serve anymore
   //keyword : string, callback : function
-  this.addOnServerCallback = function(keyword, callback){
-    // => ou : ??
+  this.addOnServerCallback = function(keyword, callback, signal){
+    if(signal){
       this.serverSocket.on(keyword, function(data){
-        data = JSON.parse(data);
+        signal.dispatch(data);
+      });
+    }
+    else{
+      this.serverSocket.on(keyword, function(data){
         callback(data);
       });
+    }
   }
 
   this.removeOnServerCallback = function(keyword, callback){
@@ -60,7 +62,6 @@ function FASockeT(ip){
   //keyEvent : string, phaserSignal : Phaser.Signal
   this.addBroadcastCallback = function(keyEvent, phaserSignal){
     this.broadcastSocket.on(keyEvent, function(data){
-      data = JSON.parse(data);
       if(phaserSignal.dispatch){
         phaserSignal.dispatch({'data' : data});
       }
