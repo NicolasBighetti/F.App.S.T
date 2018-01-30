@@ -2,41 +2,72 @@ FastGame.FastFire = function(game){
   this.game = game;
 }
 FastGame.FastFire.prototype = {
-  init: function(parameters){
-    console.log(parameters);
+  init: function(parameters, isSolo){
     this.game.stage.disableVisibilityChange = true;
-    this._totalRedFire = parameters.game_data.FAST_GAME_FIRE_RED;
+    this.totalFire = [];
+    this.currentFire = [];
+    if(parameters.game_data.FAST_GAME_FIRE_RED){
+      this.totalFire.red = parameters.game_data.FAST_GAME_FIRE_RED;
+    }
     if(parameters.game_data.FAST_GAME_FIRE_GREEN){
-      this._totalGreenFire = parameters.game_data.FAST_GAME_FIRE_GREEN;
+      this.totalFire.green = parameters.game_data.FAST_GAME_FIRE_GREEN;
     }
     if(parameters.game_data.FAST_GAME_FIRE_BLUE){
-      this._totalBlueFire = parameters.game_data.FAST_GAME_FIRE_BLUE;
+      this.totalFire.blue = parameters.game_data.FAST_GAME_FIRE_BLUE;
     }
     if(parameters.game_data.FAST_GAME_FIRE_PURPLE){
-        this._totalPurpleFire = parameters.game_data.FAST_GAME_FIRE_PURPLE;
+        this.totalFire.purple = parameters.game_data.FAST_GAME_FIRE_PURPLE;
     }
-    this.playerColor = 'red';
+    this.playerColor = 'purple';
+    this.isWin = false;
+    this.isLost = false;
+    //From Splash / Waiting room screen
+    this.isSolo = isSolo;
+    this.isRoomMaster = true;
+
+    if(!this.isSolo){
+      var signal = new Phaser.Signal();
+      signal.add(this.synchronize, this);
+      FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_SYNC, this.synchronize, signal);
+    }
+
   },
   preload: function(){
     this.game.load.spritesheet('red_fire', './img/flame_sprite.png', 64, 64, 2);
+    this.game.load.spritesheet('blue_fire', './img/flame_blue.png', 64, 64, 2);
+    this.game.load.spritesheet('purple_fire', './img/flame_purple.png', 64, 64, 2);
+    this.game.load.spritesheet('green_fire', './img/flame_green.png', 64, 64, 2);
+    this.game.load.image('background', './img/metal_tile.png');
+    this.game.load.image('lamp_red','./img/lamp_red.png');
+    this.game.load.image('lamp_orange','./img/lamp_orange.png');
+    this.game.load.image('lamp_green','./img/lamp_green.png');
+    this.game.load.image('screen', './img/screen.png');
+    this.game.load.image('bar','./img/stock_bar.png');
+    this.game.load.image('counter','./img/stock_counter.png');
+    this.game.load.image('extinguisher','./img/extinguisher_'+this.playerColor+'.png');
+    this.game.load.image('white_smoke','./img/white_smoke.png');
+
     this.decibelMeter = DECIBELMETER;
-    this.currentRedFire = this._totalRedFire;
-    if(this._totalGreenFire){
-      this.currentGreenFire = this._totalGreenFire;
+    this.currentFire.red = this.totalFire.red;
+    if(this.totalFire.green){
+      this.currentFire.green = this.totalFire.green;
     }
-    if(this._totalBlueFire){
-      this.currentBlueFire = this._totalBlueFire;
+    if(this.totalFire.blue){
+      this.currentFire.blue = this.totalFire.blue;
     }
-    if(this._totalPurpleFire){
-      this.currentPurpleFire = this._totalPurpleFire;
+    if(this.totalFire.purple){
+      this.currentFire.purple = this.totalFire.purple;
     }
     this.activeFlame = undefined;
   },
   create: function(){
-    var _minWidth = 64;
-    var _minHeight = 64;
-    var _maxWidth = 420;
-    var _maxHeight = 280;
+    var _minWidth = 0;
+    var _minHeight = 0;
+    var _maxWidth = 400;
+    var _maxHeight = 170;
+
+    this.game.add.tileSprite( 0, 0, 480, 320, 'background');
+
     var flameInit = function(flameNumber, assetKey, isExtinguishable, context){
       var flameArray = [];
       for(var i = 0; i <flameNumber; i++){
@@ -53,67 +84,91 @@ FastGame.FastFire.prototype = {
             context.activeFlame = undefined;
           }, this);
         }
-        flameArray.push(fire);
+        flameArray[i] = fire;
       }
       return flameArray;
     };
 
-    this['red'] = flameInit(this._totalRedFire, 'red_fire', (this.playerColor == 'red'), this);
-    if(this._totalBlueFire){
-      this['blue'] = flameInit(this._totalBlueFire, 'blue_fire', (this.playerColor == 'blue'), this);
+    this['red'] = flameInit(this.totalFire.red, 'red_fire', (this.playerColor == 'red'), this);
+    if(this.totalFire.blue){
+      this['blue'] = flameInit(this.totalFire.blue, 'blue_fire', (this.playerColor == 'blue'), this);
     }
-    if(this._totalGreenFire){
-      this['green'] = flameInit(this._totalGreenFire, 'green_fire', (this.playerColor == 'green'), this);
+    if(this.totalFire.green){
+      this['green'] = flameInit(this.totalFire.green, 'green_fire', (this.playerColor == 'green'), this);
     }
-    if(this._totalPurpleFire){
-      this['purple'] = flameInit(this._totalPurpleFire, 'purple_fire', (this.playerColor == 'purple'), this);
+    if(this.totalFire.purple){
+      this['purple'] = flameInit(this.totalFire.purple, 'purple_fire', (this.playerColor == 'purple'), this);
     }
     var onBlow = function(db){
-      if(this.activeFlame && db >= 65){
-        this.activeFlame.hitpoint -= (db/25);
-        if(this.activeFlame.hitpoint <= 0){
-          var index = this[this.playerColor].indexOf(this.activeFlame);
-          this[this.playerColor][index].destroy();
-          this[this.playerColor].splice(index,1);
-          this.activeFlame = undefined;
-          return;
+      if(this.activeFlame){
+        if(db >= 65){
+          this.whiteParticle.on = true;
+          this.activeFlame.hitpoint -= (db/25);
+          if(this.activeFlame.hitpoint <= 0){
+            var index = this[this.playerColor].indexOf(this.activeFlame);
+            this[this.playerColor][index].destroy();
+            this[this.playerColor].splice(index,1);
+            this.currentFire[this.playerColor]--;
+            this.totalFire[this.playerColor]--;
+            this.activeFlame = undefined;
+            return;
+          }
         }
+        else{
+          this.whiteParticle.on = false;
+        }
+      }
+      else{
+        this.whiteParticle.on = false;
       }
     };
     this.decibelMeter.subscribe(onBlow, this);
     this.decibelMeter.destroy = function(){
       this.decibelMeter.unsubscribe(onBlow, this);
     }
+
+    this.whiteParticle = this.game.add.emitter(0,0,20);
+    this.whiteParticle.makeParticles('white_smoke');
+    this.whiteParticle.setXSpeed(100,130);
+    this.whiteParticle.setYSpeed(0,80);
+    this.whiteParticle.start(false, 500, 50);
+    this.whiteParticle.off = false;
+
+
+    this.extinguisher = this.game.add.sprite(200, 80, 'extinguisher');
+    this.game.input.addMoveCallback(this.onMove, this);
+
+
+    //UI
+    this.game.add.sprite(420, 0, 'screen');
+    this.game.add.sprite(430, 0, 'lamp_red');
+    this.game.add.sprite(80, 280, 'bar');
+    this.game.add.sprite(0, 240, 'counter');
   },
   update: function(){
     var total = 0;
-    if(this['red']){
-        while(this['red'].length > this._totalRedFire){
-          this['red'].pop().destroy();
+
+    for(var key in this.totalFire){
+      console.log('Total couleur : ' + this.totalFire[key] + ' Total sprite : ' + this[key].length);
+      while(this[key].length > this.totalFire[key]){
+        this[key].pop().destroy();
+        this.currentFire[key]--;
+      }
+      total += this[key].length;
+
+      if((key === this.playerColor) && this.isSolo){
+          if(!this.currentFire[key]){
+            this.endGame();
+          }
+      }
+
+      if(!this.isSolo){
+        if(!(this.currentFire['red'] || this.currentFire['blue'] || this.currentFire['green'] || this.currentFire['purple'])){
+          this.endGame();
         }
-      total += this['red'].length || 0;
+      }
     }
-    if(this['blue']){
-        while(this['blue'].length > this._totalBlueFire){
-          this['blue'].pop().destroy();
-        }
-      total += this['blue'].length || 0;
-    }
-    if(this['green']){
-        while(this['green'].length > this._totalGreenFire){
-          this['green'].pop().destroy();
-        }
-      total += this['green'].length || 0;
-    }
-    if(this['purple']){
-        while(this['purple'].length > this._totalPurpleFire){
-          this['purple'].pop().destroy();
-        }
-      total += this['purple'].length || 0;
-    }
-    if(total == 0){
-      this.endGame();
-    }
+    this.broadcast();
   },
   endGame: function(){
     this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
@@ -126,9 +181,43 @@ FastGame.FastFire.prototype = {
     this['green'] = undefined;
     this['purple'] = undefined;
 
-    this._totalRedFire = undefined;
-    this._totalGreenFire = undefined;
-    this._totalBlueFire = undefined;
-    this._totalPurpleFire = undefined;
+    this.totalFire = undefined;
+    this.currentFire = undefined;
+  },
+  onMove: function(pointer){
+    this.extinguisher.x = pointer.x-45;
+    this.extinguisher.y = pointer.y-20;
+    this.whiteParticle.x = pointer.x+40;
+    this.whiteParticle.y = pointer.y-5;
+  },
+  broadcast: function(){
+    var data = [];
+    if(this.playerColor === 'red'){
+      data = { 'FAST_GAME_FIRE_RED' : this.totalFire['red']};
+    }
+    if(this.playerColor === 'blue'){
+      data = { 'FAST_GAME_FIRE_BLUE' : this.totalFire['blue']};
+    }
+    if(this.playerColor === 'green'){
+      data = { 'FAST_GAME_FIRE_GREEN' : this.totalFire['green']};
+    }
+    if(this.playerColor === 'purple'){
+      data = { 'FAST_GAME_FIRE_PURPLE' : this.totalFire['purple']};
+    }
+    FastGame.fastSocket.EMIT[PROTOCOL.FAST_PRIVATE_SYNC](data);
+  },
+  synchronize: function(data){
+    if(data.FAST_GAME_FIRE_RED >= 0){
+      this.totalFire.red = data.FAST_GAME_FIRE_RED;
+    }
+    if(data.FAST_GAME_FIRE_BLUE >= 0){
+      this.totalFire.blue = data.FAST_GAME_FIRE_BLUE;
+    }
+    if(data.FAST_GAME_FIRE_GREEN >= 0){
+      this.totalFire.green = data.FAST_GAME_FIRE_GREEN;
+    }
+    if(data.FAST_GAME_FIRE_PURPLE >= 0){
+      this.totalFire.purple = data.FAST_GAME_FIRE_PURPLE;
+    }
   }
 }

@@ -16,18 +16,30 @@ function NetworkEventBundle(){
   this.FAST_EVENT_LIGHT_ON = 'FAST_EVENT_LIGHT_ON';
   this.FAST_EVENT_SOUND_EFFECT = 'FAST_EVENT_SOUND_EFFECT';
 
-  
+  this.FAST_PRIVATE_START = 'FAST_PRIVATE_START';
+  this.FAST_PRIVATE_STOP = 'FAST_PRIVATE_STOP';
+  this.FAST_PRIVATE_INIT = 'FAST_PRIVATE_INIT';
+  this.FAST_PRIVATE_SYNC = 'FAST_PRIVATE_SYNC';
+
 
   this.getEmitableEvent = function(){
     return [
       this.FAST_EVENT_BROADCAST,
-      this.FAST_PHONE_CONNECT
+      this.FAST_PHONE_CONNECT,
+      this.FAST_PRIVATE_INIT,
+      this.FAST_PRIVATE_STOP,
+      this.FAST_PRIVATE_SYNC,
+      this.FAST_PRIVATE_START
     ];
   }
 
   this.getReactableEvent = function(){
     return [
-      this.FAST_PRIVATE_MINI_GAME_START
+      this.FAST_PRIVATE_MINI_GAME_START,
+      this.FAST_PRIVATE_INIT,
+      this.FAST_PRIVATE_STOP,
+      this.FAST_PRIVATE_SYNC,
+      this.FAST_PRIVATE_START
     ];
   }
 
@@ -39,6 +51,12 @@ function NetworkEventBundle(){
       this.FAST_EVENT_LIGHT_OFF,
       this.FAST_EVENT_LIGHT_ON,
       this.FAST_EVENT_SOUND_EFFECT
+    ];
+  }
+
+  this.getPrivatableEvent = function(){
+    return [
+
     ];
   }
 
