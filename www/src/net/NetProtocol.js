@@ -25,13 +25,21 @@ function NetworkEventBundle(){
   this.getEmitableEvent = function(){
     return [
       this.FAST_EVENT_BROADCAST,
-      this.FAST_PHONE_CONNECT
+      this.FAST_PHONE_CONNECT,
+      this.FAST_PRIVATE_INIT,
+      this.FAST_PRIVATE_STOP,
+      this.FAST_PRIVATE_SYNC,
+      this.FAST_PRIVATE_START
     ];
   }
 
   this.getReactableEvent = function(){
     return [
-      this.FAST_PRIVATE_MINI_GAME_START
+      this.FAST_PRIVATE_MINI_GAME_START,
+      this.FAST_PRIVATE_INIT,
+      this.FAST_PRIVATE_STOP,
+      this.FAST_PRIVATE_SYNC,
+      this.FAST_PRIVATE_START
     ];
   }
 
@@ -48,10 +56,7 @@ function NetworkEventBundle(){
 
   this.getPrivatableEvent = function(){
     return [
-      this.FAST_PRIVATE_INIT,
-      this.FAST_PRIVATE_STOP,
-      this.FAST_PRIVATE_SYNC,
-      this.FAST_PRIVATE_START
+
     ];
   }
 

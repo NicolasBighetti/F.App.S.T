@@ -2,11 +2,13 @@ FastGame.FastFire = function(game){
   this.game = game;
 }
 FastGame.FastFire.prototype = {
-  init: function(parameters, peerSocket, isSolo){
+  init: function(parameters, isSolo){
     this.game.stage.disableVisibilityChange = true;
     this.totalFire = [];
     this.currentFire = [];
-    this.totalFire.red = parameters.game_data.FAST_GAME_FIRE_RED;
+    if(parameters.game_data.FAST_GAME_FIRE_RED){
+      this.totalFire.red = parameters.game_data.FAST_GAME_FIRE_RED;
+    }
     if(parameters.game_data.FAST_GAME_FIRE_GREEN){
       this.totalFire.green = parameters.game_data.FAST_GAME_FIRE_GREEN;
     }
@@ -16,7 +18,7 @@ FastGame.FastFire.prototype = {
     if(parameters.game_data.FAST_GAME_FIRE_PURPLE){
         this.totalFire.purple = parameters.game_data.FAST_GAME_FIRE_PURPLE;
     }
-    this.playerColor = 'red';
+    this.playerColor = 'purple';
     this.isWin = false;
     this.isLost = false;
     //From Splash / Waiting room screen
@@ -24,9 +26,9 @@ FastGame.FastFire.prototype = {
     this.isRoomMaster = true;
 
     if(!this.isSolo){
-        this.peerSocket = peerSocket;
-        this.peerSocket[PROTOCOL.FAST_PRIVATE_SYNC].channel.add(this.synchronize, this);
-        this.peerSocket[PROTOCOL.FAST_PRIVATE_STOP].channel.add(this.endGame, this);
+      var signal = new Phaser.Signal();
+      signal.add(this.synchronize, this);
+      FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_SYNC, this.synchronize, signal);
     }
 
   },
@@ -42,7 +44,7 @@ FastGame.FastFire.prototype = {
     this.game.load.image('screen', './img/screen.png');
     this.game.load.image('bar','./img/stock_bar.png');
     this.game.load.image('counter','./img/stock_counter.png');
-    this.game.load.image('extinguisher','./img/extinguisher.png');
+    this.game.load.image('extinguisher','./img/extinguisher_'+this.playerColor+'.png');
     this.game.load.image('white_smoke','./img/white_smoke.png');
 
     this.decibelMeter = DECIBELMETER;
@@ -82,7 +84,7 @@ FastGame.FastFire.prototype = {
             context.activeFlame = undefined;
           }, this);
         }
-        flameArray.push(fire);
+        flameArray[i] = fire;
       }
       return flameArray;
     };
@@ -107,6 +109,7 @@ FastGame.FastFire.prototype = {
             this[this.playerColor][index].destroy();
             this[this.playerColor].splice(index,1);
             this.currentFire[this.playerColor]--;
+            this.totalFire[this.playerColor]--;
             this.activeFlame = undefined;
             return;
           }
@@ -146,6 +149,7 @@ FastGame.FastFire.prototype = {
     var total = 0;
 
     for(var key in this.totalFire){
+      console.log('Total couleur : ' + this.totalFire[key] + ' Total sprite : ' + this[key].length);
       while(this[key].length > this.totalFire[key]){
         this[key].pop().destroy();
         this.currentFire[key]--;
@@ -164,9 +168,9 @@ FastGame.FastFire.prototype = {
         }
       }
     }
+    this.broadcast();
   },
   endGame: function(){
-    this.peerSocket[PROTOCOL.FAST_PRIVATE_STOP].emit();
     this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
   },
   destroy: function(){
@@ -187,33 +191,33 @@ FastGame.FastFire.prototype = {
     this.whiteParticle.y = pointer.y-5;
   },
   broadcast: function(){
-    var data;
+    var data = [];
     if(this.playerColor === 'red'){
-      data.FAST_GAME_FIRE_RED = this.currentFire;
+      data = { 'FAST_GAME_FIRE_RED' : this.totalFire['red']};
     }
     if(this.playerColor === 'blue'){
-      data.FAST_GAME_FIRE_BLUE = this.currentFire;
+      data = { 'FAST_GAME_FIRE_BLUE' : this.totalFire['blue']};
     }
     if(this.playerColor === 'green'){
-      data.FAST_GAME_FIRE_GREEN = this.currentFire;
+      data = { 'FAST_GAME_FIRE_GREEN' : this.totalFire['green']};
     }
     if(this.playerColor === 'purple'){
-      data.FAST_GAME_FIRE_PURPLE = this.currentFire;
+      data = { 'FAST_GAME_FIRE_PURPLE' : this.totalFire['purple']};
     }
-    //this.peerSocket
+    FastGame.fastSocket.EMIT[PROTOCOL.FAST_PRIVATE_SYNC](data);
   },
   synchronize: function(data){
-    if(data.FAST_GAME_FIRE_RED){
-      this.currentFire.red = data.FAST_GAME_FIRE_RED;
+    if(data.FAST_GAME_FIRE_RED >= 0){
+      this.totalFire.red = data.FAST_GAME_FIRE_RED;
     }
-    if(data.FAST_GAME_FIRE_BLUE){
-      this.currentFire.blue = data.FAST_GAME_FIRE_BLUE;
+    if(data.FAST_GAME_FIRE_BLUE >= 0){
+      this.totalFire.blue = data.FAST_GAME_FIRE_BLUE;
     }
-    if(data.FAST_GAME_FIRE_GREEN){
-      this.currentFire.green = data.FAST_GAME_FIRE_GREEN;
+    if(data.FAST_GAME_FIRE_GREEN >= 0){
+      this.totalFire.green = data.FAST_GAME_FIRE_GREEN;
     }
-    if(data.FAST_GAME_FIRE_PURPLE){
-      this.currentFire.purple = data.FAST_GAME_FIRE_PURPLE;
+    if(data.FAST_GAME_FIRE_PURPLE >= 0){
+      this.totalFire.purple = data.FAST_GAME_FIRE_PURPLE;
     }
   }
 }
