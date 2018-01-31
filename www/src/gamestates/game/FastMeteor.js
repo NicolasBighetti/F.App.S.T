@@ -12,6 +12,8 @@ FastGame.FastMeteor.prototype = {
 
     this.game.load.image('paddle', './img/paddle.png')
 
+    this.game.load.image('background', './img/splash_background.jpg');
+
     this.game.load.image('lamp_red','./img/lamp_red.png');
     this.game.load.image('lamp_orange','./img/lamp_orange.png');
     this.game.load.image('lamp_green','./img/lamp_green.png');
@@ -21,8 +23,10 @@ FastGame.FastMeteor.prototype = {
 
   },
   create: function(){
+    this.background = this.game.add.tileSprite(0, 0, 480, 320, 'background');
+    this.background.tilePosition.x += this.game.rnd.realInRange(0, 480);
 
-    this.paddle = this.game.add.sprite(225, 270, 'paddle');
+    this.paddle = this.game.add.sprite(225, 235, 'paddle');
     //UI
     this.game.add.sprite(420, 0, 'screen');
     this.game.add.sprite(430, 0, 'lamp_red');
@@ -30,17 +34,25 @@ FastGame.FastMeteor.prototype = {
     this.game.add.sprite(0, 240, 'counter');
   },
   update: function(){
-
+    this.background.tilePosition.x += 0.1;
+    if(this.tempX){
+      this.paddle.x = this.tempX;
+      this.tempX = undefined;
+    }
   },
   destroy: function(){
 
   },
 	handleOrientation: function(e) {
     if(e.y >= 0){
-      this.paddle.x += 9;
+      if(this.paddle.x < 440){
+        this.tempX = this.paddle.x + 9;
+      }
     }
     else{
-      this.paddle.x -= 9;
+      if(this.paddle.x >= 9){
+        this.tempX = this.paddle.x - 9;
+      }
     }
 	}
 }
