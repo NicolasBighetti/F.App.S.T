@@ -10,7 +10,8 @@ FastGame.FastMeteor.prototype = {
 
     this.gyro.init();
     this.game.load.image('meteor', './img/meteor.png');
-    this.game.load.image('paddle', './img/paddle.png')
+    this.game.load.image('paddle', './img/paddle.png');
+    this.game.load.image('limit', './img/death_line.png');
 
     this.game.load.image('background', './img/splash_background.jpg');
 
@@ -33,6 +34,7 @@ FastGame.FastMeteor.prototype = {
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.paddle = this.game.add.sprite(225, 235, 'paddle');
+    this.limit = this.game.add.sprite(0, 380, 'limit');
 
     //UI
     this.game.add.sprite(420, 0, 'screen');
@@ -51,9 +53,13 @@ FastGame.FastMeteor.prototype = {
       this.paddle.x = this.tempX;
       this.tempX = undefined;
     }
-
-    if(this.checkMeteorOverlap()){
-      this.paddleColision();
+    if(this.meteor){
+      if(this.checkMeteorOverlap(this.meteor, this.paddle)){
+        this.paddleColision();
+      }
+      else if(this.checkMeteorOverlap(this.meteor, this.limit)){
+        this.shipColision();
+      }
     }
 
   },
@@ -78,6 +84,14 @@ FastGame.FastMeteor.prototype = {
       this.meteor = undefined;
     }
   },
+  shipColision: function(){
+    if(this.meteor){
+      this.meteor.destroy();
+      this.meteor = undefined;
+      //Add bvvr event
+      FastGame.broadcastChannel[PROTOCOL.FAST_EVENT_VIBRATION_STRONG]();
+    }
+  },
   addNewMeteor: function(){
 
     console.log('length : '+ this.meteorData.length);
@@ -91,13 +105,13 @@ FastGame.FastMeteor.prototype = {
       this.meteorData.pop();
     }
   },
-  checkMeteorOverlap: function(){
-    if(this.meteor && this.paddle){
-      var boundsA = this.meteor.getBounds();
-      var boundsB = this.paddle.getBounds();
+  checkMeteorOverlap: function(objectA, objectB){
+    try{
+      var boundsA = objectA.getBounds();
+      var boundsB = objectB.getBounds();
       return Phaser.Rectangle.intersects(boundsA, boundsB);
     }
-    else{
+    catch(err){
       return false;
     }
   },
