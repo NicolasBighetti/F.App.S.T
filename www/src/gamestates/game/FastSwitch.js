@@ -67,5 +67,40 @@ FastGame.FastSwitch.prototype = {
         buffer += '|';
       }
       console.log(buffer);
+
+      var baseTime = 100;
+      var vibrationStrength;
+
+
+      if(distance > 25 && distance < 80){
+        this.lastState = this.currentState;
+        this.currentState = 1;
+        baseTime = 500;
+        vibrationStrength = 0.5;
+      }
+      else if(distance <= 25){
+        this.lastState = this.currentState;
+        this.currentState = 0;
+        baseTime = 1000;
+        vibrationStrength = 0;
+      }
+      else{
+        this.lastState = this.currentState;
+        this.currentState = 2;
+        baseTime = 250;
+        vibrationStrength = 0.25;
+      }
+      var computedDuration = baseTime * (1 - vibrationStrength);
+      if(this.lastState != this.currentState){
+        this.isVibrating = false;
+        navigator.vibrate([]);
+      }
+      if(!this.isVibrating){
+        navigator.vibrate(computedDuration);
+        this.isVibrating = true;
+        this.game.time.events.add(1000, function(){this.isVibrating = false}, this).autoDdestroy = true;
+      }
+      console.log('duration : ' + (1 - vibrationStrength));
+      this.targetDistancce = distance;
   }
 }
