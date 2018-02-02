@@ -2,8 +2,9 @@ FastGame.FastMeteor = function(game){
   this.game = game;
 }
 FastGame.FastMeteor.prototype = {
-  init: function(parameters){
+  init: function(nbMeteor){
     this.gyro = new FastGyro();
+    this._totalMeteor = nbMeteor.game_data.FAST_GAME_METEOR_TOTAL || 10;
   },
   preload: function(){
 
@@ -24,11 +25,12 @@ FastGame.FastMeteor.prototype = {
   create: function(){
     this.background = this.game.add.tileSprite(0, 0, 480, 320, 'background');
     this.background.tilePosition.x += this.game.rnd.realInRange(0, 480);
+    this.meteorData = [];
+    for(i = 0; i < this._totalMeteor; i++){
+      this.meteorData.push({'x': this.game.rnd.integerInRange(0,480), 'y': -50, 'xVel': this.game.rnd.integerInRange(0, 0), 'yVel': this.game.rnd.integerInRange(100, 125)});
+    }
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE);
-    this.meteor = this.game.add.sprite(225, -50, 'meteor');
-    this.game.physics.arcade.enable(this.meteor);
-    this.meteor.body.velocity.setTo(0, 75);
 
     this.paddle = this.game.add.sprite(225, 235, 'paddle');
 
@@ -41,6 +43,9 @@ FastGame.FastMeteor.prototype = {
     this.gyro.subscribe(this.handleOrientation, this);
   },
   update: function(){
+    if(!this.meteor){
+      this.addNewMeteor();
+    }
     this.background.tilePosition.x += 0.1;
     if(this.tempX){
       this.paddle.x = this.tempX;
@@ -68,7 +73,23 @@ FastGame.FastMeteor.prototype = {
     }
 	},
   paddleColision: function(){
-    this.meteor.destroy();
+    if(this.meteor){
+      this.meteor.destroy();
+      this.meteor = undefined;
+    }
+  },
+  addNewMeteor: function(){
+
+    console.log('length : '+ this.meteorData.length);
+    if(this.meteorData.length === 0){
+      this.endGame();
+    }
+    else{
+      this.meteor = this.game.add.sprite(this.meteorData[this.meteorData.length - 1].x, this.meteorData[this.meteorData.length - 1].y, 'meteor');
+      this.game.physics.arcade.enable(this.meteor);
+      this.meteor.body.velocity.setTo(this.meteorData[this.meteorData.length - 1].xVel, this.meteorData[this.meteorData.length - 1].yVel);
+      this.meteorData.pop();
+    }
   },
   checkMeteorOverlap: function(){
     if(this.meteor && this.paddle){
@@ -79,5 +100,8 @@ FastGame.FastMeteor.prototype = {
     else{
       return false;
     }
+  },
+  endGame: function(){
+    this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_METEOR);
   }
 }
