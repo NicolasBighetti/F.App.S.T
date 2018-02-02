@@ -2,11 +2,11 @@ FastGame.SplashScreen = function(game){
 }
 FastGame.SplashScreen.prototype = {
   init: function(parameters){
-    this.splashIcons = (new SplashEnum())[parameters];
+    this.splashIcons = (new SplashEnum())[parameters] || [];
     this.commingMiniGame = parameters;
     this.game.stage.disableVisibilityChange = true;
     this.isSolo = false;
-    if(!this.isSolo){
+    if(false){
       var signal = new Phaser.Signal();
       signal.add(this.goToMiniGame, this);
           FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_START, this.goToMiniGame, signal);
@@ -73,6 +73,11 @@ FastGame.SplashScreen.prototype = {
     this.frontLayer.tilePosition.x += this.game.rnd.realInRange(0, 480);
     this.planetLayer.tilePosition.x += this.game.rnd.realInRange(0, 2100);
 
+    this.game.input.onHold.add(function(){
+      //this.scaleValueUpper = 1.1;
+      this.goToMiniGame('its sunday my dudes');
+    },this);
+
   },
   update: function(){
     this.background.tilePosition.x += this.backgroundAcceleration;
@@ -116,7 +121,7 @@ FastGame.SplashScreen.prototype = {
     this.decibelMeter.destroy();
   },
   goToMiniGame: function(launchData){
-    launchData = {'game_data':{'FAST_GAME_FIRE_RED':12, 'FAST_GAME_FIRE_GREEN':12, 'FAST_GAME_FIRE_BLUE':12, 'FAST_GAME_FIRE_PURPLE':12}};
+    launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
     this.game.state.start(this.commingMiniGame, true, false, launchData, this.isSolo);
   },
   BLOW: function(){
@@ -161,10 +166,6 @@ FastGame.SplashScreen.prototype = {
     }
   },
   TOUCH: function(){
-    /*this.game.input.onHold.add(function(){
-      //this.scaleValueUpper = 1.1;
-      this.goToMiniGame('its sunday my dudes');
-    },this);*/
     this.game.input.onDown.add(function(pointer){
       var plt = this.game.rnd.integerInRange(0,9);
       this.planets.push(this.game.add.sprite(pointer.x, pointer.y, 'planet'+plt));

@@ -15,6 +15,7 @@
     <script src="node_modules/socket.io-client/dist/socket.io.js"></script>
     <script src="node_modules/socket.io-p2p/socketiop2p.min.js"></script>
     <script src="src/utils/cordova/DecibelMeter.js"></script>
+    <script src="src/utils/FastGyro.js"></script>
     <script src="src/net/NetProtocol.js"></script>
     <script src="src/utils/MiniGameEnum.js"></script>
     <script src="src/net/FASockeT.js"></script>
@@ -28,6 +29,7 @@
     <script src="src/gamestates/Boot.js"></script>
     <script src="src/gamestates/SplashScreen.js"></script>
     <script src="src/gamestates/game/FastFire.js"></script>
+    <script src="src/gamestates/game/FastMeteor.js"></script>
     <script src="src/gamestates/Game.js"></script>
 
 </head>
@@ -47,6 +49,7 @@
     game.state.add('Game', FastGame.Game);
     game.state.add('SplashScreen', FastGame.SplashScreen);
     game.state.add(MINIGAMELIST.FAST_GAME_FIRE, FastGame.FastFire);
+    game.state.add(MINIGAMELIST.FAST_GAME_METEOR, FastGame.FastMeteor);
 
     game.state.start('Boot');
   }
