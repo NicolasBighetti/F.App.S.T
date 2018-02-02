@@ -13,7 +13,8 @@ FastGame.FastSwitch.prototype = {
     this.game.load.image('screen', './img/screen.png');
     this.game.load.image('bar','./img/stock_bar.png');
     this.game.load.image('counter','./img/stock_counter.png');
-    this.game.load.image('switch', './img/switch.png')
+    this.game.load.image('switch', './img/switch.png');
+    this.game.load.image('mask', './img/mask.png');
   },
   create: function(){
     this.game.add.tileSprite( 0, 0, 480, 320, 'background');
@@ -37,6 +38,8 @@ FastGame.FastSwitch.prototype = {
       this.endGame();
     }, this);
 
+    this.mask = this.game.add.sprite(0,0, 'mask');
+
     //UI
     this.game.add.sprite(420, 0, 'screen');
     this.game.add.sprite(430, 0, 'lamp_red');
@@ -52,7 +55,8 @@ FastGame.FastSwitch.prototype = {
 
   },
   endGame: function(){
-    this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH);
+    this.mask.destroy();
+    this.game.time.events.add(1000, function(){this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH)}, this).autoDdestroy = true;
   },
   checkDistance: function(pointer){
     var dist = function(ax, ay, bx, by){
