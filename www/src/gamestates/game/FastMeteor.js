@@ -31,11 +31,7 @@ FastGame.FastMeteor.prototype = {
     this.meteor.body.velocity.setTo(0, 75);
 
     this.paddle = this.game.add.sprite(225, 235, 'paddle');
-    this.game.physics.arcade.enable(this.paddle);
-    this.paddle.body.velocity.setTo(0,0);
 
-    this.paddle.body.onCollide = new Phaser.Signal();
-    this.paddle.body.onCollide.add(this.paddleColision, this);
     //UI
     this.game.add.sprite(420, 0, 'screen');
     this.game.add.sprite(430, 0, 'lamp_red');
@@ -51,7 +47,9 @@ FastGame.FastMeteor.prototype = {
       this.tempX = undefined;
     }
 
-    this.game.physics.arcade.collide(this.paddle, this.meteor);
+    if(this.checkMeteorOverlap()){
+      this.paddleColision();
+    }
 
   },
   destroy: function(){
@@ -71,5 +69,15 @@ FastGame.FastMeteor.prototype = {
 	},
   paddleColision: function(){
     this.meteor.destroy();
+  },
+  checkMeteorOverlap: function(){
+    if(this.meteor && this.paddle){
+      var boundsA = this.meteor.getBounds();
+      var boundsB = this.paddle.getBounds();
+      return Phaser.Rectangle.intersects(boundsA, boundsB);
+    }
+    else{
+      return false;
+    }
   }
 }
