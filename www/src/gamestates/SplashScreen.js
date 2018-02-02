@@ -11,6 +11,11 @@ FastGame.SplashScreen.prototype = {
       signal.add(this.goToMiniGame, this);
           FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_START, this.goToMiniGame, signal);
       };
+
+      this.gameDatas = []
+      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
+      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
+      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_SWITCH, 'game_data':{}});
   },
   preload: function(){
     for(var file in this.splashIcons){
@@ -75,7 +80,7 @@ FastGame.SplashScreen.prototype = {
 
     this.game.input.onHold.add(function(){
       //this.scaleValueUpper = 1.1;
-      this.goToMiniGame('its sunday my dudes');
+      this.goToMiniGame();
     },this);
 
   },
@@ -121,8 +126,14 @@ FastGame.SplashScreen.prototype = {
     this.decibelMeter.destroy();
   },
   goToMiniGame: function(launchData){
-    launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
-    this.game.state.start(this.commingMiniGame, true, false, launchData, this.isSolo);
+    //launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
+    if(!launchData){
+      var k = this.game.rnd.integerInRange(0,2);
+      this.game.state.start(this.gameDatas[k].mini_game, true, false, this.gameDatas[k]);
+    }
+    else{
+      this.game.state.start(this.commingMiniGame, true, false, launchData);
+    }
   },
   BLOW: function(){
     var faster = function(db){

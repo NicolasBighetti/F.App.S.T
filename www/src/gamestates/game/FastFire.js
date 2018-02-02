@@ -18,7 +18,7 @@ FastGame.FastFire.prototype = {
     if(parameters.game_data.FAST_GAME_FIRE_PURPLE){
         this.totalFire.purple = parameters.game_data.FAST_GAME_FIRE_PURPLE;
     }
-    this.playerColor = 'purple';
+    this.playerColor = 'red';
     this.isWin = false;
     this.isLost = false;
     //From Splash / Waiting room screen
