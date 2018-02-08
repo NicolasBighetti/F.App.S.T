@@ -17,7 +17,8 @@ FastGame.ColorConnector.prototype = {
 
         this.game.input.onUp.add(this.startCamera, this);
 
-        this.ipText = this.game.add.text(200, 100, "No data",style);
+        this.game.add.sprite(0,0,'loading');
+        this.ipText = this.game.add.text(0, 0, "No data",style);
 
     },
     startCamera: function () {
