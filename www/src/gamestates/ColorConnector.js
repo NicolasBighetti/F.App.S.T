@@ -8,6 +8,7 @@ FastGame.ColorConnector.prototype = {
 
         this.lastFound = 0;
         this.group = undefined;
+        this.game.load.image('loading', './img/loading.png');
     },
     create: function () {
         console.log("create fast color");
