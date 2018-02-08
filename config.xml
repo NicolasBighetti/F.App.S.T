@@ -30,7 +30,7 @@
     <preference name="windows-target-version" value="10.0" />
     <plugin name="cordova-plugin-file" spec="~6.0.1" />
     <plugin name="es6-promise-plugin" spec="~4.2.2" />
-    <plugin name="cordova-plugin-camera-preview" spec="C:\Users\T_ki\project\phone\cordovapluginfork\cordova-plugin-camera-preview" />
+    <plugin name="cordova-plugin-camera-preview" spec="https://github.com/hekow/cordova-plugin-camera-preview.git" />
     <engine name="ios" spec="4.2.0" />
     <engine name="windows" spec="4.4.2" />
     <engine name="android" spec="^7.0.0" />
