@@ -31,6 +31,9 @@ FastGame.SplashScreen.prototype = {
     for(var i = 0; i <= 9; i++){
       this.game.load.image('planet'+i, './img/planet'+i+'.png');
     }
+    //this.game.load.audio('title', './sounds/title.mp3');
+    FastGame.fastSound.loadSound('./sounds/title.mp3', 'title', true);
+
     //We do know every splash icon is 100*100 so we can assume its size for layout facilitation
     this._iconWidth = 100;
     this._backgroundSpeedBound = 0.1;
@@ -82,7 +85,7 @@ FastGame.SplashScreen.prototype = {
       //this.scaleValueUpper = 1.1;
       this.goToMiniGame();
     },this);
-
+    FastGame.fastSound.playMusic('title');
   },
   update: function(){
     this.background.tilePosition.x += this.backgroundAcceleration;
@@ -99,6 +102,8 @@ FastGame.SplashScreen.prototype = {
       }
     }
 
+  },
+  render: function(){
   },
   destroy: function(){
     //Tentative to manage memory, apparently the engine designer didn't find it useful to allow for manual memory management of assets

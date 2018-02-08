@@ -5,14 +5,16 @@ var FastGame = {
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
-
 };
-FastGame.Boot = function(game) {};
+FastGame.Boot = function(game) {
+	this.game = game;
+};
 FastGame.Boot.prototype = {
 	preload: function() {
 		FastGame.fastSocket.init();
 		FastGame.eventRegistry.init();
 		FastGame.broadcastChannel.init();
+		FastGame.fastSound = new FastSound(this.game);
 	},
 	create: function() {
 		this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
