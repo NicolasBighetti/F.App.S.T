@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
+<widget id="unice.polytech.ihm" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>FAST</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A Fast Action Space Tactics game
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="flavian.jacquot@gmail.com  " href="http://cordova.io">
+        FAST TEAM
     </author>
     <content src="index.html" />
     <plugin name="cordova-plugin-whitelist" spec="1" />
@@ -30,9 +30,8 @@
     <preference name="windows-target-version" value="10.0" />
     <plugin name="cordova-plugin-file" spec="~6.0.1" />
     <plugin name="es6-promise-plugin" spec="~4.2.2" />
-    <plugin name="cordova-plugin-camera-preview" spec="https://github.com/cordova-plugin-camera-preview/cordova-plugin-camera-preview.git" />
-    <engine name="browser" spec="^5.0.3" />
-    <engine name="android" spec="^7.0.0" />
+    <plugin name="cordova-plugin-camera-preview" spec="C:\Users\T_ki\project\phone\cordovapluginfork\cordova-plugin-camera-preview" />
     <engine name="ios" spec="4.2.0" />
     <engine name="windows" spec="4.4.2" />
+    <engine name="android" spec="^7.0.0" />
 </widget>

@@ -1,7 +1,7 @@
 var FastGame = {
 	_WIDTH: 480,
 	_HEIGHT: 320,
-	fastSocket: new FASockeT('192.168.1.50'),
+    fastSocket: new FASockeT('192.168.1.50'),
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
@@ -16,7 +16,7 @@ FastGame.Boot.prototype = {
 	},
 	create: function() {
 		this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-        this.game.state.start('ColorConnector');
+        //this.game.state.start('ColorConnector');
 
 
 	}

@@ -4,6 +4,8 @@ FastGame.ColorConnector.prototype = {
     preload: function () {
         this.video = undefined;
         this.sequence = [];
+        this.invalidIP = [];
+
         this.lastFound = 0;
         this.group = undefined;
     },
@@ -24,36 +26,41 @@ FastGame.ColorConnector.prototype = {
 //        //  Start the stream
 //        this.video.startMediaStream();
 
-//=======
-        this.game.input.onUp.add(function(){
-          let options = {
-          x: 0,
-          y: 0,
-          width: 10,
-          height: 10,
-          camera: CameraPreview.CAMERA_DIRECTION.BACK,
-          toBack: true,
-          tapPhoto: false,
-          tapFocus: false,
-          previewDrag: false
-        };
+        //=======
+        var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
-        this.canvas = document.createElement('CANVAS');
-        this.ctx = this.canvas.getContext('2d');
-        this.canvas.height = 10;
-        this.canvas.width = 10;
+        this.game.input.onUp.add(this.startCamera, this);
 
-        CameraPreview.startCamera(options);
-        this.game.input.onUp.removeAll();
-        this.camAllowed();
-        }, this);
+        this.ipText = this.game.add.text(200, 100, "No data",style);
+
 //>>>>>>> c865674d174fe228d6ff2665fe5aa0a7479ffc19
     },
-    update: function () {
+    startCamera: function () {
+        let options = {
+            x: 0,
+            y: 0,
+            width: 200,
+            height: 200,
+            camera: CameraPreview.CAMERA_DIRECTION.BACK,
+            toBack: false,
+            tapPhoto: false,
+            tapFocus: false,
+            previewDrag: true
+        };
 
-    },
-    camAllowed: function () {
-        console.log('Camera was allowed', this.video);
+        //this.canvas = document.createElement('CANVAS');
+        //this.ctx = this.canvas.getContext('2d');
+        //this.canvas.height = 10;
+        //this.canvas.width = 10;
+
+
+        //CameraPreview.setFocusMode(CameraPreview.FOCUS_MODE.FIXED, this.successsss, this.errorLog);
+        //CameraPreview.setWhiteBalanceMode(CameraPreview.WHITE_BALANCE_MODE.LOCK, this.successsss, this.errorLog);
+        //CameraPreview.setExposureMode(CameraPreview.EXPOSURE_MODE.CUSTOM, this.successsss, this.errorLog);
+
+        CameraPreview.startCamera(options, this.camAllowed, this.errorLog);
+
+        this.game.input.onUp.removeAll();
 
         //var cam = this.video.addToWorld();
         //cam.scale.set(0.2);
@@ -61,13 +68,29 @@ FastGame.ColorConnector.prototype = {
         //grab = this.video.snapshot.addToWorld(this.game.width, this.game.height);
 
         //grab.scale.set(0.2);
-
+        CameraPreview.show();
+        this.takeSnapshot();
         // game.add.text(400, 32, 'Click to grab', { font: "bold 26px Arial", fill: "#ffffff" })
-
         this.game.input.onDown.add(this.analyseSuequence, this);
+        //var cameraO = CameraPreview.getCamera();
+        //console.dir(cameraO);
+        //take screen every 500 ms
+        console.log('start');
+        this.pictureLoop = this.game.time.events.loop(2000, this.takeSnapshot, this);
+       
+    },
+    successsss: function (ok) {
+        console.log("success "+ok);
+    },
+    errorLog: function (err) {
+        console.log(err);
+    },
+    update: function () {
 
-        //take screen every 200 ms
-        this.game.time.events.loop(200, this.takeSnapshot, this);
+    },
+    camAllowed: function (cam) {
+        console.log('Camera was allowed'+cam);
+
         //this.group.createMultiple(16, 'diamonds', [0, 1, 2, 3, 4], true);
     },
 
@@ -76,36 +99,85 @@ camBlocked: function (video, error) {
         console.log('Camera was blocked', video, error);
 
     },
-takeSnapshot: function () {
-        //this.video.grab();//params clear true or false, alpha, blend mode
+    extractRGB: function (intvaluee) {
+        var data = [];
+        //r
+        data[3] = (intvaluee & 0xFF000000) >> 24;
+        //g
+        data[0] = (intvaluee & 0x00FF0000) >> 16;
+        //b
+        data[1] = (intvaluee & 0x0000FF00) >> 8;
+        //a
+        data[2] = (intvaluee & 0xFF);
+        return { data: data }
+},
+    takeSnapshot: function () {
+    //    console.log('take');
+    //console.time('takePicture3');
 
-        CameraPreview.takePicture({width:1, height:1, quality: 1}, (base64PictureData) => {
-            imageSrcData = 'data:image/jpeg;base64,' +base64PictureData;
+
+    CameraPreview.takePicture({ width: 10, height: 10, quality: 100 }, (base64PictureData) => {
+       // console.log('get');
+            //var imageSrcData = 'data:image/jpeg;base64,' +base64PictureData;
             //$('img#my-img').attr('src', imageSrcData);
-            var image = new Image();
-            image.onload = () => {
-              this.ctx.drawImage(image,0,0);
-              var pixel = this.ctx.getImageData(5, 5, 1, 1);
-              console.log(pixel);
-              var colorServ = {
-                  red: pixel.data[0],
-                  green: pixel.data[1],
-                  blue: pixel.data[2]
-              }
-              console.log(colorServ);
+            //var image = new Image();
+        //console.timeEnd('takePicture3');
+        //var pixel = this.ctx.getImageData(0, 0, 1, 1);
+        //console.log('string c ' + base64PictureData);
 
-              //this.sendColor(colorServ);
-              console.log('sending color' + colorServ);
-              var byte = this.extractdata(colorServ);
-              console.log('byte decoded' + byte);
-              colorServ.byteO = byte;
-              FastGame.fastSocket.EMIT.FAST_COLOR(colorServ);
+        var intC = parseInt(base64PictureData);
+        //console.log('int    c ' + intC);
 
-            }
-            image.src = imageSrcData;
+        var pixel = this.extractRGB(parseInt(base64PictureData))
+        //console.log('pixel  c ' + pixel);
+
+        //console.log("pixel data");
+        //console.log(pixel.data[0] + " " + pixel.data[1] + " " + pixel.data[2] + " " + pixel.data[3] + " ");
+
+        var colorServ = {
+            red: pixel.data[0],
+            green: pixel.data[1],
+            blue: pixel.data[2]
+        }
+        //console.log(colorServ);
+
+        //console.time('loadingimg');
+        //image.onload = () => {
+            //console.timeEnd('loadingimg');
+            //console.time('draw');
+            //this.ctx.drawImage(image, 0, 0);
+            //console.timeEnd('draw');
+
+              
+
+        //this.sendColor(colorServ);
+        //console.log('sending color' + colorServ);
+
+        var byte = this.extractdata(colorServ);
+        console.log('byte decoded' + byte);
+        colorServ.byteO = byte;
+
+        //console.timeEnd('takePicture');
+        //console.log('end');
+        //console.timeEnd('someFunction');
+        //console.time('someFunction');
+
+        //console.log('end2');
+
+        //console.time('end2');
+        //console.time('emit');
+        //FastGame.fastSocket.EMIT.FAST_COLOR(colorServ);
+        //console.timeEnd('emit');
+            //}
+            //image.src = imageSrcData;
 
         });
-        // if()
+
+
+
+
+
+    // if()
         // console.log(video.snapshot);
         // bmd.draw(video.snapshot);
 //<<<<<<< HEAD
@@ -224,13 +296,51 @@ takeSnapshot: function () {
             pos++;
         }
         console.log('################################" Got: ' + bytes[0] + '.' + bytes[1] + '.' + bytes[2] + '.' + bytes[3]);
+
         var chr = String.fromCharCode(65 + bytes[0]);
         var chr1 = String.fromCharCode(65 + bytes[1]);
         var chr2 = String.fromCharCode(65 + bytes[2]);
         var chr3 = String.fromCharCode(65 + bytes[3]);
+        var ip = bytes[0] + '.' + bytes[1] + '.' + bytes[2] + '.' + bytes[3];
         console.log('################################" Got CHAR: ' + chr + '.' + chr1 + '.' + chr2 + '.' + chr3);
+        this.ipText.setText(ip);
 
+        this.tryConnect(ip);
+    },
+    tryConnect(ipp) {
+        if (this.invalidIP.includes(ipp)) {
+            console.log("already tried this" + ipp);
+            return;
+        }
+        this.sockTest = io('http://' + ipp + ':8080', {
+            reconnection: false
+        });
 
-}
+        this.sockTest.on('connected', function () {
+            this.sockTest.emit("message", "hey");
+            this.game.ip = ipp;
+
+            this.ipText.setText("connected");
+            console.log("okkkk connect");
+
+            this.game.time.events.remove(this.pictureLoop);
+            this.game.state.start('Boot');
+        });
+
+        this.sockTest.on('disconnect', function () {
+            this.invalidIP.add(ipp);
+
+        });
+
+        this.sockTest.on('connect_failed', function () {
+            this.invalidIP.add(ipp);
+
+        });
+
+        this.sockTest.on('error', function () {
+            this.invalidIP.add(ipp);
+
+        });
+    }
 
 };
