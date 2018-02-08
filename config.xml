@@ -31,12 +31,12 @@
     <plugin name="cordova-plugin-file" spec="~6.0.1" />
     <plugin name="es6-promise-plugin" spec="~4.2.2" />
     <plugin name="cordova-plugin-camera-preview" spec="https://github.com/hekow/cordova-plugin-camera-preview.git" />
-    <engine name="ios" spec="4.2.0" />
-    <engine name="windows" spec="4.4.2" />
     <icon density="ldpi" src="res/icon/android/icon-36-ldpi.png" />
     <icon density="mdpi" src="res/icon/android/icon-48-mdpi.png" />
     <icon density="hdpi" src="res/icon/android/icon-72-hdpi.png" />
     <icon density="xhdpi" src="res/icon/android/icon-96-xhdpi.png" />
-    <engine name="browser" spec="^5.0.3" />
+    <engine name="ios" spec="4.2.0" />
+    <engine name="windows" spec="4.4.2" />
     <engine name="android" spec="^7.0.0" />
+    <engine name="browser" spec="^5.0.3" />
 </widget>

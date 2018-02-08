@@ -30,7 +30,7 @@ function NetworkEventBundle(){
       this.FAST_PRIVATE_INIT,
       this.FAST_PRIVATE_STOP,
       this.FAST_PRIVATE_SYNC,
-      this.FAST_PRIVATE_START
+      this.FAST_PRIVATE_START,
       this.FAST_PHONE_CONNECT,
       this.FAST_COLOR
     ];
