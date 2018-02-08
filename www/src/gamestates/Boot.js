@@ -20,5 +20,6 @@ FastGame.Boot.prototype = {
 		this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
 		this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH);
 
+
 	}
 };

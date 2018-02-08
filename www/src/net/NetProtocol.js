@@ -7,6 +7,7 @@ function NetworkEventBundle(){
   this.FAST_PRIVATE_MINI_GAME_START = 'FAST_PRIVATE_MINI_GAME_START';
 
   this.FAST_PHONE_CONNECT = 'FAST_PHONE_CONNECT';
+  this.FAST_COLOR = 'FAST_COLOR';
 
   //Broadcast event PROTOCOL
   this.FAST_EVENT_VIBRATION_WEAK = 'FAST_EVENT_VIBRATION_WEAK';
@@ -30,6 +31,8 @@ function NetworkEventBundle(){
       this.FAST_PRIVATE_STOP,
       this.FAST_PRIVATE_SYNC,
       this.FAST_PRIVATE_START
+      this.FAST_PHONE_CONNECT,
+      this.FAST_COLOR
     ];
   }
 
