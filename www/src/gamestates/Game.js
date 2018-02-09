@@ -15,7 +15,7 @@ FastGame.Game.prototype = {
 		this.ballStartPos = { x: FastGame._WIDTH*0.5, y: 450 };
 		this.clientCircle = this.game.add.graphics(0, 0);
 		this.peerCircle = this.game.add.graphics(0,0);
-
+        this.ip = "";
 		this.lastMessage = "";
 
 		/*

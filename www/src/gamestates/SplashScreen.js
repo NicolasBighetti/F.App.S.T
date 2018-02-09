@@ -2,15 +2,20 @@ FastGame.SplashScreen = function(game){
 }
 FastGame.SplashScreen.prototype = {
   init: function(parameters){
-    this.splashIcons = (new SplashEnum())[parameters];
+    this.splashIcons = (new SplashEnum())[parameters] || [];
     this.commingMiniGame = parameters;
     this.game.stage.disableVisibilityChange = true;
     this.isSolo = false;
-    if(!this.isSolo){
+    if(false){
       var signal = new Phaser.Signal();
       signal.add(this.goToMiniGame, this);
           FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_START, this.goToMiniGame, signal);
       };
+
+      this.gameDatas = []
+      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
+      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
+      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_SWITCH, 'game_data':{}});
   },
   preload: function(){
     for(var file in this.splashIcons){
@@ -26,6 +31,9 @@ FastGame.SplashScreen.prototype = {
     for(var i = 0; i <= 9; i++){
       this.game.load.image('planet'+i, './img/planet'+i+'.png');
     }
+    //this.game.load.audio('title', './sounds/title.mp3');
+    FastGame.fastSound.loadSound('./sounds/title.mp3', 'title', true);
+
     //We do know every splash icon is 100*100 so we can assume its size for layout facilitation
     this._iconWidth = 100;
     this._backgroundSpeedBound = 0.1;
@@ -73,6 +81,11 @@ FastGame.SplashScreen.prototype = {
     this.frontLayer.tilePosition.x += this.game.rnd.realInRange(0, 480);
     this.planetLayer.tilePosition.x += this.game.rnd.realInRange(0, 2100);
 
+    this.game.input.onHold.add(function(){
+      //this.scaleValueUpper = 1.1;
+      this.goToMiniGame();
+    },this);
+    FastGame.fastSound.playMusic('title');
   },
   update: function(){
     this.background.tilePosition.x += this.backgroundAcceleration;
@@ -89,6 +102,8 @@ FastGame.SplashScreen.prototype = {
       }
     }
 
+  },
+  render: function(){
   },
   destroy: function(){
     //Tentative to manage memory, apparently the engine designer didn't find it useful to allow for manual memory management of assets
@@ -116,8 +131,14 @@ FastGame.SplashScreen.prototype = {
     this.decibelMeter.destroy();
   },
   goToMiniGame: function(launchData){
-    launchData = {'game_data':{'FAST_GAME_FIRE_RED':12, 'FAST_GAME_FIRE_GREEN':12, 'FAST_GAME_FIRE_BLUE':12, 'FAST_GAME_FIRE_PURPLE':12}};
-    this.game.state.start(this.commingMiniGame, true, false, launchData, this.isSolo);
+    //launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
+    if(!launchData){
+      var k = this.game.rnd.integerInRange(0,2);
+      this.game.state.start(this.gameDatas[k].mini_game, true, false, this.gameDatas[k]);
+    }
+    else{
+      this.game.state.start(this.commingMiniGame, true, false, launchData);
+    }
   },
   BLOW: function(){
     var faster = function(db){
@@ -161,10 +182,6 @@ FastGame.SplashScreen.prototype = {
     }
   },
   TOUCH: function(){
-    /*this.game.input.onHold.add(function(){
-      //this.scaleValueUpper = 1.1;
-      this.goToMiniGame('its sunday my dudes');
-    },this);*/
     this.game.input.onDown.add(function(pointer){
       var plt = this.game.rnd.integerInRange(0,9);
       this.planets.push(this.game.add.sprite(pointer.x, pointer.y, 'planet'+plt));
