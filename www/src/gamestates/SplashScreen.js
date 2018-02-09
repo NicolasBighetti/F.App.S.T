@@ -18,7 +18,7 @@ FastGame.SplashScreen.prototype = {
       this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
       this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_SWITCH, 'game_data':{}});
       var minigameSignal = new Phaser.Signal();
-      signal.add(function(minigame){this.game.state.start('SplashScreen', true, false, minigame, true, false)}, this);
+      minigameSignal.add(function(minigame){this.game.state.start('SplashScreen', true, false, minigame, true, false)}, this);
       FastGame.fastSocket.addOnServerCallback(MINIGAMELIST.FAST_GAME_FIRE, (minigame)=>{this.game.state.start('SplashScreen', true, false, minigame, true, false)}, minigameSignal);
 
   },

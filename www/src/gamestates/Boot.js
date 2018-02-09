@@ -44,7 +44,7 @@ FastGame.Boot.prototype = {
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, ,isDemo);
+					this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, true ,isDemo);
 				}
 				else{
 					console.log('bootlol');
