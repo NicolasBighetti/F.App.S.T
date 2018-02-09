@@ -5,8 +5,8 @@ var HTTP_MODE = "http://";
 
 //Object are stringified upon emission
 //Object are parsed upon callback call
-function FASockeT(ip){
-  this.serverIp = ip;
+function FASockeT(){
+
   this.p2pPort = P2P_PORT;
   this.eventPort = EVENT_BROADCAST_PORT;
   this.serverPort = SERVER_PORT;
@@ -16,23 +16,43 @@ function FASockeT(ip){
 
   var opts = {peerOpts: {trickle: false}, autoUpgrade: false};
 
-  this.init = function(){
-    this.serverSocket = io(this.httpMode + this.serverIp + ':' + this.serverPort);
+  this.init = function(ip){
+    this.serverSocket = io(this.httpMode + ip + ':' + this.serverPort, {
+        reconnection: false
+    });
+    var signal = new Phaser.Signal();
+    var _this = this;
 
-    //TODO : change this
-    //TEMPORARY
-    this.broadcastSocket = this.serverSocket;
+    this.serverSocket.on('connect', function () {
+      //TODO : change this
+      //TEMPORARY
+      _this.broadcastSocket = _this.serverSocket;
 
-    //Add server behavior
-    this.addOnServerCallback(PROTOCOL.FAST_MINI_GAME_REGISTER, this.startP2PSession);
+      //Add server behavior
+      _this.addOnServerCallback(PROTOCOL.FAST_MINI_GAME_REGISTER, _this.startP2PSession);
 
+      var emitable = PROTOCOL.getEmitableEvent();
 
-    var emitable = PROTOCOL.getEmitableEvent();
+      for(var evt in emitable){
+        _this.addEmitServerBehavior(emitable[evt]);
+      }
+      _this.serverIp = ip;
+      signal.dispatch(true);
+    });
 
-    for(var evt in emitable){
-      this.addEmitServerBehavior(emitable[evt]);
-    }
+    this.serverSocket.on('disconnect', function () {
+        signal.dispatch(false);
+    });
 
+    this.serverSocket.on('connect_failed', function () {
+        signal.dispatch(false);
+    });
+
+    this.serverSocket.on('error', function () {
+        signal.dispatch(false);
+    });
+
+    return signal;
   }
 
   //keyword : string, behavior : function

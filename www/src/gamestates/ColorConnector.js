@@ -212,11 +212,30 @@ camBlocked: function (video, error) {
         this.tryConnect(ip);
     },
     tryConnect(ipp) {
+
+        //TODO : remove that
+        ipp = '192.168.1.49';
+
         if (this.invalidIP.includes(ipp)) {
             console.log("already tried this" + ipp);
             return;
         }
-        this.sockTest = io('http://' + ipp + ':8080', {
+        var signalResult = FastGame.fastSocket.init(ipp);
+        signalResult.add(function(isGood){
+          if(isGood){
+            this.game.ip = ipp;
+            this.game.time.events.remove(this.pictureLoop);
+
+            FastGame.fastSocket.init();
+            FastGame.eventRegistry.init();
+            FastGame.broadcastChannel.init();
+            this.game.state.start('SplashScreen');
+          }
+          else{
+            this.invalidIP.add(ipp);
+          }
+        }, this);
+        /*this.sockTest = io('http://' + ipp + ':8080', {
             reconnection: false
         });
 
@@ -233,18 +252,15 @@ camBlocked: function (video, error) {
 
         this.sockTest.on('disconnect', function () {
             this.invalidIP.add(ipp);
-
         });
 
         this.sockTest.on('connect_failed', function () {
             this.invalidIP.add(ipp);
-
         });
 
         this.sockTest.on('error', function () {
             this.invalidIP.add(ipp);
-
-        });
+        });*/
     }
 
 };

@@ -1,7 +1,7 @@
 var FastGame = {
 	_WIDTH: 480,
 	_HEIGHT: 320,
-	fastSocket: new FASockeT('192.168.1.50'),
+	fastSocket: new FASockeT(),
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
@@ -11,9 +11,6 @@ FastGame.Boot = function(game) {
 };
 FastGame.Boot.prototype = {
 	preload: function() {
-		FastGame.fastSocket.init();
-		FastGame.eventRegistry.init();
-		FastGame.broadcastChannel.init();
 		FastGame.fastSound = new FastSound(this.game);
 	},
 	create: function() {
