@@ -38,13 +38,13 @@ FastGame.Boot.prototype = {
 			this.game.state.start('ColorConnector');
 		}
 		else{
-			var ipp = '10.212.110.189';
+			var ipp = '10.212.115.16';
 			var signalResult = FastGame.fastSocket.init(ipp);
 			signalResult.add(function(isGood){
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, isDemo);
+					this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, ,isDemo);
 				}
 				else{
 					console.log('bootlol');

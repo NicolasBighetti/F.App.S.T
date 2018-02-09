@@ -1,21 +1,26 @@
 FastGame.SplashScreen = function(game){
 }
 FastGame.SplashScreen.prototype = {
-  init: function(parameters){
+  init: function(parameters, isSolo, isDemo){
     this.splashIcons = (new SplashEnum())[parameters] || [];
     this.commingMiniGame = parameters;
     this.game.stage.disableVisibilityChange = true;
-    this.isSolo = false;
-    if(false){
+    this.isSolo = isSolo;
+    this.isDemo = isDemo;
+    if(!this.isSolo){
       var signal = new Phaser.Signal();
       signal.add(this.goToMiniGame, this);
-          FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_START, this.goToMiniGame, signal);
+      FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_START, this.goToMiniGame, signal);
       };
 
       this.gameDatas = []
       this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
       this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
       this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_SWITCH, 'game_data':{}});
+      var minigameSignal = new Phaser.Signal();
+      signal.add(function(minigame){this.game.state.start('SplashScreen', true, false, minigame, true, false)}, this);
+      FastGame.fastSocket.addOnServerCallback(MINIGAMELIST.FAST_GAME_FIRE, (minigame)=>{this.game.state.start('SplashScreen', true, false, minigame, true, false)}, minigameSignal);
+
   },
   preload: function(){
     for(var file in this.splashIcons){
@@ -81,10 +86,12 @@ FastGame.SplashScreen.prototype = {
     this.frontLayer.tilePosition.x += this.game.rnd.realInRange(0, 480);
     this.planetLayer.tilePosition.x += this.game.rnd.realInRange(0, 2100);
 
-    this.game.input.onHold.add(function(){
-      //this.scaleValueUpper = 1.1;
-      this.goToMiniGame();
-    },this);
+    if(this.isDemo){
+      this.game.input.onHold.add(function(){
+        //this.scaleValueUpper = 1.1;
+        this.goToMiniGame();
+      },this);
+    }
     FastGame.fastSound.playMusic('title');
   },
   update: function(){
@@ -132,6 +139,7 @@ FastGame.SplashScreen.prototype = {
   },
   goToMiniGame: function(launchData){
     //launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
+    console.log('We went to minigame : ' + launchData);
     if(!launchData){
       var k = this.game.rnd.integerInRange(0,2);
       this.game.state.start(this.gameDatas[k].mini_game, true, false, this.gameDatas[k], true);

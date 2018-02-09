@@ -2,7 +2,7 @@ FastGame.FastFire = function(game){
   this.game = game;
 }
 FastGame.FastFire.prototype = {
-  init: function(parameters, isSolo){
+  init: function(parameters, isSolo, isDemo){
     this.game.stage.disableVisibilityChange = true;
     this.totalFire = [];
     this.currentFire = [];
@@ -23,6 +23,7 @@ FastGame.FastFire.prototype = {
     this.isLost = false;
     //From Splash / Waiting room screen
     this.isSolo = isSolo;
+    this.isDemo = isDemo;
     this.isRoomMaster = true;
 
     if(!this.isSolo){

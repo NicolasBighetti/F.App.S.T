@@ -28,10 +28,10 @@ FastGame.ColorConnector.prototype = {
             width: 200,
             height: 200,
             camera: CameraPreview.CAMERA_DIRECTION.BACK,
-            toBack: true,
+            toBack: false,
             tapPhoto: false,
             tapFocus: false,
-            previewDrag: false
+            previewDrag: true
         };
 
         CameraPreview.startCamera(options, this.camAllowed, this.errorLog);
@@ -144,12 +144,12 @@ camBlocked: function (video, error) {
             return;
 
         }
-        FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
+        this.tryConnect('');
+
     },
 
     analyseSuequence: function () {
 
-        this.tryConnect(ip);
 
         if (this.sequence.length < 16) {
             console.log('sequence is too short to contain a message');
@@ -220,7 +220,7 @@ camBlocked: function (video, error) {
     tryConnect:function(ipp) {
 
         //TODO : remove that
-        ipp = '10.212.110.189';
+        ipp = '10.212.115.16';
         this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {
@@ -230,6 +230,7 @@ camBlocked: function (video, error) {
         var signalResult = FastGame.fastSocket.init(ipp);
         signalResult.add(function(isGood){
           if(isGood){
+            FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
             FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', ()=>{
               CameraPreview.stopCamera();
               this.game.ip = ipp;

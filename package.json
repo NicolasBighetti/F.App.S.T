@@ -36,8 +36,8 @@
     "platforms": [
       "ios",
       "windows",
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   }
 }
