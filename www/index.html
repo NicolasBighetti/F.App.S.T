@@ -34,6 +34,7 @@
     <script src="src/gamestates/game/FastFire.js"></script>
     <script src="src/gamestates/game/FastMeteor.js"></script>
     <script src="src/gamestates/game/FastSwitch.js"></script>
+    <script src="src/gamestates/game/FastBalistic.js"></script>
     <script src="src/gamestates/Game.js"></script>
 
 </head>
@@ -56,6 +57,7 @@
     game.state.add(MINIGAMELIST.FAST_GAME_FIRE, FastGame.FastFire);
     game.state.add(MINIGAMELIST.FAST_GAME_METEOR, FastGame.FastMeteor);
     game.state.add(MINIGAMELIST.FAST_GAME_SWITCH, FastGame.FastSwitch);
+    game.state.add('Balistic', FastGame.FastBalistic);
 
 
     game.state.start('Boot');
