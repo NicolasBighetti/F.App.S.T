@@ -220,7 +220,7 @@ camBlocked: function (video, error) {
     tryConnect:function(ipp) {
 
         //TODO : remove that
-        ipp = '192.168.1.24';
+        ipp = '10.212.110.189';
         this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {
@@ -230,6 +230,7 @@ camBlocked: function (video, error) {
         var signalResult = FastGame.fastSocket.init(ipp);
         signalResult.add(function(isGood){
           if(isGood){
+            CameraPreview.stopCamera();
             this.game.ip = ipp;
             this.game.time.events.remove(this.pictureLoop);
 
