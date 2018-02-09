@@ -184,7 +184,7 @@ FastGame.SplashScreen.prototype = {
   TOUCH: function(){
     this.game.input.onDown.add(function(pointer){
       var plt = this.game.rnd.integerInRange(0,9);
-      this.planets.push(this.game.add.sprite(pointer.x, pointer.y, 'planet'+plt));
+      //this.planets.push(this.game.add.sprite(pointer.x, pointer.y, 'planet'+plt));
     },this);
   }
 }

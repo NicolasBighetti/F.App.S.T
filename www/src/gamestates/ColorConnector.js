@@ -104,7 +104,7 @@ camBlocked: function (video, error) {
         }
         var color = '#'+convert(colorServ.red)+convert(colorServ.green)+convert(colorServ.blue);
         this.game.stage.backgroundColor = color;
-
+        
         var byte = this.extractdata(colorServ);
         console.log('byte decoded' + byte);
         colorServ.byteO = byte;
@@ -141,6 +141,8 @@ camBlocked: function (video, error) {
 },
 
     analyseSuequence: function () {
+
+        this.tryConnect(ip);
 
         if (this.sequence.length < 16) {
             console.log('sequence is too short to contain a message');
@@ -207,14 +209,12 @@ camBlocked: function (video, error) {
         var chr3 = String.fromCharCode(65 + bytes[3]);
         var ip = bytes[0] + '.' + bytes[1] + '.' + bytes[2] + '.' + bytes[3];
         console.log('################################" Got CHAR: ' + chr + '.' + chr1 + '.' + chr2 + '.' + chr3);
-        this.ipText.setText(ip);
-
-        this.tryConnect(ip);
     },
     tryConnect(ipp) {
 
         //TODO : remove that
-        ipp = '192.168.1.49';
+        ipp = '192.168.1.24';
+        this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {
             console.log("already tried this" + ipp);
@@ -229,7 +229,7 @@ camBlocked: function (video, error) {
             FastGame.fastSocket.init();
             FastGame.eventRegistry.init();
             FastGame.broadcastChannel.init();
-            this.game.state.start('SplashScreen');
+            this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
           }
           else{
             this.invalidIP.add(ipp);

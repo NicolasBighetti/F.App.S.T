@@ -45,6 +45,7 @@ FastGame.FastMeteor.prototype = {
     this.gyro.subscribe(this.handleOrientation, this);
   },
   update: function(){
+
     if(!this.meteor){
       this.addNewMeteor();
     }
@@ -94,7 +95,6 @@ FastGame.FastMeteor.prototype = {
   },
   addNewMeteor: function(){
 
-    console.log('length : '+ this.meteorData.length);
     if(this.meteorData.length === 0){
       this.endGame();
     }

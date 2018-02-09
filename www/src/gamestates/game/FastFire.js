@@ -149,7 +149,6 @@ FastGame.FastFire.prototype = {
     var total = 0;
 
     for(var key in this.totalFire){
-      console.log('Total couleur : ' + this.totalFire[key] + ' Total sprite : ' + this[key].length);
       while(this[key].length > this.totalFire[key]){
         this[key].pop().destroy();
         this.currentFire[key]--;

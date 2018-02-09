@@ -15,6 +15,7 @@ FastGame.Boot.prototype = {
 	},
 	create: function() {
 		this.game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+		DECIBELMETER = new DecibelMeter();
 		//this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH);
 		this.game.state.start('ColorConnector');
 
