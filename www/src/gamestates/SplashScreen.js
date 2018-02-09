@@ -134,10 +134,10 @@ FastGame.SplashScreen.prototype = {
     //launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
     if(!launchData){
       var k = this.game.rnd.integerInRange(0,2);
-      this.game.state.start(this.gameDatas[k].mini_game, true, false, this.gameDatas[k]);
+      this.game.state.start(this.gameDatas[k].mini_game, true, false, this.gameDatas[k], true);
     }
     else{
-      this.game.state.start(this.commingMiniGame, true, false, launchData);
+      this.game.state.start(this.commingMiniGame, true, false, launchData, true);
     }
   },
   BLOW: function(){

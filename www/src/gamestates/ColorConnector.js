@@ -104,7 +104,7 @@ camBlocked: function (video, error) {
         }
         var color = '#'+convert(colorServ.red)+convert(colorServ.green)+convert(colorServ.blue);
         this.game.stage.backgroundColor = color;
-        
+
         var byte = this.extractdata(colorServ);
         console.log('byte decoded' + byte);
         colorServ.byteO = byte;
@@ -144,7 +144,7 @@ camBlocked: function (video, error) {
             return;
 
         }
-        FastGame.fastSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
+        FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
     },
 
     analyseSuequence: function () {
@@ -230,14 +230,14 @@ camBlocked: function (video, error) {
         var signalResult = FastGame.fastSocket.init(ipp);
         signalResult.add(function(isGood){
           if(isGood){
-            CameraPreview.stopCamera();
-            this.game.ip = ipp;
-            this.game.time.events.remove(this.pictureLoop);
-
-            FastGame.fastSocket.init();
-            FastGame.eventRegistry.init();
-            FastGame.broadcastChannel.init();
-            this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
+            FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', ()=>{
+              CameraPreview.stopCamera();
+              this.game.ip = ipp;
+              this.game.time.events.remove(this.pictureLoop);
+              FastGame.eventRegistry.init();
+              FastGame.broadcastChannel.init();
+              this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
+            });
           }
           else{
             this.invalidIP.add(ipp);
