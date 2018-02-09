@@ -40,10 +40,10 @@ FastGame.ColorConnector.prototype = {
 
         CameraPreview.show();
         this.takeSnapshot();
-        this.game.input.onDown.add(this.analyseSuequence, this);
+        this.game.input.onDown.add(this.analyseSuequence2, this);
 
         console.log('start');
-        this.pictureLoop = this.game.time.events.loop(2000, this.takeSnapshot, this);
+        this.pictureLoop = this.game.time.events.loop(1000, this.takeSnapshot, this);
 
     },
     successsss: function (ok) {
@@ -138,7 +138,14 @@ camBlocked: function (video, error) {
 
     }
     return ones % 2;
-},
+}, analyseSuequence2: function () {
+        if(this.sequence.length===0){
+            console.log('cannot send connect, no color');
+            return;
+
+        }
+        FastGame.fastSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
+    },
 
     analyseSuequence: function () {
 
@@ -210,7 +217,7 @@ camBlocked: function (video, error) {
         var ip = bytes[0] + '.' + bytes[1] + '.' + bytes[2] + '.' + bytes[3];
         console.log('################################" Got CHAR: ' + chr + '.' + chr1 + '.' + chr2 + '.' + chr3);
     },
-    tryConnect(ipp) {
+    tryConnect:function(ipp) {
 
         //TODO : remove that
         ipp = '192.168.1.24';
