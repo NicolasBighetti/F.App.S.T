@@ -6,6 +6,8 @@ function EventAdapter(mgenum, fastSocket){
 
   this.socket = fastSocket;
 
+  this.id = mgenum.id;
+
   this.EMIT = [];
 
   this.ON = [];
@@ -50,10 +52,18 @@ function EventAdapter(mgenum, fastSocket){
       if(context){
         callback = callback.bind(context);
       }
+      //We now transform the callback to only give data.data as parameter and use the timestamp as we please
+      var callbackFinal = (data) => {
+        //We check once more if the data concerns us
+        if(this.id = data.id){
+          //do something with timestamp here
+          callback(data.data);
+        }
+      }
       //we add the callback to the on list so as to be able to remove it after
-      this.ON[keyEvent] = callback;
+      this.ON[keyEvent] = callbackFinal;
       //We add the callback to the socket
-      this.socket.on(keyEvent, callback);
+      this.socket.on(keyEvent, callbackFinal);
       return true;
     }
     else{
