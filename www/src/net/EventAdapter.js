@@ -12,7 +12,16 @@ function EventAdapter(mgenum, fastSocket){
 
   //add all emit function
   if(mgenum.emit){
-    
+    for(emit in mgenum.emit){
+      this.EMIT[mgenum.emit[emit]] = (data)=>{
+        var packet = {
+          timestamp: Data.Now(),
+          id: mgenum.id,
+          data: data
+        };
+        this.socket.emit(mgenum.emit[emit], packet);
+      }
+    }
   }
 
   //prepare to add network event callback
