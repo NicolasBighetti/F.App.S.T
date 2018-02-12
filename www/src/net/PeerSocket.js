@@ -5,16 +5,13 @@ function PeerSocket(){
     var opts = {peerOpts: {trickle: false, numClients: 2}, autoUpgrade: false};
     this.signalRelay = new Phaser.Signal();
     this.p2psocket = new P2P(FastGame.fastSocket.serverSocket, opts, (res) => {
-      console.log('P2P : ');
       this.signalRelay.dispatch();
     });
 
     this.p2psocket.on('peer-msg', function(data){
-      console.log(JSON.stringify(data));
     });
 
     this.p2psocket.on('go-private', function(data){
-      console.log('We private boy')
     });
 
     var proto = PROTOCOL.getPrivatableEvent();

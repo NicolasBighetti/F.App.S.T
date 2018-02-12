@@ -56,7 +56,7 @@ FastGame.FastSwitch.prototype = {
   },
   endGame: function(){
     this.mask.destroy();
-    this.game.time.events.add(1000, function(){this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH)}, this).autoDdestroy = true;
+    this.game.time.events.add(1000, function(){this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, true ,true)}).autoDestroy = true;
   },
   checkDistance: function(pointer){
     var dist = function(ax, ay, bx, by){
@@ -70,7 +70,7 @@ FastGame.FastSwitch.prototype = {
       for(i = 0; i < distance / 2; i++){
         buffer += '|';
       }
-      console.log(buffer);
+      //console.log(buffer);
 
       var baseTime = 100;
       var vibrationStrength;
@@ -104,7 +104,6 @@ FastGame.FastSwitch.prototype = {
         this.isVibrating = true;
         this.game.time.events.add(1000, function(){this.isVibrating = false}, this).autoDdestroy = true;
       }
-      console.log('duration : ' + (1 - vibrationStrength));
       this.targetDistancce = distance;
   }
 }

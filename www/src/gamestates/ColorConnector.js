@@ -28,10 +28,10 @@ FastGame.ColorConnector.prototype = {
             width: 200,
             height: 200,
             camera: CameraPreview.CAMERA_DIRECTION.BACK,
-            toBack: true,
+            toBack: false,
             tapPhoto: false,
             tapFocus: false,
-            previewDrag: false
+            previewDrag: true
         };
 
         CameraPreview.startCamera(options, this.camAllowed, this.errorLog);
@@ -40,10 +40,10 @@ FastGame.ColorConnector.prototype = {
 
         CameraPreview.show();
         this.takeSnapshot();
-        this.game.input.onDown.add(this.analyseSuequence, this);
+        this.game.input.onDown.add(this.analyseSuequence2, this);
 
         console.log('start');
-        this.pictureLoop = this.game.time.events.loop(2000, this.takeSnapshot, this);
+        this.pictureLoop = this.game.time.events.loop(1000, this.takeSnapshot, this);
 
     },
     successsss: function (ok) {
@@ -138,9 +138,18 @@ camBlocked: function (video, error) {
 
     }
     return ones % 2;
-},
+}, analyseSuequence2: function () {
+        if(this.sequence.length===0){
+            console.log('cannot send connect, no color');
+            return;
+
+        }
+        this.tryConnect('');
+
+    },
 
     analyseSuequence: function () {
+
 
         if (this.sequence.length < 16) {
             console.log('sequence is too short to contain a message');
@@ -207,14 +216,12 @@ camBlocked: function (video, error) {
         var chr3 = String.fromCharCode(65 + bytes[3]);
         var ip = bytes[0] + '.' + bytes[1] + '.' + bytes[2] + '.' + bytes[3];
         console.log('################################" Got CHAR: ' + chr + '.' + chr1 + '.' + chr2 + '.' + chr3);
-        this.ipText.setText(ip);
-
-        this.tryConnect(ip);
     },
-    tryConnect(ipp) {
+    tryConnect:function(ipp) {
 
         //TODO : remove that
-        ipp = '192.168.1.49';
+        ipp = '10.212.115.16';
+        this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {
             console.log("already tried this" + ipp);
@@ -223,13 +230,15 @@ camBlocked: function (video, error) {
         var signalResult = FastGame.fastSocket.init(ipp);
         signalResult.add(function(isGood){
           if(isGood){
-            this.game.ip = ipp;
-            this.game.time.events.remove(this.pictureLoop);
-
-            FastGame.fastSocket.init();
-            FastGame.eventRegistry.init();
-            FastGame.broadcastChannel.init();
-            this.game.state.start('SplashScreen');
+            FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
+            FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', ()=>{
+              CameraPreview.stopCamera();
+              this.game.ip = ipp;
+              this.game.time.events.remove(this.pictureLoop);
+              FastGame.eventRegistry.init();
+              FastGame.broadcastChannel.init();
+              this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
+            });
           }
           else{
             this.invalidIP.add(ipp);

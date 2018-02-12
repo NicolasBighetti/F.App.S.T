@@ -2,7 +2,7 @@ FastGame.FastFire = function(game){
   this.game = game;
 }
 FastGame.FastFire.prototype = {
-  init: function(parameters, isSolo){
+  init: function(parameters, isSolo, isDemo){
     this.game.stage.disableVisibilityChange = true;
     this.totalFire = [];
     this.currentFire = [];
@@ -23,6 +23,7 @@ FastGame.FastFire.prototype = {
     this.isLost = false;
     //From Splash / Waiting room screen
     this.isSolo = isSolo;
+    this.isDemo = isDemo;
     this.isRoomMaster = true;
 
     if(!this.isSolo){
@@ -149,7 +150,6 @@ FastGame.FastFire.prototype = {
     var total = 0;
 
     for(var key in this.totalFire){
-      console.log('Total couleur : ' + this.totalFire[key] + ' Total sprite : ' + this[key].length);
       while(this[key].length > this.totalFire[key]){
         this[key].pop().destroy();
         this.currentFire[key]--;
@@ -171,7 +171,8 @@ FastGame.FastFire.prototype = {
     this.broadcast();
   },
   endGame: function(){
-    this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
+    FastGame.fastSocket.serverSocket.emit('FAST_FIRE_END');
+    this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE, true ,true);
   },
   destroy: function(){
     this.decibelMeter.destroy();
