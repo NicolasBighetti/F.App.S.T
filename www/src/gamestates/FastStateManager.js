@@ -16,6 +16,9 @@ function FastStateManager(game){
       //Create new eventAdapter
       this.currentEventAdapter = new EventAdapter(GAMENETWORKENUM[state], FastGame.fastSocket);
 
+      if(this.killSignal){
+        this.killSignal.dispose();
+      }
       this.killSignal = undefined;
       this.killSignal = new Phaser.Signal();
 
@@ -30,4 +33,6 @@ function FastStateManager(game){
     console.err('State ' + state + ' not found, aborting state switch');
     return false;
   };
+
+
 }
