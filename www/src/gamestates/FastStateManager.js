@@ -27,7 +27,7 @@ function FastStateManager(game){
       //go to next state
       //first true is clear gameWorld (need some precisions)
       //second true is clear game cache (we want this)
-      this.game.state.start(state, true, true, param);
+      this.game.state.start(state, true, true, this.currentEventAdapter, param);
     }
     //may throw some error or do somthing really, but I expect it not to happen
     console.err('State ' + state + ' not found, aborting state switch');
