@@ -1,56 +1,40 @@
 var GAMENETWORKENUM = [];
 
-GAMENETWORKENUM[MINIGAMELIST.FAST_GAME_FIRE] = [
-  {
+GAMENETWORKENUM[MINIGAMELIST.FAST_GAME_FIRE] = {
     'id' : MINIGAMELIST.FAST_GAME_FIRE,
     'emit' : [
 
-    ]
-  },
-  {
+    ],
     'on' : [
 
     ]
-  }
-];
+  };
 
-GAMENETWORKENUM[MINIGAMELIST.FAST_GAME_METEOR] = [
-  {
+GAMENETWORKENUM[MINIGAMELIST.FAST_GAME_METEOR] = {
     'id' : MINIGAMELIST.FAST_GAME_METEOR,
     'emit' : [
 
-    ]
-  },
-  {
+    ],
     'on' : [
 
     ]
-  }
-];
+  };
 
-GAMENETWORKENUM[MINIGAMELIST.FAST_GAME_SWITCH] = [
-  {
+GAMENETWORKENUM[MINIGAMELIST.FAST_GAME_SWITCH] = {
     'id' : MINIGAMELIST.FAST_GAME_SWITCH,
     'emit' : [
 
-    ]
-  },
-  {
+    ],
     'on' : [
 
     ]
-  }
-];
+  };
 
-GAMENETWORKENUM.BASEVENT = [
-  {
+GAMENETWORKENUM.BASEVENT = {
     'emit' : [
 
-    ]
-  },
-  {
+    ],
     'on' : [
 
     ]
-  }
-]
+  };
