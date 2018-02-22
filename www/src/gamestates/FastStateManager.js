@@ -1,4 +1,4 @@
-function FastStateManager(game){
+function FastStateManager(game, socket){
 
   this.game = game;
 
@@ -14,7 +14,7 @@ function FastStateManager(game){
         this.currentEventAdapter.destroy();
       }
       //Create new eventAdapter
-      this.currentEventAdapter = new EventAdapter(GAMENETWORKENUM[state], FastGame.fastSocket);
+      this.currentEventAdapter = new EventAdapter(GAMENETWORKENUM[state], socket);
 
       if(this.killSignal){
         this.killSignal.dispose();
@@ -22,12 +22,14 @@ function FastStateManager(game){
       this.killSignal = undefined;
       this.killSignal = new Phaser.Signal();
 
-      this.killSignal.addOnce(this.killSignal, this);
+      this.killSignal.addOnce(this.goToState, this);
 
       //go to next state
       //first true is clear gameWorld (need some precisions)
       //second true is clear game cache (we want this)
       this.game.state.start(state, true, true, this.currentEventAdapter, param);
+      //For what it's worth, state start doesn't actually do anything so we have to return true to avoid going exactly where I thought we wouldn't go
+      return true;
     }
     //may throw some error or do somthing really, but I expect it not to happen
     console.err('State ' + state + ' not found, aborting state switch');

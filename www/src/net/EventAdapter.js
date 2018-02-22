@@ -71,7 +71,7 @@ function EventAdapter(mgenum, fastSocket){
     }
   }
 
-  this.removeCallback(keyEvent){
+  this.removeCallback = function(keyEvent){
     if(this.ON[keyEvent]){
       this.socket.removeListener(keyEvent, this.ON[keyEvent]);
     }

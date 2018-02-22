@@ -2,7 +2,7 @@ FastGame.FastFire = function(game){
   this.game = game;
 }
 FastGame.FastFire.prototype = {
-  init: function(parameters, isSolo, isDemo){
+  init: function(eventAdapter, parameters){
     this.game.stage.disableVisibilityChange = true;
     this.totalFire = [];
     this.currentFire = [];
@@ -22,8 +22,9 @@ FastGame.FastFire.prototype = {
     this.isWin = false;
     this.isLost = false;
     //From Splash / Waiting room screen
-    this.isSolo = isSolo;
-    this.isDemo = isDemo;
+    //For now we default everything to true if not defined so as to have a demo ready for this afternoon
+    this.isSolo = parameters.isSolo ? parameters.isSolo : true;
+    this.isDemo = parameters.isDemo ? parameters.isDemo : true;
     this.isRoomMaster = true;
 
     if(!this.isSolo){
@@ -172,7 +173,7 @@ FastGame.FastFire.prototype = {
   },
   endGame: function(){
     FastGame.fastSocket.serverSocket.emit('FAST_FIRE_END');
-    this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE, true ,true);
+    FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE, true ,true);
   },
   destroy: function(){
     this.decibelMeter.destroy();

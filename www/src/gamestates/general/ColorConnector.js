@@ -1,6 +1,9 @@
 ﻿
 FastGame.ColorConnector = function (game) { this.game=game};
 FastGame.ColorConnector.prototype = {
+    init: function(eventAdapter, parameters){
+
+    },
     preload: function () {
         this.video = undefined;
         this.sequence = [];
@@ -237,7 +240,7 @@ camBlocked: function (video, error) {
               this.game.time.events.remove(this.pictureLoop);
               FastGame.eventRegistry.init();
               FastGame.broadcastChannel.init();
-              this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE);
+              FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE);
             });
           }
           else{
@@ -256,7 +259,7 @@ camBlocked: function (video, error) {
             console.log("okkkk connect");
 
             this.game.time.events.remove(this.pictureLoop);
-            this.game.state.start('Boot');
+            FastGame.stateManager.goToState('Boot');
         });
 
         this.sockTest.on('disconnect', function () {

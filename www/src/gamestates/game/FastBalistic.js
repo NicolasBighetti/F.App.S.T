@@ -2,7 +2,7 @@ FastGame.FastBalistic = function(game){
   this.game = game;
 }
 FastGame.FastBalistic.prototype = {
-  init: function(parameters){
+  init: function(eventAdapter, parameters){
 
   },
   preload: function(){

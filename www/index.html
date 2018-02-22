@@ -26,7 +26,9 @@
     <script src="src/utils/BroadcastUtils.js"></script>
     <script src="src/utils/Broadcaster.js"></script>
     <script src="src/net/SignalRegistry.js"></script>
-    <script src="src/resources/SplashEnum.js"></script>*
+    <script src="src/resources/SplashEnum.js"></script>
+
+    <script src="src/net/EventAdapter.js"></script>
 
     <script src="src/gamestates/FastStateManager.js"></script>
 
@@ -60,6 +62,7 @@
     game.state.add(STATELIST.FAST_GAME_BALLISTIC, FastGame.FastBalistic);
 
 
+    //NOT STATE MANAGER, NOT YET INITIALISED
     game.state.start(STATELIST.FAST_BOOT);
   }
   document.addEventListener("deviceready", onDeviceReady, false);

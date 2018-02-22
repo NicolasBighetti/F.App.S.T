@@ -2,9 +2,9 @@ FastGame.FastMeteor = function(game){
   this.game = game;
 }
 FastGame.FastMeteor.prototype = {
-  init: function(nbMeteor){
+  init: function(eventAdapter, parameters){
     this.gyro = new FastGyro();
-    this._totalMeteor = nbMeteor.game_data.FAST_GAME_METEOR_TOTAL || 10;
+    this._totalMeteor = parameters.game_data.FAST_GAME_METEOR_TOTAL || 10;
   },
   preload: function(){
 
@@ -116,7 +116,7 @@ FastGame.FastMeteor.prototype = {
     }
   },
   endGame: function(){
-    this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_METEOR, true ,true);
+    FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_METEOR, true ,true);
 
   }
 }

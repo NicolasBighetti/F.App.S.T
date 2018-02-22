@@ -10,4 +10,16 @@ function SplashEnum(){
       this.FAST_SPLASH_TOUCH,
       this.FAST_SPLASH_BLOW
     ];
+
+  this[STATELIST.FAST_GAME_METEOR] = [
+
+  ];
+
+  this[STATELIST.FAST_GAME_SWITCH] = [
+
+  ];
+
+  this[STATELIST.FAST_GAME_BALLISTIC] = [
+
+  ];
   }

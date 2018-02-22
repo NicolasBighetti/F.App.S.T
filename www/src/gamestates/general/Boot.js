@@ -12,6 +12,7 @@ FastGame.Boot = function(game) {
 FastGame.Boot.prototype = {
 	preload: function() {
 		FastGame.fastSound = new FastSound(this.game);
+		FastGame.stateManager = new FastStateManager(this.game, FastGame.fastSocket);
 		this.game.load.image('demo', './img/demo_card.png');
 		this.game.load.image('fast', './img/fast_card.png');
 		this.game.load.image('balistic', './img/balisblock.png');
@@ -42,7 +43,7 @@ FastGame.Boot.prototype = {
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start(STATELIST.FAST_GAME_BALLISTIC);
+					FastGame.stateManager.goToState(STATELIST.FAST_GAME_BALLISTIC, []);
 				}
 				else{
 					console.log('bootlol');
@@ -52,7 +53,7 @@ FastGame.Boot.prototype = {
 	},
 	goToNextState: function(isDemo){
 		if(!isDemo){
-			this.game.state.start(STATELIST.FAST_COLOR_IO);
+			FastGame.stateManager.goToState(STATELIST.FAST_COLOR_IO);
 		}
 		else{
 			var ipp = 'localhost';
@@ -61,7 +62,7 @@ FastGame.Boot.prototype = {
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_SWITCH, true ,isDemo);
+					FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, [isDemo]);
 				}
 				else{
 					console.log('bootlol');
