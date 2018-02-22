@@ -5,6 +5,8 @@ FastGame.FastMeteor.prototype = {
   init: function(eventAdapter, parameters){
     this.gyro = new FastGyro();
     this._totalMeteor = parameters.game_data.FAST_GAME_METEOR_TOTAL || 10;
+    this.eventAdapter = eventAdapter;
+    this.room = parameters.room;
   },
   preload: function(){
 
@@ -83,6 +85,7 @@ FastGame.FastMeteor.prototype = {
     if(this.meteor){
       this.meteor.destroy();
       this.meteor = undefined;
+      this.eventAdapter.EMIT[PROTOCOL.FAST_GAME_METEOR_BLOCKED]();
     }
   },
   shipColision: function(){
@@ -91,6 +94,7 @@ FastGame.FastMeteor.prototype = {
       this.meteor = undefined;
       //Add bvvr event
       FastGame.broadcastChannel[PROTOCOL.FAST_EVENT_VIBRATION_STRONG]();
+      this.eventAdapter.EMIT[PROTOCOL.FAST_GAME_METEOR_DAMAGE]();
     }
   },
   addNewMeteor: function(){
@@ -103,6 +107,8 @@ FastGame.FastMeteor.prototype = {
       this.game.physics.arcade.enable(this.meteor);
       this.meteor.body.velocity.setTo(this.meteorData[this.meteorData.length - 1].xVel, this.meteorData[this.meteorData.length - 1].yVel);
       this.meteorData.pop();
+      //TODO : UP OR DOWN down here it goes
+      this.eventAdapter.EMIT[PROTOCOL.FAST_GAME_METEOR_EMIT]({room : this.room});
     }
   },
   checkMeteorOverlap: function(objectA, objectB){
@@ -116,7 +122,6 @@ FastGame.FastMeteor.prototype = {
     }
   },
   endGame: function(){
-    FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_METEOR, true ,true);
-
+    FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});
   }
 }

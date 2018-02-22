@@ -4,6 +4,8 @@ FastGame.FastFire = function(game){
 FastGame.FastFire.prototype = {
   init: function(eventAdapter, parameters){
     this.game.stage.disableVisibilityChange = true;
+
+    this.eventAdapter = eventAdapter;
     this.totalFire = [];
     this.currentFire = [];
     if(parameters.game_data.FAST_GAME_FIRE_RED){
@@ -28,9 +30,8 @@ FastGame.FastFire.prototype = {
     this.isRoomMaster = true;
 
     if(!this.isSolo){
-      var signal = new Phaser.Signal();
-      signal.add(this.synchronize, this);
-      FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_SYNC, this.synchronize, signal);
+      //FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_SYNC, this.synchronize, signal);
+      this.eventAdapter.addCallback(PROTOCOL.FAST_PRIVATE_SYNC, this.synchronize, this);
     }
 
   },
@@ -172,8 +173,9 @@ FastGame.FastFire.prototype = {
     this.broadcast();
   },
   endGame: function(){
-    FastGame.fastSocket.serverSocket.emit('FAST_FIRE_END');
-    FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE, true ,true);
+    //FastGame.fastSocket.serverSocket.emit('FAST_FIRE_END');
+    this.eventAdapter.EMIT[PROTOCOL.FAST_GAME_END]();
+    FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});
   },
   destroy: function(){
     this.decibelMeter.destroy();

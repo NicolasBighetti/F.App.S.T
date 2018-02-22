@@ -29,7 +29,7 @@ function EventAdapter(mgenum, fastSocket){
   //prepare to add network event callback
   if(mgenum.on){
     for(onEvt in mgenum.on){
-      this.ON[mgenum.on[onEvt]] =  undefined;
+      this.ON[mgenum.on[onEvt]] =  "";
     }
   }
 
@@ -47,8 +47,9 @@ function EventAdapter(mgenum, fastSocket){
   };
 
   this.addCallback = function(keyEvent, callback, context){
-    if((keyEvent && this.ON[keyEvent]) && callback){
+    if((keyEvent && (this.ON[keyEvent] === "")) && callback){
       //we set the function context if one is provided
+      console.log("added callback allright");
       if(context){
         callback = callback.bind(context);
       }

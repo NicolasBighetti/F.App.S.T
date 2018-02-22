@@ -4,15 +4,19 @@ FastGame.StatusScreen = function(game){
 
 FastGame.StatusScreen.prototype = {
   init: function(eventAdapter, parameters){
-
+    this.eventAdapter = eventAdapter;
+    this.eventAdapter.addCallback(PROTOCOL.FAST_GAME_INIT, this.goToNextScreen, this);
   },
   preload: function() {
 
   },
   create: function() {
-    console.log('Oh boy!!! We saved');
+
   },
   update: function() {
 
+  },
+  goToNextScreen: function(data){
+    FastGame.stateManager.goToState(PROTOCOL.FAST_GAME_SPLASH, data);
   }
 };

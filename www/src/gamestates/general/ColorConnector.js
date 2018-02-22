@@ -2,7 +2,7 @@
 FastGame.ColorConnector = function (game) { this.game=game};
 FastGame.ColorConnector.prototype = {
     init: function(eventAdapter, parameters){
-
+      this.eventAdapter = eventAdapter;
     },
     preload: function () {
         this.video = undefined;
@@ -233,15 +233,10 @@ camBlocked: function (video, error) {
         var signalResult = FastGame.fastSocket.init(ipp);
         signalResult.add(function(isGood){
           if(isGood){
-            FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
-            FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', ()=>{
-              CameraPreview.stopCamera();
-              this.game.ip = ipp;
-              this.game.time.events.remove(this.pictureLoop);
-              FastGame.eventRegistry.init();
-              FastGame.broadcastChannel.init();
-              FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE);
-            });
+            //FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
+            this.eventAdapter.EMIT[PROTOCOL.FAST_PHONE_CONNECT]({sequence : this.sequence[this.sequence.length-1]});
+            this.eventAdapter.addCallback(PROTOCOL.FAST_PHONE_OK)
+            FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', this.gameStart, this);
           }
           else{
             this.invalidIP.add(ipp);
@@ -273,6 +268,14 @@ camBlocked: function (video, error) {
         this.sockTest.on('error', function () {
             this.invalidIP.add(ipp);
         });*/
+    },
+    startGame : function(data){
+      CameraPreview.stopCamera();
+      this.game.ip = this.ipText.text;
+      this.game.time.events.remove(this.pictureLoop);
+      FastGame.eventRegistry.init();
+      FastGame.broadcastChannel.init();
+      FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});
     }
 
 };
