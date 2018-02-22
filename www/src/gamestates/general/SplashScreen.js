@@ -2,7 +2,18 @@ FastGame.SplashScreen = function(game){
 }
 FastGame.SplashScreen.prototype = {
   init: function(eventAdapter, parameters){
-    this.splashIcons = (new SplashEnum())[parameters] || [];
+
+    this.gameDatas = []
+    this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
+    this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
+    this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_SWITCH, 'game_data':{}});
+
+    if(!parameters.GAME){
+      var k = this.game.rnd.integerInRange(0,2);
+      parameters.GAME = this.gameDatas[k].mini_game
+    }
+
+    this.splashIcons = (new SplashEnum())[parameters.GAME] || [];
     this.commingMiniGame = parameters.GAME ? parameters.GAME : undefined;
     this.game.stage.disableVisibilityChange = true;
     this.isSolo = parameters.isSolo ? parameters.isSolo : true;
@@ -15,10 +26,6 @@ FastGame.SplashScreen.prototype = {
       this.eventAdapter.addCallback(PROTOCOL.FAST_GAME_START, this.goToMiniGame, this);
     };
 
-      this.gameDatas = []
-      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
-      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
-      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_SWITCH, 'game_data':{}});
       //var minigameSignal = new Phaser.Signal();
       //minigameSignal.add(function(minigame){FastGame.stateManager.goToState(STATELIST[minigame], {minigame, isSolo : true, isDemo : false})}, this);
       //FastGame.fastSocket.addOnServerCallback(STATELIST.FAST_GAME_FIRE, (minigame)=>{FastGame.stateManager.goToState(STATELIST[minigame],  {minigame, isSolo : true, isDemo : false})}, minigameSignal);
@@ -146,12 +153,14 @@ FastGame.SplashScreen.prototype = {
       if(this.commingMiniGame){
         //TODO : add mini game related data (meteor in particular)
         FastGame.stateManager.goToState(this.commingMiniGame, {});
+        return;
       }
-      var k = this.game.rnd.integerInRange(0,2);
-      FastGame.stateManager.goToState(this.gameDatas[k].mini_game, { game_data : this.gameDatas[k].game_data, minigame : this.gameDatas[k].minigame, isSolo : true });
+      FastGame.stateManager.goToState(this.gameDatas[this.commingMiniGame].mini_game, { game_data : this.gameDatas[this.commingMiniGame].game_data, minigame : this.gameDatas[this.commingMiniGame].mini_game, isSolo : true });
+      return;
     }
     else{
-      FastGame.stateManager.goToState(this.commingMiniGame, { game_data : this.gameDatas[k].game_data, minigame : this.gameDatas[k].minigame, isSolo : true });
+      FastGame.stateManager.goToState(this.commingMiniGame, { game_data : this.gameDatas[k].game_data, minigame : this.gameDatas[this.commingMiniGame].mini_game, isSolo : true });
+      return;
     }
   },
   BLOW: function(){
