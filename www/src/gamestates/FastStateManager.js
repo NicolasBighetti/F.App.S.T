@@ -6,6 +6,13 @@ function FastStateManager(game, socket){
 
   this.currentEventAdapter = undefined;
 
+  this.errorManagement = (param) => {
+      console.log('FAST STATE MANAGER RECEIVED ERROR : ' + param);
+      this.goToState(STATELIST.FAST_FALLBACK, { error : true });
+  };
+
+  window.onerror = this.errorManagement;
+
   this.goToState = function(state, param){
     //Control if state exist
     if(this.game.state.checkState(state)){
@@ -33,7 +40,7 @@ function FastStateManager(game, socket){
       return true;
     }
     //may throw some error or do somthing really, but I expect it not to happen
-    console.err('State ' + state + ' not found, aborting state switch');
+    console.error('State ' + state + ' not found, aborting state switch');
     return false;
   };
 

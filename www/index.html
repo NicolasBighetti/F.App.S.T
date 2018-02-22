@@ -35,7 +35,8 @@
     <script src="src/gamestates/general/Boot.js"></script>
     <script src="src/gamestates/general/ColorConnector.js"></script>
     <script src="src/gamestates/general/SplashScreen.js"></script>
-
+    <script src="src/gamestates/general/Fallback.js"></script>
+    <script src="src/gamestates/general/StatusScreen.js"></script>
     <script src="src/gamestates/game/FastFire.js"></script>
     <script src="src/gamestates/game/FastMeteor.js"></script>
     <script src="src/gamestates/game/FastSwitch.js"></script>
@@ -54,13 +55,13 @@
 
     game.state.add(STATELIST.FAST_BOOT, FastGame.Boot);
     game.state.add(STATELIST.FAST_COLOR_IO, FastGame.ColorConnector);
-
+    game.state.add(STATELIST.FAST_FALLBACK, FastGame.Fallback);
+    game.state.add(STATELIST.FAST_STATUS_SCREEN, FastGame.StatusScreen);
     game.state.add(STATELIST.FAST_SPLASH, FastGame.SplashScreen);
     game.state.add(STATELIST.FAST_GAME_FIRE, FastGame.FastFire);
     game.state.add(STATELIST.FAST_GAME_METEOR, FastGame.FastMeteor);
     game.state.add(STATELIST.FAST_GAME_SWITCH, FastGame.FastSwitch);
     game.state.add(STATELIST.FAST_GAME_BALLISTIC, FastGame.FastBalistic);
-
 
     //NOT STATE MANAGER, NOT YET INITIALISED
     game.state.start(STATELIST.FAST_BOOT);
