@@ -36,13 +36,13 @@ FastGame.Boot.prototype = {
 			this.goToNextState(false);
 		}, this);
 		this.bal.events.onInputUp.add(function(){
-			var ipp = '10.212.115.16';
+			var ipp = 'localhost';
 			var signalResult = FastGame.fastSocket.init(ipp);
 			signalResult.add(function(isGood){
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start('Balistic');
+					this.game.state.start(STATELIST.FAST_GAME_BALLISTIC);
 				}
 				else{
 					console.log('bootlol');
@@ -52,16 +52,16 @@ FastGame.Boot.prototype = {
 	},
 	goToNextState: function(isDemo){
 		if(!isDemo){
-			this.game.state.start('ColorConnector');
+			this.game.state.start(STATELIST.FAST_COLOR_IO);
 		}
 		else{
-			var ipp = '10.212.115.16';
+			var ipp = 'localhost';
 			var signalResult = FastGame.fastSocket.init(ipp);
 			signalResult.add(function(isGood){
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, true ,isDemo);
+					this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_SWITCH, true ,isDemo);
 				}
 				else{
 					console.log('bootlol');

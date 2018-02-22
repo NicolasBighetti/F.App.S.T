@@ -14,12 +14,12 @@ FastGame.SplashScreen.prototype = {
       };
 
       this.gameDatas = []
-      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
-      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
-      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_SWITCH, 'game_data':{}});
+      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
+      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
+      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_SWITCH, 'game_data':{}});
       var minigameSignal = new Phaser.Signal();
       minigameSignal.add(function(minigame){this.game.state.start('SplashScreen', true, false, minigame, true, false)}, this);
-      FastGame.fastSocket.addOnServerCallback(MINIGAMELIST.FAST_GAME_FIRE, (minigame)=>{this.game.state.start('SplashScreen', true, false, minigame, true, false)}, minigameSignal);
+      FastGame.fastSocket.addOnServerCallback(STATELIST.FAST_GAME_FIRE, (minigame)=>{this.game.state.start('SplashScreen', true, false, minigame, true, false)}, minigameSignal);
 
   },
   preload: function(){

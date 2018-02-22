@@ -172,7 +172,7 @@ FastGame.FastFire.prototype = {
   },
   endGame: function(){
     FastGame.fastSocket.serverSocket.emit('FAST_FIRE_END');
-    this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE, true ,true);
+    this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE, true ,true);
   },
   destroy: function(){
     this.decibelMeter.destroy();

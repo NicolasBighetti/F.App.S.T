@@ -237,7 +237,7 @@ camBlocked: function (video, error) {
               this.game.time.events.remove(this.pictureLoop);
               FastGame.eventRegistry.init();
               FastGame.broadcastChannel.init();
-              this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
+              this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_FIRE);
             });
           }
           else{

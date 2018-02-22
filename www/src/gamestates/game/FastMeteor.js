@@ -116,7 +116,7 @@ FastGame.FastMeteor.prototype = {
     }
   },
   endGame: function(){
-    this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_METEOR, true ,true);
+    this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_METEOR, true ,true);
 
   }
 }

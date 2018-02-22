@@ -5,7 +5,7 @@ function SplashEnum(){
   this.FAST_SPLASH_TILT = '';
   this.FAST_SPLASH_FEEL = '';
 
-  this[MINIGAMELIST.FAST_GAME_FIRE] =
+  this[STATELIST.FAST_GAME_FIRE] =
     [
       this.FAST_SPLASH_TOUCH,
       this.FAST_SPLASH_BLOW

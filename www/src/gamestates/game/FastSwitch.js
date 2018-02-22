@@ -56,7 +56,7 @@ FastGame.FastSwitch.prototype = {
   },
   endGame: function(){
     this.mask.destroy();
-    this.game.time.events.add(1000, function(){this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, true ,true)}).autoDestroy = true;
+    this.game.time.events.add(1000, function(){this.game.state.start(STATELIST.FAST_SPLASH, true, false, STATELIST.FAST_GAME_SWITCH, true ,true)}).autoDestroy = true;
   },
   checkDistance: function(pointer){
     var dist = function(ax, ay, bx, by){
