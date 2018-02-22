@@ -200,5 +200,11 @@ FastGame.SplashScreen.prototype = {
       var plt = this.game.rnd.integerInRange(0,9);
       //this.planets.push(this.game.add.sprite(pointer.x, pointer.y, 'planet'+plt));
     },this);
+  },
+  FEEL: function(){
+
+  },
+  TILT: function(){
+
   }
 }
