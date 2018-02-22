@@ -140,7 +140,6 @@ FastGame.SplashScreen.prototype = {
   goToMiniGame: function(launchData){
     //launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
     console.log('We went to minigame : ' + launchData);
-    this.killItForScience();
     if(!launchData){
       var k = this.game.rnd.integerInRange(0,2);
       FastGame.stateManager.goToState(this.gameDatas[k].mini_game, { game_data : this.gameDatas[k].game_data, minigame : this.gameDatas[k].minigame, isSolo : true });

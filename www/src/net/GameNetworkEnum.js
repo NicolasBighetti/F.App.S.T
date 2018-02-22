@@ -96,7 +96,7 @@ GAMENETWORKENUM[STATELIST.FAST_STATUS_SCREEN] = {
 
   ],
   'on' : [
-
+    
   ]
 };
 
