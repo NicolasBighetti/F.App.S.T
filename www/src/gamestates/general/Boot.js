@@ -12,6 +12,7 @@ FastGame.Boot = function(game) {
 FastGame.Boot.prototype = {
 	preload: function() {
 		FastGame.fastSound = new FastSound(this.game);
+		FastGame.stateManager = new FastStateManager(this.game, FastGame.fastSocket.serverSocket);
 		this.game.load.image('demo', './img/demo_card.png');
 		this.game.load.image('fast', './img/fast_card.png');
 		this.game.load.image('balistic', './img/balisblock.png');
@@ -36,13 +37,13 @@ FastGame.Boot.prototype = {
 			this.goToNextState(false);
 		}, this);
 		this.bal.events.onInputUp.add(function(){
-			var ipp = '10.212.115.16';
+			var ipp = 'localhost';
 			var signalResult = FastGame.fastSocket.init(ipp);
 			signalResult.add(function(isGood){
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start('Balistic');
+					FastGame.stateManager.goToState(STATELIST.FAST_GAME_BALLISTIC, []);
 				}
 				else{
 					console.log('bootlol');
@@ -52,16 +53,16 @@ FastGame.Boot.prototype = {
 	},
 	goToNextState: function(isDemo){
 		if(!isDemo){
-			this.game.state.start('ColorConnector');
+			FastGame.stateManager.goToState(STATELIST.FAST_COLOR_IO);
 		}
 		else{
-			var ipp = '10.212.115.16';
+			var ipp = 'localhost';
 			var signalResult = FastGame.fastSocket.init(ipp);
 			signalResult.add(function(isGood){
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_SWITCH, true ,isDemo);
+					FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, [isDemo]);
 				}
 				else{
 					console.log('bootlol');

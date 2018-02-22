@@ -1,6 +1,9 @@
 ﻿
 FastGame.ColorConnector = function (game) { this.game=game};
 FastGame.ColorConnector.prototype = {
+    init: function(eventAdapter, parameters){
+      this.eventAdapter = eventAdapter;
+    },
     preload: function () {
         this.video = undefined;
         this.sequence = [];
@@ -43,7 +46,7 @@ FastGame.ColorConnector.prototype = {
         this.game.input.onDown.add(this.analyseSuequence2, this);
 
         console.log('start');
-        this.pictureLoop = this.game.time.events.loop(1000, this.takeSnapshot, this);
+        this.pictureLoop = this.game.time.events.loop(500, this.takeSnapshot, this);
 
     },
     successsss: function (ok) {
@@ -220,7 +223,7 @@ camBlocked: function (video, error) {
     tryConnect:function(ipp) {
 
         //TODO : remove that
-        ipp = '10.212.115.16';
+        ipp = '192.168.1.49';
         this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {
@@ -228,17 +231,14 @@ camBlocked: function (video, error) {
             return;
         }
         var signalResult = FastGame.fastSocket.init(ipp);
+        FastGame.stateManager.socket = FastGame.fastSocket.serverSocket;
+        this.eventAdapter.setSocket(FastGame.fastSocket.serverSocket);
         signalResult.add(function(isGood){
           if(isGood){
-            FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
-            FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', ()=>{
-              CameraPreview.stopCamera();
-              this.game.ip = ipp;
-              this.game.time.events.remove(this.pictureLoop);
-              FastGame.eventRegistry.init();
-              FastGame.broadcastChannel.init();
-              this.game.state.start('SplashScreen', true, false, MINIGAMELIST.FAST_GAME_FIRE);
-            });
+            //FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
+            this.eventAdapter.SEND[PROTOCOL.FAST_PHONE_CONNECT]({sequence : this.sequence[this.sequence.length-1]});
+            this.eventAdapter.addCallback(PROTOCOL.FAST_PHONE_OK, this.startGame, this);
+            //FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', this.gameStart, this);
           }
           else{
             this.invalidIP.add(ipp);
@@ -256,7 +256,7 @@ camBlocked: function (video, error) {
             console.log("okkkk connect");
 
             this.game.time.events.remove(this.pictureLoop);
-            this.game.state.start('Boot');
+            FastGame.stateManager.goToState('Boot');
         });
 
         this.sockTest.on('disconnect', function () {
@@ -270,6 +270,14 @@ camBlocked: function (video, error) {
         this.sockTest.on('error', function () {
             this.invalidIP.add(ipp);
         });*/
+    },
+    startGame : function(data){
+      CameraPreview.stopCamera();
+      this.game.ip = this.ipText.text;
+      this.game.time.events.remove(this.pictureLoop);
+      FastGame.eventRegistry.init();
+      FastGame.broadcastChannel.init();
+      FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});
     }
 
 };

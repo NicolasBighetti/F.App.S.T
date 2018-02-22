@@ -1,25 +1,27 @@
 FastGame.SplashScreen = function(game){
 }
 FastGame.SplashScreen.prototype = {
-  init: function(parameters, isSolo, isDemo){
+  init: function(eventAdapter, parameters){
     this.splashIcons = (new SplashEnum())[parameters] || [];
-    this.commingMiniGame = parameters;
+    this.commingMiniGame = parameters.GAME ? parameters.GAME : undefined;
     this.game.stage.disableVisibilityChange = true;
-    this.isSolo = isSolo;
-    this.isDemo = isDemo;
+    this.isSolo = parameters.isSolo ? parameters.isSolo : true;
+    this.isDemo = parameters.isDemo ? parameters.isDemo : true;
+    this.eventAdapter = eventAdapter;
     if(!this.isSolo){
-      var signal = new Phaser.Signal();
-      signal.add(this.goToMiniGame, this);
-      FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_START, this.goToMiniGame, signal);
-      };
+      //var signal = new Phaser.Signal();
+      //signal.add(this.goToMiniGame, this);
+      //FastGame.fastSocket.addOnServerCallback(PROTOCOL.FAST_PRIVATE_START, this.goToMiniGame, signal);
+      this.eventAdapter.addCallback(PROTOCOL.FAST_GAME_START, this.goToMiniGame, this);
+    };
 
       this.gameDatas = []
-      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
-      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
-      this.gameDatas.push({'mini_game': MINIGAMELIST.FAST_GAME_SWITCH, 'game_data':{}});
-      var minigameSignal = new Phaser.Signal();
-      minigameSignal.add(function(minigame){this.game.state.start('SplashScreen', true, false, minigame, true, false)}, this);
-      FastGame.fastSocket.addOnServerCallback(MINIGAMELIST.FAST_GAME_FIRE, (minigame)=>{this.game.state.start('SplashScreen', true, false, minigame, true, false)}, minigameSignal);
+      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
+      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
+      this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_SWITCH, 'game_data':{}});
+      //var minigameSignal = new Phaser.Signal();
+      //minigameSignal.add(function(minigame){FastGame.stateManager.goToState(STATELIST[minigame], {minigame, isSolo : true, isDemo : false})}, this);
+      //FastGame.fastSocket.addOnServerCallback(STATELIST.FAST_GAME_FIRE, (minigame)=>{FastGame.stateManager.goToState(STATELIST[minigame],  {minigame, isSolo : true, isDemo : false})}, minigameSignal);
 
   },
   preload: function(){
@@ -141,11 +143,15 @@ FastGame.SplashScreen.prototype = {
     //launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
     console.log('We went to minigame : ' + launchData);
     if(!launchData){
+      if(this.commingMiniGame){
+        //TODO : add mini game related data (meteor in particular)
+        FastGame.stateManager.goToState(this.commingMiniGame, {});
+      }
       var k = this.game.rnd.integerInRange(0,2);
-      this.game.state.start(this.gameDatas[k].mini_game, true, false, this.gameDatas[k], true);
+      FastGame.stateManager.goToState(this.gameDatas[k].mini_game, { game_data : this.gameDatas[k].game_data, minigame : this.gameDatas[k].minigame, isSolo : true });
     }
     else{
-      this.game.state.start(this.commingMiniGame, true, false, launchData, true);
+      FastGame.stateManager.goToState(this.commingMiniGame, { game_data : this.gameDatas[k].game_data, minigame : this.gameDatas[k].minigame, isSolo : true });
     }
   },
   BLOW: function(){
