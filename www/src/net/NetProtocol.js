@@ -24,7 +24,11 @@ function NetworkEventBundle(){
   this.FAST_PRIVATE_SYNC = 'FAST_PRIVATE_SYNC';
 
   //FastMeteor
+  this.FAST_GAME_METEOR_EMIT = 'FAST_GAME_METEOR_EMIT';
   this.FAST_GAME_METEOR_DAMAGE = 'FAST_GAME_METEOR_DAMAGE';
+  this.FAST_GAME_METEOR_BLOCKED = 'FAST_GAME_METEOR_BLOCKED';
+
+  this.FAST_GAME_BALLISTIC_SHOTS_FIRED = 'FAST_GAME_BALLISTIC_SHOTS_FIRED';
 
   this.getEmitableEvent = function(){
     return [
