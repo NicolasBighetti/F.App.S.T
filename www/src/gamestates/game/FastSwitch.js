@@ -56,7 +56,7 @@ FastGame.FastSwitch.prototype = {
   },
   endGame: function(){
     this.mask.destroy();
-    this.eventAdapter.EMIT[PROTOCOL.FAST_GAME_END]();
+    this.eventAdapter.SEND[PROTOCOL.FAST_GAME_END]();
     this.game.time.events.add(1000, function(){FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN,{})}).autoDestroy = true;
   },
   checkDistance: function(pointer){

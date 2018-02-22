@@ -174,7 +174,7 @@ FastGame.FastFire.prototype = {
   },
   endGame: function(){
     //FastGame.fastSocket.serverSocket.emit('FAST_FIRE_END');
-    this.eventAdapter.EMIT[PROTOCOL.FAST_GAME_END]();
+    this.eventAdapter.SEND[PROTOCOL.FAST_GAME_END]();
     FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});
   },
   destroy: function(){

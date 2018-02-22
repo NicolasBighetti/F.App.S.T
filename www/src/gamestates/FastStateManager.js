@@ -1,5 +1,7 @@
 function FastStateManager(game, socket){
 
+  this.socket = socket;
+
   this.game = game;
 
   this.killSignal = undefined;
@@ -11,7 +13,7 @@ function FastStateManager(game, socket){
       this.goToState(STATELIST.FAST_FALLBACK, { error : true });
   };
 
-  window.onerror = this.errorManagement;
+  //window.onerror = this.errorManagement;
 
   this.goToState = function(state, param){
     //Control if state exist
@@ -21,7 +23,8 @@ function FastStateManager(game, socket){
         this.currentEventAdapter.destroy();
       }
       //Create new eventAdapter
-      this.currentEventAdapter = new EventAdapter(GAMENETWORKENUM[state], socket);
+      console.log('Central socket: ' + this.socket);
+      this.currentEventAdapter = new EventAdapter(GAMENETWORKENUM[state], this.socket);
 
       if(this.killSignal){
         this.killSignal.dispose();
@@ -34,7 +37,6 @@ function FastStateManager(game, socket){
       //go to next state
       //first true is clear gameWorld (need some precisions)
       //second true is clear game cache (we want this)
-      console.log(FastGame.fastSocket);
       this.game.state.start(state, true, true, this.currentEventAdapter, param);
       //For what it's worth, state start doesn't actually do anything so we have to return true to avoid going exactly where I thought we wouldn't go
       return true;

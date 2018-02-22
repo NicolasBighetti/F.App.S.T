@@ -12,7 +12,7 @@ FastGame.Boot = function(game) {
 FastGame.Boot.prototype = {
 	preload: function() {
 		FastGame.fastSound = new FastSound(this.game);
-		FastGame.stateManager = new FastStateManager(this.game, FastGame.fastSocket);
+		FastGame.stateManager = new FastStateManager(this.game, FastGame.fastSocket.serverSocket);
 		this.game.load.image('demo', './img/demo_card.png');
 		this.game.load.image('fast', './img/fast_card.png');
 		this.game.load.image('balistic', './img/balisblock.png');

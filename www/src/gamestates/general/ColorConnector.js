@@ -46,7 +46,7 @@ FastGame.ColorConnector.prototype = {
         this.game.input.onDown.add(this.analyseSuequence2, this);
 
         console.log('start');
-        this.pictureLoop = this.game.time.events.loop(1000, this.takeSnapshot, this);
+        this.pictureLoop = this.game.time.events.loop(500, this.takeSnapshot, this);
 
     },
     successsss: function (ok) {
@@ -223,7 +223,7 @@ camBlocked: function (video, error) {
     tryConnect:function(ipp) {
 
         //TODO : remove that
-        ipp = '10.212.115.16';
+        ipp = '192.168.1.49';
         this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {
@@ -231,12 +231,14 @@ camBlocked: function (video, error) {
             return;
         }
         var signalResult = FastGame.fastSocket.init(ipp);
+        FastGame.stateManager.socket = FastGame.fastSocket.serverSocket;
+        this.eventAdapter.setSocket(FastGame.fastSocket.serverSocket);
         signalResult.add(function(isGood){
           if(isGood){
             //FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
-            this.eventAdapter.EMIT[PROTOCOL.FAST_PHONE_CONNECT]({sequence : this.sequence[this.sequence.length-1]});
-            this.eventAdapter.addCallback(PROTOCOL.FAST_PHONE_OK)
-            FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', this.gameStart, this);
+            this.eventAdapter.SEND[PROTOCOL.FAST_PHONE_CONNECT]({sequence : this.sequence[this.sequence.length-1]});
+            this.eventAdapter.addCallback(PROTOCOL.FAST_PHONE_OK, this.startGame, this);
+            //FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', this.gameStart, this);
           }
           else{
             this.invalidIP.add(ipp);

@@ -4,34 +4,44 @@
 //When destroy is called, all callback are removed from the socket
 function EventAdapter(mgenum, fastSocket){
 
-  this.socket = fastSocket;
 
   this.id = mgenum.id;
 
-  this.EMIT = [];
+  this.SEND = [];
 
   this.ON = [];
 
-  //add all emit function
-  if(mgenum.emit){
-    for(emit in mgenum.emit){
-      this.EMIT[mgenum.emit[emit]] = (data)=>{
-        var packet = {
-          timestamp: Data.Now(),
-          id: mgenum.id,
-          data: data
-        };
-        this.socket.emit(mgenum.emit[emit], packet);
+  this.init = function(){
+    //add all emit function
+    if(mgenum.emit){
+      for(emit in mgenum.emit){
+        this.SEND[mgenum.emit[emit]] = (data)=>{
+          var packet = {
+            timestamp: (new Date).getTime(),
+            id: mgenum.id,
+            data: data
+          };
+          this.socket.emit(mgenum.emit[emit], packet);
+        }
       }
     }
-  }
 
-  //prepare to add network event callback
-  if(mgenum.on){
-    for(onEvt in mgenum.on){
-      this.ON[mgenum.on[onEvt]] =  "";
+    //prepare to add network event callback
+    if(mgenum.on){
+      for(onEvt in mgenum.on){
+        this.ON[mgenum.on[onEvt]] =  "";
+      }
     }
-  }
+  };
+
+
+  this.setSocket = function(fastSocket){
+      this.socket = fastSocket;
+      this.init();
+  };
+
+  this.setSocket(fastSocket);
+
 
   this.destroy = function(){
     //First we destroy all "on" callback
@@ -42,7 +52,7 @@ function EventAdapter(mgenum, fastSocket){
     }
     //Then I guess we do something with EMIT
     //should trigger destruction on next GC (according to the web(since it's js it certainly won't do shit but jey whatever at least i'm trying))
-    this.EMIT = undefined;
+    this.SEND = undefined;
     this.ON = undefined;
   };
 
@@ -55,8 +65,15 @@ function EventAdapter(mgenum, fastSocket){
       }
       //We now transform the callback to only give data.data as parameter and use the timestamp as we please
       var callbackFinal = (data) => {
+
+        console.log(data);
+
         //We check once more if the data concerns us
-        if(this.id = data.id){
+        if(!data){
+          callback({});
+          return;
+        }
+        else if(this.id = data.id){
           //do something with timestamp here
           callback(data.data);
         }
@@ -81,7 +98,7 @@ function EventAdapter(mgenum, fastSocket){
   this.addBaseEvent = function(){
 
       for(emit in GAMENETWORKENUM.BASEMINIGAMEEVENT.emit){
-        this.EMIT[GAMENETWORKENUM.BASEMINIGAMEEVENT.emit[emit]] = (data)=>{
+        this.SEND[GAMENETWORKENUM.BASEMINIGAMEEVENT.emit[emit]] = (data)=>{
           var packet = {
             timestamp: Data.Now(),
             id: mgenum.id,

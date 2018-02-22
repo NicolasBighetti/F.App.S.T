@@ -11,7 +11,7 @@ FastGame.Fallback.prototype = {
   },
   create: function() {
     //i cant let you do that . mp3
-    FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, { error : true });
+    //FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, { error : true });
   },
   update: function() {
 
