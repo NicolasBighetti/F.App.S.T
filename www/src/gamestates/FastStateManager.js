@@ -27,6 +27,7 @@ function FastStateManager(game, socket){
       //go to next state
       //first true is clear gameWorld (need some precisions)
       //second true is clear game cache (we want this)
+      console.log(FastGame.fastSocket);
       this.game.state.start(state, true, true, this.currentEventAdapter, param);
       //For what it's worth, state start doesn't actually do anything so we have to return true to avoid going exactly where I thought we wouldn't go
       return true;

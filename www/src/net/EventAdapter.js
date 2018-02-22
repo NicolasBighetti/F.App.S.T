@@ -76,4 +76,26 @@ function EventAdapter(mgenum, fastSocket){
       this.socket.removeListener(keyEvent, this.ON[keyEvent]);
     }
   }
+
+  this.addBaseEvent = function(){
+
+      for(emit in GAMENETWORKENUM.BASEMINIGAMEEVENT.emit){
+        this.EMIT[GAMENETWORKENUM.BASEMINIGAMEEVENT.emit[emit]] = (data)=>{
+          var packet = {
+            timestamp: Data.Now(),
+            id: mgenum.id,
+            data: data
+          };
+          this.socket.emit(GAMENETWORKENUM.BASEMINIGAMEEVENT.emit[emit], packet);
+        }
+      };
+
+      for(onEvt in GAMENETWORKENUM.BASEMINIGAMEEVENT.on){
+        this.ON[GAMENETWORKENUM.BASEMINIGAMEEVENT.on[onEvt]] =  undefined;
+      };
+  }
+  if(this.id.startsWith('FAST_GAME_')){
+    this.addBaseEvent();
+  }
+  console.log(this);
 }
