@@ -7,12 +7,6 @@ FastGame.FastSwitch.prototype = {
   },
   preload: function(){
     this.game.load.image('background', './img/metal_tile.png');
-    this.game.load.image('lamp_red','./img/lamp_red.png');
-    this.game.load.image('lamp_orange','./img/lamp_orange.png');
-    this.game.load.image('lamp_green','./img/lamp_green.png');
-    this.game.load.image('screen', './img/screen.png');
-    this.game.load.image('bar','./img/stock_bar.png');
-    this.game.load.image('counter','./img/stock_counter.png');
     this.game.load.image('switch', './img/switch.png');
     this.game.load.image('mask', './img/mask.png');
   },
@@ -40,11 +34,6 @@ FastGame.FastSwitch.prototype = {
 
     this.mask = this.game.add.sprite(0,0, 'mask');
 
-    //UI
-    this.game.add.sprite(420, 0, 'screen');
-    this.game.add.sprite(430, 0, 'lamp_red');
-    this.game.add.sprite(80, 280, 'bar');
-    this.game.add.sprite(0, 240, 'counter');
 
     this.game.input.addMoveCallback(this.checkDistance, this);
   },

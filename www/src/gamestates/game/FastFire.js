@@ -5,6 +5,12 @@ FastGame.FastFire.prototype = {
   init: function(eventAdapter, parameters){
     this.game.stage.disableVisibilityChange = true;
 
+    if(!parameters){
+      game_data : {
+        FAST_GAME_FIRE_RED : 10
+      }
+    }
+
     this.eventAdapter = eventAdapter;
     this.totalFire = [];
     this.currentFire = [];
@@ -20,7 +26,7 @@ FastGame.FastFire.prototype = {
     if(parameters.game_data.FAST_GAME_FIRE_PURPLE){
         this.totalFire.purple = parameters.game_data.FAST_GAME_FIRE_PURPLE;
     }
-    this.playerColor = 'red';
+    this.playerColor = FastGame.playerColor;
     this.isWin = false;
     this.isLost = false;
     //From Splash / Waiting room screen
@@ -41,12 +47,6 @@ FastGame.FastFire.prototype = {
     this.game.load.spritesheet('purple_fire', './img/flame_purple.png', 64, 64, 2);
     this.game.load.spritesheet('green_fire', './img/flame_green.png', 64, 64, 2);
     this.game.load.image('background', './img/metal_tile.png');
-    this.game.load.image('lamp_red','./img/lamp_red.png');
-    this.game.load.image('lamp_orange','./img/lamp_orange.png');
-    this.game.load.image('lamp_green','./img/lamp_green.png');
-    this.game.load.image('screen', './img/screen.png');
-    this.game.load.image('bar','./img/stock_bar.png');
-    this.game.load.image('counter','./img/stock_counter.png');
     this.game.load.image('extinguisher','./img/extinguisher_'+this.playerColor+'.png');
     this.game.load.image('white_smoke','./img/white_smoke.png');
 

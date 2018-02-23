@@ -6,12 +6,7 @@ FastGame.FastBalistic.prototype = {
     this.eventAdapter = eventAdapter;
   },
   preload: function(){
-    this.game.load.image('lamp_red','./img/lamp_red.png');
-    this.game.load.image('lamp_orange','./img/lamp_orange.png');
-    this.game.load.image('lamp_green','./img/lamp_green.png');
-    this.game.load.image('screen', './img/screen.png');
-    this.game.load.image('bar','./img/stock_bar.png');
-    this.game.load.image('counter','./img/stock_counter.png');
+    
   },
   create: function(){
      var style = { font: "32px Arial", fill: "#00FF00" };

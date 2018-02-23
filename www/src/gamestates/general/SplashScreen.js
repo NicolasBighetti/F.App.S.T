@@ -3,6 +3,11 @@ FastGame.SplashScreen = function(game){
 FastGame.SplashScreen.prototype = {
   init: function(eventAdapter, parameters){
 
+    if(!parameters){
+      var k = this.game.rnd.integerInRange(0,2);
+      parameters.GAME = this.gameDatas[k].mini_game
+    }
+
     this.gameDatas = []
     this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_FIRE, 'game_data':{'FAST_GAME_FIRE_RED': 10}});
     this.gameDatas.push({'mini_game': STATELIST.FAST_GAME_METEOR, 'game_data':{'FAST_GAME_METEOR_TOTAL': 10}});
@@ -147,9 +152,6 @@ FastGame.SplashScreen.prototype = {
     this.decibelMeter.destroy();
   },
   goToMiniGame: function(launchData){
-    //launchData = {'game_data':{'FAST_GAME_METEOR_TOTAL': 10}};
-    console.log('We went to minigame : ' + launchData);
-    if(!launchData){
       if(this.commingMiniGame){
         //TODO : add mini game related data (meteor in particular)
         FastGame.stateManager.goToState(this.commingMiniGame, {});
@@ -157,11 +159,6 @@ FastGame.SplashScreen.prototype = {
       }
       FastGame.stateManager.goToState(this.gameDatas[this.commingMiniGame].mini_game, { game_data : this.gameDatas[this.commingMiniGame].game_data, minigame : this.gameDatas[this.commingMiniGame].mini_game, isSolo : true });
       return;
-    }
-    else{
-      FastGame.stateManager.goToState(this.commingMiniGame, { game_data : this.gameDatas[k].game_data, minigame : this.gameDatas[this.commingMiniGame].mini_game, isSolo : true });
-      return;
-    }
   },
   BLOW: function(){
     var faster = function(db){

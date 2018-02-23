@@ -3,6 +3,16 @@ FastGame.FastMeteor = function(game){
 }
 FastGame.FastMeteor.prototype = {
   init: function(eventAdapter, parameters){
+
+    if(!parameters){
+      parameters = {
+        game_data : {
+          'FAST_GAME_METEOR_TOTAL' : 10,
+          'room' : 1
+        }
+      };
+    }
+
     this.gyro = new FastGyro();
     this._totalMeteor = parameters.game_data.FAST_GAME_METEOR_TOTAL || 10;
     this.eventAdapter = eventAdapter;
@@ -16,13 +26,6 @@ FastGame.FastMeteor.prototype = {
     this.game.load.image('limit', './img/death_line.png');
 
     this.game.load.image('background', './img/splash_background.jpg');
-
-    this.game.load.image('lamp_red','./img/lamp_red.png');
-    this.game.load.image('lamp_orange','./img/lamp_orange.png');
-    this.game.load.image('lamp_green','./img/lamp_green.png');
-    this.game.load.image('screen', './img/screen.png');
-    this.game.load.image('bar','./img/stock_bar.png');
-    this.game.load.image('counter','./img/stock_counter.png');
 
   },
   create: function(){
@@ -38,11 +41,6 @@ FastGame.FastMeteor.prototype = {
     this.paddle = this.game.add.sprite(225, 235, 'paddle');
     this.limit = this.game.add.sprite(0, 380, 'limit');
 
-    //UI
-    this.game.add.sprite(420, 0, 'screen');
-    this.game.add.sprite(430, 0, 'lamp_red');
-    this.game.add.sprite(80, 280, 'bar');
-    this.game.add.sprite(0, 240, 'counter');
 
     this.gyro.subscribe(this.handleOrientation, this);
   },
