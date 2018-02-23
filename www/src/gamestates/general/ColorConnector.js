@@ -7,7 +7,7 @@ FastGame.ColorConnector.prototype = {
     preload: function () {
         this.video = undefined;
         this.sequence = [];
-        this.invalidIP = [];
+        //this.invalidIP = [];
 
         this.lastFound = 0;
         this.group = undefined;
@@ -227,10 +227,10 @@ camBlocked: function (video, error) {
         ipp = FastGame.hardIP;
         this.ipText.setText(ipp);
 
-        if (this.invalidIP.includes(ipp)) {
+        /*if (this.invalidIP.includes(ipp)) {
             console.log("already tried this" + ipp);
             return;
-        }
+        }*/
         var signalResult = FastGame.fastSocket.init(ipp);
         FastGame.stateManager.socket = FastGame.fastSocket.serverSocket;
         this.eventAdapter.setSocket(FastGame.fastSocket.serverSocket);
@@ -242,7 +242,7 @@ camBlocked: function (video, error) {
             //FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', this.gameStart, this);
           }
           else{
-            this.invalidIP.add(ipp);
+            //this.invalidIP.add(ipp);
           }
         }, this);
         /*this.sockTest = io('http://' + ipp + ':8080', {
