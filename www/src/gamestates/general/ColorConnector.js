@@ -94,7 +94,7 @@ camBlocked: function (video, error) {
             red: pixel.data[0],
             green: pixel.data[1],
             blue: pixel.data[2]
-        }
+        };
 
         var convert = function decimalToHexString(number)
         {
@@ -104,7 +104,8 @@ camBlocked: function (video, error) {
             }
 
           return number.toString(16).toUpperCase();
-        }
+        };
+
         var color = '#'+convert(colorServ.red)+convert(colorServ.green)+convert(colorServ.blue);
         this.game.stage.backgroundColor = color;
 
@@ -142,11 +143,11 @@ camBlocked: function (video, error) {
     }
     return ones % 2;
 }, analyseSuequence2: function () {
-        if(this.sequence.length===0){
+       /* if(this.sequence.length===0){
             console.log('cannot send connect, no color');
             return;
 
-        }
+        }*/
         this.tryConnect('');
 
     },
@@ -223,7 +224,7 @@ camBlocked: function (video, error) {
     tryConnect:function(ipp) {
 
         //TODO : remove that
-        ipp = '192.168.1.49';
+        ipp = '192.168.1.25';
         this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {
@@ -236,7 +237,7 @@ camBlocked: function (video, error) {
         signalResult.add(function(isGood){
           if(isGood){
             //FastGame.fastSocket.serverSocket.emit('FAST_PHONE_CONNECT',this.sequence[this.sequence.length-1]);
-            this.eventAdapter.SEND[PROTOCOL.FAST_PHONE_CONNECT]({sequence : this.sequence[this.sequence.length-1]});
+            this.eventAdapter.SEND[PROTOCOL.FAST_PHONE_CONNECT]({ATOM_PHONE_ID : this.sequence[this.sequence.length-1]});
             this.eventAdapter.addCallback(PROTOCOL.FAST_PHONE_OK, this.startGame, this);
             //FastGame.fastSocket.serverSocket.on('FAST_PHONE_OK', this.gameStart, this);
           }
