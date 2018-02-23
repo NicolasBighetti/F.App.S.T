@@ -152,6 +152,14 @@ FastGame.SplashScreen.prototype = {
     this.decibelMeter.destroy();
   },
   goToMiniGame: function(launchData){
+
+      if(launchData){
+        this.commingMiniGame = launchData.GAME;
+        if(!launchData.data){
+          launchData.data = {};
+        }
+      }
+
       if(this.commingMiniGame){
         //TODO : add mini game related data (meteor in particular)
         FastGame.stateManager.goToState(this.commingMiniGame, {});
