@@ -17,13 +17,13 @@ FastGame.Boot.prototype = {
 
 		FastGame.getColor = function(id){
 			switch(id){
-				case 46 :
+				case 46 || 0 :
 					return 'red';
-				case 47 :
+				case 47 || 4 :
 					return 'blue';
-				case 52 :
+				case 52 || 28:
 					return 'green';
-				case 53 :
+				case 53 || 32:
 					return 'purple';
 				default :
 					return 'red';
