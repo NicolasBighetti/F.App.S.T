@@ -108,7 +108,7 @@ camBlocked: function (video, error) {
 
         var color = '#'+convert(colorServ.red)+convert(colorServ.green)+convert(colorServ.blue);
         this.game.stage.backgroundColor = color;
-
+        console.log(color);
         var byte = this.extractdata(colorServ);
         console.log('byte decoded' + byte);
         colorServ.byteO = byte;
@@ -275,7 +275,7 @@ camBlocked: function (video, error) {
     startGame : function(data){
       if(!data.id){
         data = {};
-        data.id = 0;
+        data.id = 46;
       };
       CameraPreview.stopCamera();
       this.game.ip = this.ipText.text;

@@ -5,7 +5,7 @@ var FastGame = {
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
-	hardIP: '192.168.1.25'
+	hardIP: '10.212.115.16'
 };
 FastGame.Boot = function(game) {
 	this.game = game;

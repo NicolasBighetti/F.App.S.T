@@ -216,9 +216,74 @@ FastGame.SplashScreen.prototype = {
     },this);
   },
   FEEL: function(){
-
+    this.xImpact = 240;
+    this.yImpact = 160;
+    this.game.input.addMoveCallback(this.checkDistance, this);
   },
   TILT: function(){
+    this.gyro = new FastGyro();
+    this.gyro.subscribe(this.handleOrientation, this);
+  },
+  checkDistance: function(pointer){
+    var dist = function(ax, ay, bx, by){
+        var a = ax - bx;
+        var b = ay - by;
+        return c = Math.sqrt( a*a + b*b );
+      };
 
-  }
+      var distance = dist(this.xImpact, this.yImpact, pointer.x, pointer.y);
+      var buffer = '';
+      for(i = 0; i < distance / 2; i++){
+        buffer += '|';
+      }
+      //console.log(buffer);
+
+      var baseTime = 100;
+      var vibrationStrength;
+
+
+      if(distance > 25 && distance < 80){
+        this.lastState = this.currentState;
+        this.currentState = 1;
+        baseTime = 500;
+        vibrationStrength = 0.5;
+      }
+      else if(distance <= 25){
+        this.lastState = this.currentState;
+        this.currentState = 0;
+        baseTime = 1000;
+        vibrationStrength = 0;
+      }
+      else{
+        this.lastState = this.currentState;
+        this.currentState = 2;
+        baseTime = 250;
+        vibrationStrength = 0.25;
+      }
+      var computedDuration = baseTime * (1 - vibrationStrength);
+      if(this.lastState != this.currentState){
+        this.isVibrating = false;
+        navigator.vibrate([]);
+      }
+      if(!this.isVibrating){
+        navigator.vibrate(computedDuration);
+        this.isVibrating = true;
+        this.game.time.events.add(1000, function(){this.isVibrating = false}, this).autoDdestroy = true;
+      }
+      this.targetDistancce = distance;
+  },
+	handleOrientation: function(e) {
+    if(e.y >= 0){
+      this.backgroundAcceleration += e.y * 10;
+      this.mediumLayerAcceleration += e.y * 10;
+      this.frontLayerAcceleration += e.y * 10;
+      this.planetLayerAcceleration += e.y * 10;
+    }
+    else{
+      this.backgroundAcceleration -= e.y * 10;
+      this.mediumLayerAcceleration -= e.y * 10;
+      this.frontLayerAcceleration -= e.y * 10;
+      this.planetLayerAcceleration -= e.y * 10;
+    }
+	}
 }
