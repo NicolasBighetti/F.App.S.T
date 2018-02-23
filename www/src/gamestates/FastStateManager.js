@@ -20,11 +20,14 @@ function FastStateManager(game, socket){
     if(this.game.state.checkState(state)){
       //destroy old eventAdapter
       if(this.currentEventAdapter){
+        console.log(this.currentEventAdapter);
         this.currentEventAdapter.destroy();
+        console.log('destroyed current event Adapter');
+        this.currentEventAdapter = undefined;
       }
       //Create new eventAdapter
       console.log('Central socket: ' + this.socket);
-      this.currentEventAdapter = new EventAdapter(GAMENETWORKENUM[state], this.socket);
+      this.currentEventAdapter = new EventAdapter(GAMENETWORKENUM[state], FastGame.fastSocket.serverSocket);
 
       if(this.killSignal){
         this.killSignal.dispose();

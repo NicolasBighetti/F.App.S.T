@@ -4,17 +4,19 @@ FastGame.FastMeteor = function(game){
 FastGame.FastMeteor.prototype = {
   init: function(eventAdapter, parameters){
 
-    if(!parameters){
+    if(!parameters.game_data){
       parameters = {
         game_data : {
           'FAST_GAME_METEOR_TOTAL' : 10,
           'room' : 1
-        }
+        },
+        isDemo : true
       };
     }
 
     this.gyro = new FastGyro();
     this._totalMeteor = parameters.game_data.FAST_GAME_METEOR_TOTAL || 10;
+    this.isDemo = parameters.isDemo ? parameters.isDemo : false;
     this.eventAdapter = eventAdapter;
     this.room = parameters.room;
   },
@@ -121,6 +123,10 @@ FastGame.FastMeteor.prototype = {
   },
   endGame: function(){
     this.eventAdapter.SEND[PROTOCOL.FAST_GAME_END]();
+    if(this.isDemo){
+      FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, {});
+      return;
+    }
     FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});
   }
 }

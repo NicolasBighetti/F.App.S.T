@@ -162,7 +162,7 @@ FastGame.SplashScreen.prototype = {
 
       if(this.commingMiniGame){
         //TODO : add mini game related data (meteor in particular)
-        FastGame.stateManager.goToState(this.commingMiniGame, {});
+        FastGame.stateManager.goToState(this.commingMiniGame, {isDemo : this.isDemo});
         return;
       }
       FastGame.stateManager.goToState(this.gameDatas[this.commingMiniGame].mini_game, { game_data : this.gameDatas[this.commingMiniGame].game_data, minigame : this.gameDatas[this.commingMiniGame].mini_game, isSolo : true });
@@ -222,6 +222,7 @@ FastGame.SplashScreen.prototype = {
   },
   TILT: function(){
     this.gyro = new FastGyro();
+    this.gyro.init();
     this.gyro.subscribe(this.handleOrientation, this);
   },
   checkDistance: function(pointer){
@@ -274,16 +275,16 @@ FastGame.SplashScreen.prototype = {
   },
 	handleOrientation: function(e) {
     if(e.y >= 0){
-      this.backgroundAcceleration += e.y * 10;
-      this.mediumLayerAcceleration += e.y * 10;
-      this.frontLayerAcceleration += e.y * 10;
-      this.planetLayerAcceleration += e.y * 10;
+      this.backgroundAcceleration += e.y * 0.02;
+      this.mediumLayerAcceleration += e.y * 0.02;
+      this.frontLayerAcceleration += e.y * 0.02;
+      this.planetLayerAcceleration += e.y * 0.02;
     }
     else{
-      this.backgroundAcceleration -= e.y * 10;
-      this.mediumLayerAcceleration -= e.y * 10;
-      this.frontLayerAcceleration -= e.y * 10;
-      this.planetLayerAcceleration -= e.y * 10;
+      this.backgroundAcceleration -= e.y * 0.02;
+      this.mediumLayerAcceleration -= e.y * 0.02;
+      this.frontLayerAcceleration -= e.y * 0.02;
+      this.planetLayerAcceleration -= e.y * 0.02;
     }
 	}
 }

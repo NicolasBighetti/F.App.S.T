@@ -4,6 +4,14 @@ FastGame.FastSwitch = function(game){
 FastGame.FastSwitch.prototype = {
   init: function(eventAdapter, parameters){
     this.eventAdapter = eventAdapter;
+
+    if(!parameters){
+      parameters = {};
+      parameters.isDemo = true;
+    }
+    console.log(parameters);
+    this.isDemo = parameters.isDemo ? parameters.isDemo : false;
+    console.log('Is demo : ' + this.isDemo);
   },
   preload: function(){
     this.game.load.image('background', './img/metal_tile.png');
@@ -46,7 +54,9 @@ FastGame.FastSwitch.prototype = {
   endGame: function(){
     this.mask.destroy();
     this.eventAdapter.SEND[PROTOCOL.FAST_GAME_END]();
-    this.game.time.events.add(1000, function(){FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN,{})}).autoDestroy = true;
+    var nextState = this.isDemo ? STATELIST.FAST_SPLASH : STATELIST.FAST_STATUS_SCREEN;
+    console.log('Switch next state : ' + nextState);
+    this.game.time.events.add(1000, function(){FastGame.stateManager.goToState(nextState,{})}).autoDestroy = true;
   },
   checkDistance: function(pointer){
     var dist = function(ax, ay, bx, by){

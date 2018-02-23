@@ -4,14 +4,13 @@
 //When destroy is called, all callback are removed from the socket
 function EventAdapter(mgenum, fastSocket){
 
-
   this.id = mgenum.id;
 
   this.SEND = [];
 
   this.ON = [];
 
-  this.init = function(){
+  this.init = () => {
     //add all emit function
     if(mgenum.emit){
       for(emit in mgenum.emit){
@@ -35,7 +34,7 @@ function EventAdapter(mgenum, fastSocket){
   };
 
 
-  this.setSocket = function(fastSocket){
+  this.setSocket = (fastSocket) => {
       this.socket = fastSocket;
       this.init();
   };
@@ -100,7 +99,7 @@ function EventAdapter(mgenum, fastSocket){
       for(emit in GAMENETWORKENUM.BASEMINIGAMEEVENT.emit){
         this.SEND[GAMENETWORKENUM.BASEMINIGAMEEVENT.emit[emit]] = (data)=>{
           var packet = {
-            timestamp: Data.Now(),
+            timestamp:(new Date).getTime(),
             id: mgenum.id,
             data: data
           };

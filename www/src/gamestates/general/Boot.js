@@ -5,7 +5,7 @@ var FastGame = {
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
-	hardIP: '10.212.115.16'
+	hardIP: '192.168.1.24'
 };
 FastGame.Boot = function(game) {
 	this.game = game;
@@ -81,7 +81,7 @@ FastGame.Boot.prototype = {
 				if(isGood){
 					FastGame.eventRegistry.init();
 					FastGame.broadcastChannel.init();
-					FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, [isDemo]);
+					FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, {isDemo : isDemo});
 					return;
 				}
 				else{
