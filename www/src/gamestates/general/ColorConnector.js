@@ -224,7 +224,7 @@ camBlocked: function (video, error) {
     tryConnect:function(ipp) {
 
         //TODO : remove that
-        ipp = '192.168.1.25';
+        ipp = FastGame.hardIP;
         this.ipText.setText(ipp);
 
         if (this.invalidIP.includes(ipp)) {

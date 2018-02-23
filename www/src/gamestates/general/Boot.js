@@ -5,6 +5,7 @@ var FastGame = {
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
+	hardIP: '192.168.1.25'
 };
 FastGame.Boot = function(game) {
 	this.game = game;
@@ -13,6 +14,22 @@ FastGame.Boot.prototype = {
 	preload: function() {
 		FastGame.fastSound = new FastSound(this.game);
 		FastGame.stateManager = new FastStateManager(this.game, FastGame.fastSocket.serverSocket);
+
+		FastGame.getColor = function(id){
+			switch(id){
+				case 0 :
+					return 'red';
+				case 1 :
+					return 'blue';
+				case 2 :
+					return 'green';
+				case 3 :
+					return 'purple';
+				default :
+					return 'red';
+			}
+		}
+
 		this.game.load.image('demo', './img/demo_card.png');
 		this.game.load.image('fast', './img/fast_card.png');
 		this.game.load.image('balistic', './img/balisblock.png');
@@ -37,7 +54,7 @@ FastGame.Boot.prototype = {
 			this.goToNextState(false);
 		}, this);
 		this.bal.events.onInputUp.add(function(){
-			var ipp = '192.168.1.49';
+			var ipp = FastGame.hardIP;
 			var signalResult = FastGame.fastSocket.init(ipp);
 			signalResult.add(function(isGood){
 				if(isGood){
@@ -58,7 +75,7 @@ FastGame.Boot.prototype = {
 			return;
 		}
 		else{
-			var ipp = '192.168.1.49';
+			var ipp = FastGame.hardIP;
 			var signalResult = FastGame.fastSocket.init(ipp);
 			signalResult.add(function(isGood){
 				if(isGood){

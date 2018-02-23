@@ -32,7 +32,7 @@ FastGame.FastFire.prototype = {
     //From Splash / Waiting room screen
     //For now we default everything to true if not defined so as to have a demo ready for this afternoon
     this.isSolo = parameters.isSolo ? parameters.isSolo : true;
-    this.isDemo = parameters.isDemo ? parameters.isDemo : true;
+    this.isDemo = parameters.isDemo ? parameters.isDemo : false;
     this.isRoomMaster = true;
 
     if(!this.isSolo){
