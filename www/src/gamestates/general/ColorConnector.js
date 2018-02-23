@@ -273,9 +273,14 @@ camBlocked: function (video, error) {
         });*/
     },
     startGame : function(data){
+      if(!data.id){
+        data = {};
+        data.id = 0;
+      };
       CameraPreview.stopCamera();
       this.game.ip = this.ipText.text;
       this.game.time.events.remove(this.pictureLoop);
+      FastGame.playerColor = FastGame.getColor(data.id);
       FastGame.eventRegistry.init();
       FastGame.broadcastChannel.init();
       FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});

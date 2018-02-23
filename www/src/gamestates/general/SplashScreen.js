@@ -22,7 +22,7 @@ FastGame.SplashScreen.prototype = {
     this.commingMiniGame = parameters.GAME ? parameters.GAME : undefined;
     this.game.stage.disableVisibilityChange = true;
     this.isSolo = parameters.isSolo ? parameters.isSolo : true;
-    this.isDemo = parameters.isDemo ? parameters.isDemo : false;
+    this.isDemo = parameters.isDemo ? parameters.isDemo : true;
     this.eventAdapter = eventAdapter;
     if(!this.isSolo){
       //var signal = new Phaser.Signal();
