@@ -11,6 +11,14 @@ Pour installer les dépendances du projet et pouvoir le lancer, déplacez vous d
 
     npm install
 
+Ensuite, entrez la commande 
+
+    cd www
+    
+Puis entrez de nouveau la commande
+
+    npm install
+
 ## Build le projet
 **Prérequis**: Avoir installé [cordova](https://cordova.apache.org/docs/en/latest/guide/cli/#installing-the-cordova-cli) 
 
