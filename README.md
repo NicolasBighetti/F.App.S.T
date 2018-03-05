@@ -1,9 +1,9 @@
-# F.A.Server.T
+# F.App.S.T
 ## Récuperer le projet 
 **Prérequis** : Avoir installé [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)  
 Pour récupérer le serveur, ouvrir un terminal et entrez la commande suivante  
 
-    git clone https://github.com/NicolasBighetti/F.A.Server.T
+    git clone https://github.com/NicolasBighetti/F.App.S.T
 
 ## Installer le projet
 **Prérequis**: Avoir installé [npm](https://www.npmjs.com/get-npm)   
