@@ -38,7 +38,7 @@ FastGame.FastFire.prototype = {
     //From Splash / Waiting room screen
     //For now we default everything to true if not defined so as to have a demo ready for this afternoon
     this.isSolo = parameters.isSolo ? parameters.isSolo : true;
-    this.isDemo = parameters.isDemo ? parameters.isDemo : false;
+    this.isDemo = FastGame.isDemo;
     this.isRoomMaster = true;
 
     if(!this.isSolo){
@@ -141,7 +141,7 @@ FastGame.FastFire.prototype = {
     this.whiteParticle.setXSpeed(100,130);
     this.whiteParticle.setYSpeed(0,80);
     this.whiteParticle.start(false, 500, 50);
-    this.whiteParticle.off = false;
+    this.whiteParticle.on = true;
 
 
     this.extinguisher = this.game.add.sprite(200, 80, 'extinguisher');

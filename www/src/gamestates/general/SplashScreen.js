@@ -155,9 +155,7 @@ FastGame.SplashScreen.prototype = {
 
       if(launchData){
         this.commingMiniGame = launchData.GAME;
-        if(!launchData.data){
-          launchData.data = {};
-        }
+        this.isDemo = launchData.isDemo;
       }
 
       if(this.commingMiniGame){

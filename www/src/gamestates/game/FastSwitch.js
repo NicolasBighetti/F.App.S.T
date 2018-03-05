@@ -10,7 +10,7 @@ FastGame.FastSwitch.prototype = {
       parameters.isDemo = true;
     }
     console.log(parameters);
-    this.isDemo = parameters.isDemo ? parameters.isDemo : false;
+    this.isDemo = FastGame.isDemo;
     console.log('Is demo : ' + this.isDemo);
   },
   preload: function(){

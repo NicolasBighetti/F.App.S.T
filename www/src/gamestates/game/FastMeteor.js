@@ -16,7 +16,7 @@ FastGame.FastMeteor.prototype = {
 
     this.gyro = new FastGyro();
     this._totalMeteor = parameters.game_data.FAST_GAME_METEOR_TOTAL || 10;
-    this.isDemo = parameters.isDemo ? parameters.isDemo : false;
+    this.isDemo = FastGame.isDemo;
     this.eventAdapter = eventAdapter;
     this.room = parameters.room;
   },
@@ -121,12 +121,12 @@ FastGame.FastMeteor.prototype = {
       return false;
     }
   },
-  endGame: function(){
+  endGame: function(param){
     this.eventAdapter.SEND[PROTOCOL.FAST_GAME_END]();
     if(this.isDemo){
       FastGame.stateManager.goToState(STATELIST.FAST_SPLASH, {});
       return;
     }
-    FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, {});
+    FastGame.stateManager.goToState(STATELIST.FAST_STATUS_SCREEN, param);
   }
 }

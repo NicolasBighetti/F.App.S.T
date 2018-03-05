@@ -74,7 +74,7 @@ function EventAdapter(mgenum, fastSocket){
         }
         //else if(this.id = data.id){
           //do something with timestamp here
-        callback(data.data);
+        callback(data);
         //}
       }
       //we add the callback to the on list so as to be able to remove it after

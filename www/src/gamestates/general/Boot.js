@@ -5,7 +5,7 @@ var FastGame = {
 	eventRegistry: new EventRegistry(),
 	broadcastChannel: new Broadcaster(),
 	signalRegistry: new SignalRegistry(),
-	hardIP: '192.168.1.24'
+	hardIP: '192.168.1.49'
 };
 FastGame.Boot = function(game) {
 	this.game = game;
@@ -70,6 +70,7 @@ FastGame.Boot.prototype = {
 		}, this);
 	},
 	goToNextState: function(isDemo){
+		FastGame.isDemo = isDemo;
 		if(!isDemo){
 			FastGame.stateManager.goToState(STATELIST.FAST_COLOR_IO);
 			return;

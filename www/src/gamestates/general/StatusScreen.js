@@ -63,6 +63,6 @@ FastGame.StatusScreen.prototype = {
     this.filter.update();
   },
   goToNextScreen: function(data){
-    FastGame.stateManager.goToState(PROTOCOL.FAST_GAME_SPLASH, data);
+    FastGame.stateManager.goToState(data.GAME, data);
   }
 };
