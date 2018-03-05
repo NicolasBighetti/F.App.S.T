@@ -47,6 +47,9 @@ Si cordova ne détecte pas votre ordinateur ne détecte pas votre téléphone, i
 Cliquez sur l'icône FAST dans le lanceur d'application du téléphone ou l'application a été installé.
 ![Icone du jeu FAST](https://raw.githubusercontent.com/NicolasBighetti/F.App.S.T/master/screen/fast.png)
 
+## Spécifications du projet  
+https://docs.google.com/document/d/1FWADMczN9g2uVyr7bRIQOU0Bd298s5VFPcLsCtjj-Po/edit#
+
 # Contributeurs
 Alison BERLIOZ
 Nicolas BIGHETTI
