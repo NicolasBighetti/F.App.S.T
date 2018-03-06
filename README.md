@@ -19,6 +19,9 @@ Puis entrez de nouveau la commande
 
     npm install
 
+### Changer l'IP
+Pour changer l'IP de l'application et la connecter au réseau WIFI local, il faut éditer la variable hardIP à la ligne 8 du fichier  "F.App.S.T/www/src/gamestates/general/Boot.js"  
+
 ## Build le projet
 **Prérequis**: Avoir installé [cordova](https://cordova.apache.org/docs/en/latest/guide/cli/#installing-the-cordova-cli) 
 
